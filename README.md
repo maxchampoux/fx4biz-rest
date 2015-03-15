@@ -147,53 +147,84 @@ When an amount of currency is specified as part of a JSON body, it is encoded as
 | Field | Type | Description |
 |-------|------|-------------|
 | value | String (Quoted decimal) | The quantity of the currency |
-| currency | String | Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying which currency. Alternatively, a 160-bit hex value. (Some advanced features, like [demurrage](https://ripple.com/wiki/Gateway_demurrage), require the hex version.) |
-| counterparty | String | (New in [v1.4.0](https://github.com/ripple/ripple-rest/releases/tag/1.4.0)) The Ripple address of the account that is a counterparty to this currency. This is usually an [issuing gateway](https://wiki.ripple.com/Gateway_List). Always omitted, or an empty string, for XRP. |
-| issuer | String | (Prior to 1.4.0) **DEPRECATED** alias for `counterparty`.
+| currency | String | Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying which currency. Alternatively, a 160-bit hex value. |
+| accountId | String | This is usually an id given by FX4Biz. 
 
 
 Example Amount Object:
 
 ```js
 {
-  "value": "1.0",
+  "value": "10000.00",
   "currency": "USD",
-  "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
+  "accountId": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
 }
 ```
 
-or for XRP:
+## <a id="payment_object"></a> Payment Objects ##
+
+The `Payment` object is a simplified version of the standard Ripple transaction format.
+
+This `Payment` format is intended to be straightforward to create and parse, from strongly or loosely typed programming languages. Once a transaction is processed and validated it also includes information about the final details of the payment.
+
+An example Payment object looks like this:
 
 ```js
 {
-  "value": "1.0",
-  "currency": "XRP",
-  "counterparty": ""
+
+    "source_address": "rKXCummUHnenhYudNb9UoJ4mGBR75vFcgz",
+    "source_tag": "",
+    "source_amount": {
+        "value": "0.001",
+        "currency": "XRP",
+        "counterparty": ""
+    },
+    "source_slippage": "0",
+    "destination_address": "rNw4ozCG514KEjPs5cDrqEcdsi31Jtfm5r",
+    "destination_tag": "",
+    "destination_amount": {
+        "value": "0.001",
+        "currency": "XRP",
+        "counterparty": ""
+    },
+    "invoice_id": "",
+    "paths": "[]",
+    "flag_no_direct_ripple": false,
+    "flag_partial_payment": false
 }
 ```
 
-The `value` field can get very large or very small. See the [Currency Format](https://wiki.ripple.com/Currency_Format) for the exact limits of Ripple's precision.
+The fields of a Payment object are defined as follows:
 
-### Amounts in URLs ###
+| Field | Type | Description |
+|-------|------|-------------|
+| `source_account` | String | The Ripple address of the account sending the payment |
+| `source_amount` | [Amount Object](#amount_object) | The amount to deduct from the account sending the payment. |
+| `destination_account` | String | The Ripple address of the account receiving the payment |
+| `destination_amount` | [Amount Object](#amount_object) | The amount that should be deposited into the account receiving the payment. |
+| `source_tag` | String (Quoted unsigned integer) | (Optional) A quoted 32-bit unsigned integer (0-4294967294, inclusive) to indicate a sub-category of the source account. Typically, it identifies a hosted wallet at a gateway as the sender of the payment. |
+| `destination_tag` | String (Quoted unsigned integer) | (Optional) A quoted 32-bit unsigned integer (0-4294967294, inclusive) to indicate a particular sub-category of the destination account. Typically, it identifies a hosted wallet at a gateway as the recipient of the payment. |
+| `source_slippage` | String (Quoted decimal) | (Optional) Provides the `source_amount` a cushion to increase its chance of being processed successfully. This is helpful if the payment path changes slightly between the time when a payment options quote is given and when the payment is submitted. The `source_address` will never be charged more than `source_slippage` + the `value` specified in `source_amount`. |
+| `invoice_id` | String | (Optional) Arbitrary 256-bit hash that can be used to link payments to an invoice or bill. |
+| `paths` | String | A "stringified" version of the Ripple PathSet structure. You can get a path for your payment from the [Prepare Payment](#prepare-payment) method. |
+| `no_direct_ripple` | Boolean  | (Optional, defaults to false) `true` if `paths` are specified and the sender would like the Ripple Network to disregard any direct paths from the `source_address` to the `destination_address`. This may be used to take advantage of an arbitrage opportunity or by gateways wishing to issue balances from a hot wallet to a user who has mistakenly set a trustline directly to the hot wallet. Most users will not need to use this option. |
+| `partial_payment` | Boolean | (Optional, defaults to false) If set to `true`, fees will be deducted from the delivered amount instead of the sent amount. (*Caution:* There is no minimum amount that will actually arrive as a result of using this flag; only a miniscule amount may actually be received.) See [Partial Payments](https://ripple.com/build/transactions#partial-payments) |
+| `memos` | Array | (Optional) Array of [memo objects](#memo-objects), where each object is an arbitrary note to send with this payment. |
 
-When an amount of currency has to be specified in a URL, you use the same fields as the JSON object -- value, currency, and counterparty -- but concatenate them with `+` symbols in that order.
+Submitted transactions can have additional fields reflecting the current status and outcome of the transaction, including:
 
-Example Amount:
+[[Source]<br>](https://github.com/ripple/ripple-rest/blob/59ea02d634ac4a308db2ba21781efbc02f5ccf53/lib/tx-to-rest-converter.js#L25 "Source")
 
-`1.0+USD+rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q`
-
-When specifying an amount of XRP, you must omit the counterparty entirely. For example:
-
-`1.0+XRP`
-
-### Counterparties in Payments ###
-
-Most of the time, the `counterparty` field of a non-XRP currency indicates the account of the gateway that issues that currency. However, when describing payments, there are a few nuances that are important:
-
-* There is only ever one balance for the same currency between two accounts. This means that, sometimes, the `counterparty` field of an amount actually refers to a counterparty that is redeeming issuances, instead of the account that created the issuances.
-* You can omit the counterparty from the `destination_amount` of a payment to mean "any counterparty that the destination accepts". This includes all accounts to which the destination has extended trust lines, as well as issuances created by the destination which may be held on other trust lines. 
-    * For compatibility with `rippled`, setting the `counterparty` of the `destination_amount` to be the destination account's address means the same thing.
-* You can omit the counterparty from the `source_amount` of a payment to mean "any counterparty the source can use". This includes creating new issuances on trust lines that other accounts have extended to the source account, as well as issuances from other accounts that the source account possesses.
-    * Similarly, setting the `counterparty` of the `source_amount` to be the source account's address means the same thing.
-
+| Field | Type | Description |
+|-------|------|-------------|
+| direction | String | The direction of the payment relative to the account from the URL, either `"outgoing"` (sent by the account in the URL) or `"incoming"` (received by the account in the URL) |
+| result | String | The [Ripple transaction status code](https://wiki.ripple.com/Transaction_errors) for the transaction. A value of `"tesSUCCESS"` indicates a successful transaction. |
+| timestamp | String | The time the ledger containing this transaction was validated, as a [ISO8601 extended format](http://en.wikipedia.org/wiki/ISO_8601) string in the form `YYYY-MM-DDTHH:mm:ss.sssZ`. |
+| fee | String (Quoted decimal) | The amount of XRP charged as a transaction fee. |
+| balance_changes | Array | Array of [Amount objects](#amount_object) indicating changes in balances held by the perspective account (i.e., the Ripple account address specified in the URI). |
+| source_balance_changes | Array | Array of [Amount objects](#amount_object) indicating changes in balances held by the account sending the transaction as a result of the transaction. |
+| destination_balance_changes | Array | Array of [Amount objects](#amount_object) indicating changes in balances held by the account receiving the transaction as a result of the transaction. |
+| destination_amount_submitted | Object | An [Amount object](#amount_object) indicating the destination amount submitted (useful when `payment.partial_payment` flag is set to *true* |
+| order_changes | Array | Array of [Amount objects](#amount_object) indicating changes to orders caused by the Payment. |
+| source_amount_submitted | Object | An [Amount object](#amount_object) indicating the source amount submitted (useful when `payment.partial_payment` flag is set to *true* |
 
