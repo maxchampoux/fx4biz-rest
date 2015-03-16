@@ -19,7 +19,7 @@ Our API is divided into sections based on different concepts in our system. Each
 * [Get Wallets - `GET /v1/accounts/list`](#get-wallets-list)
 * [Get Account Balances - `GET /v1/accounts/{:id}/balances`](#get-account-balances)
 * [Get Account Details - `GET /v1/accounts/{:id}/details`](#get-account-details)
-* [Get Transfer History - `GET /v1/accounts/{:id}/transfer/list`](#get-payment-history)
+* [Get Transfer History - `GET /v1/accounts/{:id}/transfer/list`](#get-transfer-history)
 * [Get Transfer Details - `GET /v1/accounts/{:id}/transfers/{:id}/details`](#get-transfer-details)
 * [Delete Account - `DELETE /v1/accounts/{:id}`](#delete-account)
 
@@ -200,7 +200,7 @@ Example Amount Object:
 ## <a id="#post-account-create"></a> Submit account ##
 
 ```
-POST /v1/accounts
+POST /v1/accounts/submit
 ```
 There are two kinds of accounts with FX4BIZ. What we call wallet account, which is account hold in the FX4Biz' book and external bank account, which is account hold in another bank.
 The API has been made in order to accept the local specification of cross-boarder payments.
@@ -263,11 +263,74 @@ Required parameters:
 ## <a id="#get-wallets-list"></a> Get wallets list ##
 
 ```
-GET /v1/account/wallets/list
+GET /v1/accounts/wallets/list
 ```
-Request the list of wallet account hold in the FX4Biz books.
+Request the list of wallets accounts hold in the FX4Biz books.
 
-Required parameters:
+Response example:
+
+```js
+-> TBD
+```
+
+## <a id="#get-account-balances"></a> Get account balances ##
+
+```
+GET /v1/accounts/wallets/{:id}/balances
+```
+Request the list of wallets accounts hold in the FX4Biz books.
+
+Url parameters:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | String | xxx |
+
+Optional parameters:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `date` | Date | YYYY-MM-DD |
+
+Response example:
+
+```js
+-> TBD
+```
+
+## <a id="#get-account-details"></a> Get account details ##
+
+```
+GET /v1/accounts/{:id}/details
+```
+Request the information on a specified account.
+
+Url parameters:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | String | xxx |
+
+Response example:
+
+```js
+-> TBD
+```
+
+## <a id="#get-transfer-history"></a> Get transfer history ##
+
+```
+GET /v1/accounts/wallets/{:id}/transfers/history
+```
+Request the list of transfers that has been received or sent on a particular wallet account at a specific period of time.
+
+Url parameters:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | String | xxx |
+
+optional parameters:
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -279,12 +342,6 @@ Response example:
 ```js
 -> TBD
 ```
-
-## <a id="#get-account-balances"></a> Get account balances ##
-
-## <a id="#get-account-details"></a> Get account details ##
-
-## <a id="#get-transfer-history"></a> Get transfer history ##
 
 ## <a id="#get-transfer-details"></a> Get transfer details ##
 
