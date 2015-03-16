@@ -218,23 +218,23 @@ Required parameters:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `bic` | String [Beneficiary Bank Object](#beneficiary_bank_object) |  |
-| `currency` | String [Beneficiary Account Object](#beneficiary_account_object) | Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying which currency. |
-| `reference` | String [Beneficiary Account Object](#beneficiary_account_object) |  |
-| `holder_name` | String [Beneficiary Account Object](#beneficiary_account_object) |  |
-| `holder_type` | String [Beneficiary Account Object](#beneficiary_account_object) |  |
-| `holder_address` | Object [Beneficiary Account Object](#beneficiary_account_object) |  |
-| `number` | String [Beneficiary Account Object](#beneficiary_account_object) |  |
+| `bic` | [Beneficiary Bank Object](#beneficiary_bank_object) -> String |  |
+| `currency` | [Beneficiary Account Object](#beneficiary_account_object) -> String | Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying which currency. |
+| `reference` | [Beneficiary Account Object](#beneficiary_account_object) -> String |  |
+| `holder_name` | [Beneficiary Account Object](#beneficiary_account_object) -> String |  |
+| `holder_type` | [Beneficiary Account Object](#beneficiary_account_object) -> String |  |
+| `holder_address` | [Beneficiary Account Object](#beneficiary_account_object) -> [Address Object](#address_object) |  |
+| `number` | [Beneficiary Account Object](#beneficiary_account_object) -> String |  |
 
 Optional parameters:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `bic` | String [Correspondent Bank Object](#correspondent_bank_object) |  |
-| `clearing_type` | String [Beneficiary bank Object](#beneficiary_account_object) |  |
-| `clearing_code` | String [Beneficiary bank Object](#beneficiary_account_object) |  |
-| `name` | String [Beneficiary bank Object](#beneficiary_account_object) |  |
-| `bank_address` | Object [Beneficiary bank Object](#beneficiary_account_object) |  |
+| `bic` | [Correspondent Bank Object](#correspondent_bank_object) -> String  |  |
+| `clearing_type` | [Beneficiary bank Object](#beneficiary_account_object) -> String  |  |
+| `clearing_code` | [Beneficiary bank Object](#beneficiary_account_object) -> String  |  |
+| `name` | [Beneficiary bank Object](#beneficiary_account_object) -> String |  |
+| `bank_address` | [Beneficiary bank Object](#beneficiary_account_object) -> [Address Object](#address_object) |  |
 
 Example account object
 
@@ -248,19 +248,37 @@ Required parameters:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `bic` | String [Correspondent Bank Object](#correspondent_bank_object) |  |
-| `clearing_type` | String [Beneficiary bank Object](#beneficiary_account_object) |  |
-| `clearing_code` | String [Beneficiary bank Object](#beneficiary_account_object) |  |
-| `name` | String [Beneficiary bank Object](#beneficiary_account_object) |  |
-| `bank_address` | Object [Beneficiary bank Object](#beneficiary_account_object) |  |
-| `currency` | String [Beneficiary Account Object](#beneficiary_account_object) | Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying which currency. |
-| `reference` | String [Beneficiary Account Object](#beneficiary_account_object) |  |
-| `holder_name` | String [Beneficiary Account Object](#beneficiary_account_object) |  |
-| `holder_type` | String [Beneficiary Account Object](#beneficiary_account_object) |  |
-| `holder_address` | Object [Beneficiary Account Object](#beneficiary_account_object) |  |
-| `number` | String [Beneficiary Account Object](#beneficiary_account_object) |  |
+| `bic` | [Correspondent Bank Object](#correspondent_bank_object) -> String |  |
+| `clearing_type` | [Beneficiary bank Object](#beneficiary_account_object) -> String |  |
+| `clearing_code` | [Beneficiary bank Object](#beneficiary_account_object) -> String |  |
+| `name` | [Beneficiary bank Object](#beneficiary_account_object) -> String |  |
+| `bank_address` | [Beneficiary bank Object](#beneficiary_account_object) -> [Address Object](#address_object) |  |
+| `currency` | [Beneficiary Account Object](#beneficiary_account_object) -> String | Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying which currency. |
+| `reference` | [Beneficiary Account Object](#beneficiary_account_object) -> String |  |
+| `holder_name` | [Beneficiary Account Object](#beneficiary_account_object) -> String |  |
+| `holder_type` | [Beneficiary Account Object](#beneficiary_account_object) -> String |  |
+| `holder_address` | [Beneficiary Account Object](#beneficiary_account_object) -> [Address Object](#address_object) |  |
+| `number` | [Beneficiary Account Object](#beneficiary_account_object) -> String |  |
 
-## <a id="#get-wallets-list"></a> Get wallet ##
+## <a id="#get-wallets-list"></a> Get wallets list ##
+
+```
+GET /v1/account/wallets/list
+```
+Request the list of wallet account hold in the FX4Biz books.
+
+Required parameters:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `from_date` | Date | YYYY-MM-DD |
+| `to_date` | Date | YYYY-MM-DD |
+
+Response example:
+
+```js
+-> TBD
+```
 
 ## <a id="#get-account-balances"></a> Get account balances ##
 
