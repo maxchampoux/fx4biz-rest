@@ -8,7 +8,7 @@ We recommend FX4Biz-REST for financial institutions just getting started with FX
 
 Our API is divided into sections based on different concepts in our system. Each section is made up of a series of calls.
 
-#### [Authenticate](#authenticate) ####
+#### Authenticate ####
 
 * [Get User Login - `GET /v1/login-user`](#get-login-user)
 * [Get End Session - `GET /v1/end-session`](#get-end-session)
@@ -149,8 +149,7 @@ In any case where a large number should be specified, FX4Biz-REST uses a string 
 
 You should parse these numbers into a numeric data type with adequate precision. If it is not clear how much precision you need, we recommend using an arbitrary-precision data type.
 
-
-### Amounts in JSON ###
+## Amounts in JSON ##
 
 When an amount of currency is specified as part of a JSON body, it is encoded as an object with two fields:
 
@@ -168,8 +167,7 @@ Example Amount Object:
 }
 ```
 
-
-### Rates in JSON ###
+## Rates in JSON ##
 
 When a rate is specified as part of a JSON body, it is encoded as an object with four fields:
 
@@ -191,13 +189,54 @@ Example Amount Object:
 }
 ```
 
-### <a id="authenticate"></a> Authenticate ###
+# <a id="authentification_object"></a> Authentification Objects #
 
-## <a id="get-login-user"></a> Get login user ##
+## <a id="get-login-user"></a> Login ##
 
 ## <a id="get-end-session"></a> End session ##
 
-## <a id="payment_object"></a> Payment Objects ##
+# <a id="account_object"></a> Account Objects #
+
+## <a id="#post-account-create"></a> Submit account ##
+
+```
+POST /v1/accounts
+```
+There are two kinds of accounts with FX4BIZ. What we call wallet account, which is account hold in the FX4Biz' book and external bank account, which is account hold in another bank.
+The API has been made in order to accept the local specification of cross-boarder payments.
+
+The Api accepts the following formats of external bank accounts :
+- Bic & Iban
+- Local UK format
+- Local US format
+- Local CA format
+- Other local formats (unspecified but different from the previous).
+
+#### Beneficiary bank connected to SWIFT network ####
+
+`Required parameters
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `account` | [Account Object](#account_object) |
+| `source_id` | String | The FX4Biz id of the account sending the payment |
+| `destination_id` | String | The FX4Biz id of the account receiving the payment |
+| `amount` | [Amount Object](#amount_object) | The amount to deduct from the account sending the payment and that should be deposited into the account receiving the payment. |
+`
+
+## <a id="#get-wallets-list"></a> Get wallet ##
+
+## <a id="#get-account-balances"></a> Get account balances ##
+
+## <a id="#get-account-details"></a> Get account details ##
+
+## <a id="#get-transfer-history"></a> Get transfer history ##
+
+## <a id="#get-transfer-details"></a> Get transfer details ##
+
+## <a id="#delete-account"></a> Delete account ##
+
+# <a id="payment_object"></a> Payment Objects #
 
 This `Payment` format is intended to be straightforward to create and parse, from strongly or loosely typed programming languages. Once a transaction is processed and validated it also includes information about the final details of the payment.
 
@@ -230,10 +269,10 @@ An example Payment object looks like this:
     }
 }
 ```
-# <a id="submit-payment"></a> Submitting a payment #
+## <a id="submit-payment"></a> Submitting a payment ##
 
 ```
-GET /v1/payments
+POST /v1/payments
 ```
 
 There are three steps to making a new Payment with FX4BIZ: creating the account for the destination of the funds, submit the payment at this destination and confirm it.
