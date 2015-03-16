@@ -411,29 +411,26 @@ An example Payment object looks like this:
 
 ```js
 {
-
-    "result": "200",
-    "payment": {
-        "id": "xxx",
-        "status": "Awaiting confirmation",
-        "created_date": "2014-01-12T00:00:00+00:00",
-        "created_by": "Api",
-        "confirmed_date"= "2014-01-12T00:00:00+00:00",
-        "confirmed_by": "Api",
-        "confirmed_date"= "2014-01-12T00:00:00+00:00",
-        "initial_operation_date"= "2014-01-12T00:00:00+00:00",
-        "operation_date"= "2014-01-12T00:00:00+00:00",
-        "account": {
-            "source_id": "xxx",
-            "destination_id": "xxx",
-        }
-        "type": "Standard",
-        "amount": "125000.00",
-        "currency": "USD",
-    },
-    "error": {
-        [10, "source_id"],
+"payment": {
+    "id": "xxx",
+    "status": "Awaiting confirmation",
+    "created_date": "2014-01-12T00:00:00+00:00",
+    "created_by": "Api",
+    "confirmed_date"= "2014-01-12T00:00:00+00:00",
+    "confirmed_by": "Api",
+    "confirmed_date"= "2014-01-12T00:00:00+00:00",
+    "initial_operation_date"= "2014-01-12T00:00:00+00:00",
+    "operation_date"= "2014-01-12T00:00:00+00:00",
+    "account": {
+        "source_id": "xxx",
+        "destination_id": "xxx",
     }
+    "type": "Standard",
+    "amount": {
+        "value": "125000.00",
+        "currency": "USD"
+    }
+}
 }
 ```
 ## <a id="submit-payment"></a> Submitting a payment ##
