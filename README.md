@@ -178,7 +178,29 @@ When a rate is specified as part of a JSON body, it is encoded as an object with
 | applied | String (Quoted decimal) | The rate applied by FX4Biz for this transaction |
 | currency_pair | String | The cross of currency used for the rates provided |
 
-Example Amount Object:
+Example Rates Object:
+
+```js
+{
+  "mid_market": "1.1005",
+  "core": "1.1004",
+  "applied": "1.1002",
+  "currency_pair": "EURUSD",
+}
+```
+## Address in JSON ##
+
+When an address is specified as part of a JSON body, it is encoded as an object with four fields:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| street | String | 1 My Road |
+| post_code | String | ZIP |
+| city | String | Miami |
+| state_or_province | String | FL |
+| country | String | US |
+
+Example Rates Object:
 
 ```js
 {
