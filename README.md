@@ -214,15 +214,51 @@ The Api accepts the following formats of external bank accounts :
 
 #### Beneficiary bank connected to SWIFT network ####
 
-`Required parameters
+Required parameters:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `account` | [Account Object](#account_object) |
-| `source_id` | String | The FX4Biz id of the account sending the payment |
-| `destination_id` | String | The FX4Biz id of the account receiving the payment |
-| `amount` | [Amount Object](#amount_object) | The amount to deduct from the account sending the payment and that should be deposited into the account receiving the payment. |
-`
+| `bic` | String [Beneficiary Bank Object](#beneficiary_bank_object) |  |
+| `currency` | String [Beneficiary Account Object](#beneficiary_account_object) | Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying which currency. |
+| `reference` | String [Beneficiary Account Object](#beneficiary_account_object) |  |
+| `holder_name` | String [Beneficiary Account Object](#beneficiary_account_object) |  |
+| `holder_type` | String [Beneficiary Account Object](#beneficiary_account_object) |  |
+| `holder_address` | Object [Beneficiary Account Object](#beneficiary_account_object) |  |
+| `number` | String [Beneficiary Account Object](#beneficiary_account_object) |  |
+
+Optional parameters:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `bic` | String [Correspondent Bank Object](#correspondent_bank_object) |  |
+| `clearing_type` | String [Beneficiary bank Object](#beneficiary_account_object) |  |
+| `clearing_code` | String [Beneficiary bank Object](#beneficiary_account_object) |  |
+| `name` | String [Beneficiary bank Object](#beneficiary_account_object) |  |
+| `bank_address` | Object [Beneficiary bank Object](#beneficiary_account_object) |  |
+
+Example account object
+
+```js
+-> TBD
+```
+
+#### Beneficiary bank connected to a local clearing network ####
+
+Required parameters:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `bic` | String [Correspondent Bank Object](#correspondent_bank_object) |  |
+| `clearing_type` | String [Beneficiary bank Object](#beneficiary_account_object) |  |
+| `clearing_code` | String [Beneficiary bank Object](#beneficiary_account_object) |  |
+| `name` | String [Beneficiary bank Object](#beneficiary_account_object) |  |
+| `bank_address` | Object [Beneficiary bank Object](#beneficiary_account_object) |  |
+| `currency` | String [Beneficiary Account Object](#beneficiary_account_object) | Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying which currency. |
+| `reference` | String [Beneficiary Account Object](#beneficiary_account_object) |  |
+| `holder_name` | String [Beneficiary Account Object](#beneficiary_account_object) |  |
+| `holder_type` | String [Beneficiary Account Object](#beneficiary_account_object) |  |
+| `holder_address` | Object [Beneficiary Account Object](#beneficiary_account_object) |  |
+| `number` | String [Beneficiary Account Object](#beneficiary_account_object) |  |
 
 ## <a id="#get-wallets-list"></a> Get wallet ##
 
