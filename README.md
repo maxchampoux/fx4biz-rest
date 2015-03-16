@@ -343,9 +343,43 @@ Response example:
 -> TBD
 ```
 
-## <a id="#get-transfer-details"></a> Get transfer details ##
+## <a id="#get-transfer-details"></a> Retrieve transfer details ##
+
+```
+GET v1/accounts/wallets/transfers/{:id}/details
+```
+Request information on a particular transfer that has been credited or debited to a wallet.
+
+Url parameters:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | String | xxx |
+
+Response example:
+
+```js
+-> TBD
+```
 
 ## <a id="#delete-account"></a> Delete account ##
+
+```
+DELETE v1/accounts/{:id}
+```
+Delete an account.
+
+Url parameters:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | String | xxx |
+
+Response example:
+
+```js
+-> TBD
+```
 
 # <a id="payment_object"></a> Payment Objects #
 
@@ -385,14 +419,17 @@ An example Payment object looks like this:
 ```
 POST /v1/payments
 ```
-
 There are three steps to making a new Payment with FX4BIZ: creating the account for the destination of the funds, submit the payment at this destination and confirm it.
-
-
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `account` | [Account Object](#account_object) |
+| `id` | [Account Object](#account_object) |
 | `source_id` | String | The FX4Biz id of the account sending the payment |
 | `destination_id` | String | The FX4Biz id of the account receiving the payment |
 | `amount` | [Amount Object](#amount_object) | The amount to deduct from the account sending the payment and that should be deposited into the account receiving the payment. |
+
+Response example:
+
+```js
+-> TBD
+```
