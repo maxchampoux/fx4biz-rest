@@ -167,13 +167,11 @@ Example Amount Object:
 {
   "value": "10000.00",
   "currency": "USD",
-  "accountId": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
+  "id_account": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
 }
 ```
 
 ## <a id="payment_object"></a> Payment Objects ##
-
-The `Payment` object is a simplified version of the standard Ripple transaction format.
 
 This `Payment` format is intended to be straightforward to create and parse, from strongly or loosely typed programming languages. Once a transaction is processed and validated it also includes information about the final details of the payment.
 
@@ -182,25 +180,28 @@ An example Payment object looks like this:
 ```js
 {
 
-    "source_address": "rKXCummUHnenhYudNb9UoJ4mGBR75vFcgz",
-    "source_tag": "",
-    "source_amount": {
-        "value": "0.001",
-        "currency": "XRP",
-        "counterparty": ""
+    "result": "200",
+    "payment": {
+        "id": "xxx",
+        "status": "Awaiting confirmation",
+        "created_date": "2014-01-12T00:00:00+00:00",
+        "created_by": "Api",
+        "confirmed_date"= "2014-01-12T00:00:00+00:00",
+        "confirmed_by": "Api",
+        "confirmed_date"= "2014-01-12T00:00:00+00:00",
+        "initial_operation_date"= "2014-01-12T00:00:00+00:00",
+        "operation_date"= "2014-01-12T00:00:00+00:00",
+        "account": {
+            "source_id": "xxx",
+            "destination_id": "xxx",
+        }
+        "type": "Standard",
+        "amount": "125000.00",
+        "currency": "USD",
     },
-    "source_slippage": "0",
-    "destination_address": "rNw4ozCG514KEjPs5cDrqEcdsi31Jtfm5r",
-    "destination_tag": "",
-    "destination_amount": {
-        "value": "0.001",
-        "currency": "XRP",
-        "counterparty": ""
-    },
-    "invoice_id": "",
-    "paths": "[]",
-    "flag_no_direct_ripple": false,
-    "flag_partial_payment": false
+    "error": {
+        [10, "source_id"],
+    }
 }
 ```
 
@@ -208,18 +209,11 @@ The fields of a Payment object are defined as follows:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `source_account` | String | The Ripple address of the account sending the payment |
-| `source_amount` | [Amount Object](#amount_object) | The amount to deduct from the account sending the payment. |
-| `destination_account` | String | The Ripple address of the account receiving the payment |
-| `destination_amount` | [Amount Object](#amount_object) | The amount that should be deposited into the account receiving the payment. |
+| `account` | [Account Object](#account_object) |
+| `source_id` | String | The FX4Biz id of the account sending the payment |
+| `destination_id` | String | The FX4Biz id of the account receiving the payment |
+| `amount` | [Amount Object](#amount_object) | The amount to deduct from the account sending the payment and that should be deposited into the account receiving the payment. |
 | `source_tag` | String (Quoted unsigned integer) | (Optional) A quoted 32-bit unsigned integer (0-4294967294, inclusive) to indicate a sub-category of the source account. Typically, it identifies a hosted wallet at a gateway as the sender of the payment. |
-| `destination_tag` | String (Quoted unsigned integer) | (Optional) A quoted 32-bit unsigned integer (0-4294967294, inclusive) to indicate a particular sub-category of the destination account. Typically, it identifies a hosted wallet at a gateway as the recipient of the payment. |
-| `source_slippage` | String (Quoted decimal) | (Optional) Provides the `source_amount` a cushion to increase its chance of being processed successfully. This is helpful if the payment path changes slightly between the time when a payment options quote is given and when the payment is submitted. The `source_address` will never be charged more than `source_slippage` + the `value` specified in `source_amount`. |
-| `invoice_id` | String | (Optional) Arbitrary 256-bit hash that can be used to link payments to an invoice or bill. |
-| `paths` | String | A "stringified" version of the Ripple PathSet structure. You can get a path for your payment from the [Prepare Payment](#prepare-payment) method. |
-| `no_direct_ripple` | Boolean  | (Optional, defaults to false) `true` if `paths` are specified and the sender would like the Ripple Network to disregard any direct paths from the `source_address` to the `destination_address`. This may be used to take advantage of an arbitrage opportunity or by gateways wishing to issue balances from a hot wallet to a user who has mistakenly set a trustline directly to the hot wallet. Most users will not need to use this option. |
-| `partial_payment` | Boolean | (Optional, defaults to false) If set to `true`, fees will be deducted from the delivered amount instead of the sent amount. (*Caution:* There is no minimum amount that will actually arrive as a result of using this flag; only a miniscule amount may actually be received.) See [Partial Payments](https://ripple.com/build/transactions#partial-payments) |
-| `memos` | Array | (Optional) Array of [memo objects](#memo-objects), where each object is an arbitrary note to send with this payment. |
 
 Submitted transactions can have additional fields reflecting the current status and outcome of the transaction, including:
 
