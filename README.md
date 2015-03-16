@@ -8,7 +8,7 @@ We recommend FX4Biz-REST for financial institutions just getting started with FX
 
 Our API is divided into sections based on different concepts in our system. Each section is made up of a series of calls.
 
-### Authenticate ###
+#### [Authenticate](#authenticate) ####
 
 * [Get User Login - `GET /v1/login-user`](#get-login-user)
 * [Get End Session - `GET /v1/end-session`](#get-end-session)
@@ -152,14 +152,12 @@ You should parse these numbers into a numeric data type with adequate precision.
 
 ### Amounts in JSON ###
 
-When an amount of currency is specified as part of a JSON body, it is encoded as an object with three fields:
+When an amount of currency is specified as part of a JSON body, it is encoded as an object with two fields:
 
 | Field | Type | Description |
 |-------|------|-------------|
 | value | String (Quoted decimal) | The quantity of the currency |
 | currency | String | Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying which currency. Alternatively, a 160-bit hex value. |
-| accountId | String | This is usually an id given by FX4Biz. 
-
 
 Example Amount Object:
 
@@ -167,9 +165,37 @@ Example Amount Object:
 {
   "value": "10000.00",
   "currency": "USD",
-  "id_account": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
 }
 ```
+
+
+### Rates in JSON ###
+
+When a rate is specified as part of a JSON body, it is encoded as an object with four fields:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| mid_market | String (Quoted decimal) | The average rate of the market between the bid and the ask rate |
+| core | String (Quoted decimal) | The interbank rate provided by the FX partner of FX4BIZ |
+| applied | String (Quoted decimal) | The rate applied by FX4Biz for this transaction |
+| currency_pair | String | The cross of currency used for the rates provided |
+
+Example Amount Object:
+
+```js
+{
+  "mid_market": "1.1005",
+  "core": "1.1004",
+  "applied": "1.1002",
+  "currency_pair": "EURUSD",
+}
+```
+
+### <a id="authenticate"></a> Authenticate ###
+
+## <a id="get-login-user"></a> Get login user ##
+
+## <a id="get-end-session"></a> End session ##
 
 ## <a id="payment_object"></a> Payment Objects ##
 
@@ -204,8 +230,15 @@ An example Payment object looks like this:
     }
 }
 ```
+# <a id="submit-payment"></a> Submitting a payment #
 
-The fields of a Payment object are defined as follows:
+```
+GET /v1/payments
+```
+
+There are three steps to making a new Payment with FX4BIZ: creating the account for the destination of the funds, submit the payment at this destination and confirm it.
+
+
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -213,22 +246,3 @@ The fields of a Payment object are defined as follows:
 | `source_id` | String | The FX4Biz id of the account sending the payment |
 | `destination_id` | String | The FX4Biz id of the account receiving the payment |
 | `amount` | [Amount Object](#amount_object) | The amount to deduct from the account sending the payment and that should be deposited into the account receiving the payment. |
-| `source_tag` | String (Quoted unsigned integer) | (Optional) A quoted 32-bit unsigned integer (0-4294967294, inclusive) to indicate a sub-category of the source account. Typically, it identifies a hosted wallet at a gateway as the sender of the payment. |
-
-Submitted transactions can have additional fields reflecting the current status and outcome of the transaction, including:
-
-[[Source]<br>](https://github.com/ripple/ripple-rest/blob/59ea02d634ac4a308db2ba21781efbc02f5ccf53/lib/tx-to-rest-converter.js#L25 "Source")
-
-| Field | Type | Description |
-|-------|------|-------------|
-| direction | String | The direction of the payment relative to the account from the URL, either `"outgoing"` (sent by the account in the URL) or `"incoming"` (received by the account in the URL) |
-| result | String | The [Ripple transaction status code](https://wiki.ripple.com/Transaction_errors) for the transaction. A value of `"tesSUCCESS"` indicates a successful transaction. |
-| timestamp | String | The time the ledger containing this transaction was validated, as a [ISO8601 extended format](http://en.wikipedia.org/wiki/ISO_8601) string in the form `YYYY-MM-DDTHH:mm:ss.sssZ`. |
-| fee | String (Quoted decimal) | The amount of XRP charged as a transaction fee. |
-| balance_changes | Array | Array of [Amount objects](#amount_object) indicating changes in balances held by the perspective account (i.e., the Ripple account address specified in the URI). |
-| source_balance_changes | Array | Array of [Amount objects](#amount_object) indicating changes in balances held by the account sending the transaction as a result of the transaction. |
-| destination_balance_changes | Array | Array of [Amount objects](#amount_object) indicating changes in balances held by the account receiving the transaction as a result of the transaction. |
-| destination_amount_submitted | Object | An [Amount object](#amount_object) indicating the destination amount submitted (useful when `payment.partial_payment` flag is set to *true* |
-| order_changes | Array | Array of [Amount objects](#amount_object) indicating changes to orders caused by the Payment. |
-| source_amount_submitted | Object | An [Amount object](#amount_object) indicating the source amount submitted (useful when `payment.partial_payment` flag is set to *true* |
-
