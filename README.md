@@ -15,13 +15,13 @@ Our API is divided into sections based on different concepts in our system. Each
 
 #### Accounts ####
 
-* [Submit Account - `POST /v1/accounts`](#post-account-create)
-* [Get Wallets - `GET /v1/accounts/list`](#get-wallets-list)
+* [Submit New Account - `POST /v1/accounts`](#post-account-create)
+* [Get Account list - `GET /v1/accounts/list`](#get-account-list)
 * [Get Account Balances - `GET /v1/accounts/{:id}/balances`](#get-account-balances)
 * [Get Account Details - `GET /v1/accounts/{:id}/details`](#get-account-details)
 * [Get Transfer History - `GET /v1/accounts/{:id}/transfer/list`](#get-transfer-history)
-* [Get Transfer Details - `GET /v1/accounts/{:id}/transfers/{:id}/details`](#get-transfer-details)
-* [Delete Account - `DELETE /v1/accounts/{:id}`](#delete-account)
+* [Get Transfer Details - `GET /v1/accounts/transfers/{:id}/details`](#get-transfer-details)
+* [Delete Account - `DELETE /v1/accounts/{:id}/delete`](#delete-account)
 
 #### Payments ####
 
