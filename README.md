@@ -277,29 +277,25 @@ Required parameters:
 | `holder_address` | [Beneficiary Account Object](#beneficiary_account_object) -> [Address Object](#address_object) |  |
 | `number` | [Beneficiary Account Object](#beneficiary_account_object) -> String |  |
 
-## <a id="#get-wallets-list"></a> Get wallets list ##
+## <a id="#get-accounts-list"></a> Get accounts list ##
 
 ```
-GET /v1/accounts/wallets/list
+GET /v1/accounts/list
 ```
-Request the list of wallets accounts hold in the FX4Biz books.
+Request the list of accounts hold in the FX4Biz books.
 
 Response example:
 
 ```js
-{
-  "id": "xxx"
-  "currency": "EUR",
-  "Reference": "Wallet account EUR",
-}
+-> TBD
 ```
 
 ## <a id="#get-account-balances"></a> Get account balances ##
 
 ```
-GET /v1/accounts/wallets/{:id}/balances
+GET /v1/accounts/{:id}/balance
 ```
-Request the list of wallets accounts hold in the FX4Biz books.
+Retrieve the balance of an account hold in the FX4Biz books (i.e. Wallet account balance)
 
 Url parameters:
 
@@ -311,7 +307,7 @@ Optional parameters:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `date` | Date | YYYY-MM-DD |
+| `statement_date` | Date | YYYY-MM-DD In the response you will have the closing balance of the account at this date. |
 
 Response example:
 
@@ -332,7 +328,7 @@ Response example:
 ```
 GET /v1/accounts/{:id}/details
 ```
-Request the information on a specified account.
+Retrieve bank details & information on an account.
 
 Url parameters:
 
