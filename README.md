@@ -91,9 +91,7 @@ When you confirm a payment for processing, make sure you have sufficient funds i
 
 ### Placing Trades ###
 
-Placing a trade
-
-
+The FX4Biz-rest API supports Same-day, next-day, spot and forward FX Trades. When placing a trade, FX4Biz gives in response to the trade, the rate that has been applied to this transaction.
 
 # Formatting Conventions #
 
@@ -105,7 +103,7 @@ The `FX4Biz-rest` API conforms to the following general behavior for [RESTful AP
   * This means that you must set `Content-Type: application/json` in the headers when sending POST requests with a body.
 * Upon successful completion, the server returns an [HTTP status code](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html) of 200 OK, and a `Content-Type` value of `application/json`.  The body of the response will be a JSON-formatted object containing the information returned by the endpoint.
 
-As an additional convention, all responses from Ripple-REST contain a `"success"` field with a boolean value indicating whether or not the success
+As an additional convention, all responses from FX4Biz-REST contain a `"success"` field with a boolean value indicating whether or not the success
 
 ## Errors ##
 
@@ -200,22 +198,25 @@ When an address is specified as part of a JSON body, it is encoded as an object 
 | state_or_province | String | FL |
 | country | String | US |
 
-Example Rates Object:
+Example Address Object:
 
 ```js
 {
-  "mid_market": "1.1005",
-  "core": "1.1004",
-  "applied": "1.1002",
-  "currency_pair": "EURUSD",
+  "street": "350 Avenue Louise",
+  "post_code": "1050",
+  "city": "Brussels",
+  "state_or_province": "Brussels capitale",
+  "Country": "Belgium"
 }
 ```
 
 # <a id="authentification_object"></a> Authentification Objects #
 
 ## <a id="get-login-user"></a> Login ##
+-> TBD
 
 ## <a id="get-end-session"></a> End session ##
+-> TBD
 
 # <a id="account_object"></a> Account Objects #
 
@@ -258,12 +259,6 @@ Optional parameters:
 | `name` | [Beneficiary bank Object](#beneficiary_account_object) -> String |  |
 | `bank_address` | [Beneficiary bank Object](#beneficiary_account_object) -> [Address Object](#address_object) |  |
 
-Example account object
-
-```js
--> TBD
-```
-
 #### Beneficiary bank connected to a local clearing network ####
 
 Required parameters:
@@ -292,7 +287,11 @@ Request the list of wallets accounts hold in the FX4Biz books.
 Response example:
 
 ```js
--> TBD
+{
+  "id": "xxx"
+  "currency": "EUR",
+  "Reference": "Wallet account EUR",
+}
 ```
 
 ## <a id="#get-account-balances"></a> Get account balances ##
@@ -317,7 +316,15 @@ Optional parameters:
 Response example:
 
 ```js
--> TBD
+{
+  "id": "xxx"
+  "statement_date": "2014-01-12T00:00:00+00:00",
+  "amount": {
+      "value": "1057.25",
+      "currency": "EUR"
+  }
+  "Reference": "Sample account name",
+}
 ```
 
 ## <a id="#get-account-details"></a> Get account details ##
@@ -336,7 +343,59 @@ Url parameters:
 Response example:
 
 ```js
--> TBD
+{
+  "id": "xxx"
+  "status": "active",
+  "CreatedDate"= "2014-01-12T00:00:00+00:00",
+		"CreatedBy"= "API",
+		"Reference": "Sample account name",
+		"Type": "External account",
+		"CorrespondantBank":{
+			  "Bic": "CHASUS33",
+			  "Clearing" : {
+				 "Type": "FW",
+				 "Code": "1234567",
+			},
+			"Name": "JP MORGAN CHASE",
+			"Address": {
+				  "Street": "1 My Road",
+				  "PostCode": "ZIP",
+				  "CityName": "London",
+				  "StateOrProvince": "",
+				  "Country"; "UK",
+			}
+		},
+		"BeneficiaryBank": {
+			"Bic": "CHASUS33",
+			"Clearing" : {
+				"Type": "FW",
+				"Code": "1234567",
+			},
+			"Name": "JP MORGAN CHASE",
+			"Address": {
+				"Street": "1 My Road",
+				"PostCode": "ZIP",
+				"CityName": "London",
+				"StateOrProvince": "",
+				"Country"; "UK",
+			}
+		},
+		"Beneficiary": {
+			"AccountCurrency": "....",
+			"AccountHolder": {
+				"Name": "....",
+				"Address": {
+					"Street": "1 My Road",
+					"PostCode": "ZIP",
+					"CityName": "London",
+					"StateOrProvince": "",
+					"Country"; "UK",
+				}
+			}
+			"AccountNumber": "....",
+		},
+	 }
+}
 ```
 
 ## <a id="#get-transfer-history"></a> Get transfer history ##
@@ -438,7 +497,7 @@ An example Payment object looks like this:
 ```
 POST /v1/payments
 ```
-There are three steps to making a new Payment with FX4BIZ: creating the account for the destination of the funds, submit the payment at this destination and confirm it.
+-> TBD
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -446,6 +505,25 @@ There are three steps to making a new Payment with FX4BIZ: creating the account 
 | `source_id` | String | The FX4Biz id of the account sending the payment |
 | `destination_id` | String | The FX4Biz id of the account receiving the payment |
 | `amount` | [Amount Object](#amount_object) | The amount to deduct from the account sending the payment and that should be deposited into the account receiving the payment. |
+
+Response example:
+
+```js
+-> TBD
+```
+
+## <a id="confirm-payment"></a> Confirm a payment ##
+
+```
+POST /v1/payments/{:id}/confirm
+```
+-> TBD
+
+Url parameters:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | String | xxx |
 
 Response example:
 
