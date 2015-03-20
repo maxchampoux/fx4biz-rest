@@ -222,7 +222,7 @@ Example Address Object:
 
 # <a id="account_object"></a> Account Objects #
 
-## <a id="#post-account-create"></a> Submit account ##
+## <a id="post-account-create"></a> Submit account ##
 
 ```
 POST /v1/accounts/submit
@@ -279,7 +279,7 @@ Required parameters:
 | `holder_address` | [Beneficiary Account Object](#beneficiary_account_object) -> [Address Object](#address_object) |  |
 | `number` | [Beneficiary Account Object](#beneficiary_account_object) -> String |  |
 
-## <a id="#get-accounts-list"></a> Get accounts list ##
+## <a id="get-accounts-list"></a> Get accounts list ##
 
 ```
 GET /v1/accounts/list
@@ -292,7 +292,7 @@ Response example:
 -> TBD
 ```
 
-## <a id="#get-account-balances"></a> Get account balances ##
+## <a id="get-account-balances"></a> Get account balances ##
 
 ```
 GET /v1/accounts/{:id}/balance
@@ -325,7 +325,7 @@ Response example:
 }
 ```
 
-## <a id="#get-account-details"></a> Get account details ##
+## <a id="get-account-details"></a> Get account details ##
 
 ```
 GET /v1/accounts/{:id}/details
@@ -396,7 +396,7 @@ Response example:
 }
 ```
 
-## <a id="#get-transfer-history"></a> Get transfer history ##
+## <a id="get-transfer-history"></a> Get transfer history ##
 
 ```
 GET /v1/accounts/wallets/{:id}/transfers/history
@@ -422,7 +422,7 @@ Response example:
 -> TBD
 ```
 
-## <a id="#get-transfer-details"></a> Retrieve transfer details ##
+## <a id="get-transfer-details"></a> Retrieve transfer details ##
 
 ```
 GET v1/accounts/wallets/transfers/{:id}/details
@@ -441,7 +441,7 @@ Response example:
 -> TBD
 ```
 
-## <a id="#delete-account"></a> Delete account ##
+## <a id="delete-account"></a> Delete account ##
 
 ```
 DELETE v1/accounts/{:id}
