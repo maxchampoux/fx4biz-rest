@@ -64,9 +64,6 @@ Our API is divided into sections based on different concepts in our system. Each
 
 FX4Biz is a payment institution for FX transactions and cross-boarder payment. You can use FX4Biz to hold accounts, in any currency, at no cost, make real time FX trades & send money anywhere in the world.
 
-In the FX4Biz world, 
--> Authentification process
-
 A FX4Biz payment can be sent using FX4Biz' wallet account, directly from one account to another, at no cost.  Payments can also be sent in external bank accounts, prealably referenced in the platform.
 
 Payments are made between two accounts, by specifying the #id destination accounts of the funds. FX4Biz will automatically debit the wallet account in the currency at the date specified in the payments instructions. If no date is specified we will debit the wallet account in the payment currency at the closest operation date available. A payment also involves an amount to be transferred.
@@ -93,7 +90,19 @@ When you confirm a payment for processing, make sure you have sufficient funds i
 
 FX4BIZ provide a deliverable FX facility and deliverable FX liquidity via the FX4Biz-rest API. You will become counterparty to FX4BIZ and can market and sell deliverable FX services to corporate and private clients as well as using such services on their behalf.
 
-The FX4Biz-rest API supports Same-day, next-day, spot and forward FX Trades. The settlement date depends
+The FX4Biz-rest API supports online trading for the following contracts: TOD (Same-day settled for those currencies than can be), TOM (next-day settled), SPOT (T+2) and forward contracts up to one year. 
+
+| Same day value Currencies | Cut Off Time |
+|-------|------|
+| CHF | 8:30 |
+| GBP | 10:30 |
+| EUR | 16:00 |
+| USD | 16:30 |
+
+| Next day value Currencies (Times stated are for the day prior to the Value Date | Cut Off Time |
+|-------|------|
+| AOA, ARS, BIF, BRL, CDF, CLP, COP, CRC, DJF, DOP, GHS, HNL, KES, MAD, NPR, PEN, PHP, RUB, TND, TRY, TZS, UGX, XOF/XAF | 10:00 |
+| AED, AUD, CAD, CZK, DKK, HKD, HUF, JPY, NOK, NZD, PLN, SEK, SGD, ZAR | 10:30 |
 
 # Formatting Conventions #
 
