@@ -8,12 +8,12 @@ We recommend FX4BIZ-REST for financial institutions just getting started with FX
 
 Our API is divided into sections based on different concepts in our system. Each section is made up of a series of calls.
 
-#### [Authenticate](#authentications_services) ####
+#### Authenticate ####
 
 * [Get User Login - `GET /login-user`](#get-login-user)
 * [Get End Session - `GET /end-session`](#get-end-session)
 
-#### [Accounts](#accounts_services) ####
+#### Accounts) ####
 
 * [Submit New Account - `POST /accounts`](#post-account-create)
 * [Get Account list - `GET /accounts/list`](#get-account-list)
@@ -23,7 +23,7 @@ Our API is divided into sections based on different concepts in our system. Each
 * [Get Transfer Details - `GET /accounts/transfers/{:id}/details`](#get-transfer-details)
 * [Delete Account - `DELETE /accounts/{:id}/delete`](#delete-account)
 
-#### [Payments](#payments_services) ####
+#### Payments ####
 
 * [Submit Payment - `POST /payments`](#submit-payment)
 * [Confirm Payment - `GET /payments/{:id}/confirm`](#confirm-payment)
@@ -32,7 +32,7 @@ Our API is divided into sections based on different concepts in our system. Each
 * [Post Payment Update - `POST /payments/{:id}/update`](#post-payment-update)
 * [Cancel Payment  - `DELETE /payments/{:id}/delete`](#delete-payment)
 
-#### [Trades](#trades_services) ####
+#### Trades ####
 
 * [Submit Trade - `POST /trades`](#Submit-trade)
 * [Cancel Trade - `DELETE /trades/{:id}/delete`](#cancel-order)
@@ -40,11 +40,11 @@ Our API is divided into sections based on different concepts in our system. Each
 * [Get Trade Details - `GET /trades/{:id}/details`](#get-order-book)
 * [Get Order Transaction - `GET /accounts{:address}/orders/{:hash}`](#get-order-transaction)
 
-#### [Rates](#rates_services) ####
+#### Rates ####
 
 * [Get Rates - `GET /rates`](#Submit-rates)
 
-#### [Quotes](#quotes_services) ####
+#### Quotes) ####
 
 * [Request Quote - `POST /quotes`](#Submit-rates)
 
@@ -57,7 +57,7 @@ Our API is divided into sections based on different concepts in our system. Each
 * [Check Connection - `GET /server/connected`](#check-connection)
 * [Get Server Status - `GET /server`](#get-server-status)
 
-#### [Objects List](#objects_list) ####
+#### Objects List ####
 
 ## API Overview ##
 
@@ -99,13 +99,13 @@ The FX4Biz-rest API supports online trading for the following contracts: TOD (Sa
 | GBP | 10:30 |
 | EUR | 16:00 |
 | USD | 16:30 |
-|-------|------|
+
 | Next day value Currencies (Times stated are for the day prior to the Value Date) | Cut Off Time |
 |-------|------|
 | AOA, ARS, BIF, BRL, CDF, CLP, COP, CRC, DJF, DOP, GHS, HNL, KES, MAD, NPR, PEN, PHP, RUB, TND, TRY, TZS, UGX, XOF/XAF | 10:00 |
 | AED, AUD, CAD, CZK, DKK, HKD, HUF, JPY, NOK, NZD, PLN, SEK, SGD, ZAR | 10:30 |
 
-# <a id="authentications_services"></a> Authentification Services #
+# Authentification Services #
 
 ## <a id="get-login-user"></a> Login ##
 -> TBD
@@ -136,8 +136,8 @@ Required parameters:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `bic` | [Beneficiary Bank Object](#beneficiary_bank_object) -> String |  |
-| `currency` | [Beneficiary Account Object](#beneficiary_account_object) -> String | Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying which currency. |
+| `Beneficiary Bank` | [Beneficiary Bank Object](#beneficiary_bank_object) | |
+| `Account Object` | [Account Object](#account_object) | Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying which currency. |
 | `reference` | [Beneficiary Account Object](#beneficiary_account_object) -> String |  |
 | `holder_name` | [Beneficiary Account Object](#beneficiary_account_object) -> String |  |
 | `holder_type` | [Beneficiary Account Object](#beneficiary_account_object) -> String |  |
@@ -422,7 +422,7 @@ Response example:
 -> TBD
 ```
 
-## Amounts in JSON ##
+## <a id="amounts_object"></a> Amounts Object ##
 
 When an amount of currency is specified as part of a JSON body, it is encoded as an object with two fields:
 
@@ -440,7 +440,9 @@ Example Amount Object:
 }
 ```
 
-## Rates in JSON ##
+## <a id="accounts_object"></a> Accounts Object ##
+
+## <a id="rates_object"></a> Rates Object ##
 
 When a rate is specified as part of a JSON body, it is encoded as an object with four fields:
 
@@ -461,7 +463,7 @@ Example Rates Object:
   "currency_pair": "EURUSD",
 }
 ```
-## Address in JSON ##
+## <a id="addresses_object"></a> Addresses Object ##
 
 When an address is specified as part of a JSON body, it is encoded as an object with four fields:
 
