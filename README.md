@@ -11,7 +11,7 @@ Our API is divided into sections based on different concepts in our system. Each
 #### Authenticate ####
 
 * [Get User Login - `GET /login-user`](#get-login-user)
-* [Get End Session - `GET /v1/end-session`](#get-end-session)
+* [Get End Session - `GET /end-session`](#get-end-session)
 
 #### Accounts ####
 
