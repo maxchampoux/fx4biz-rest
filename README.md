@@ -44,7 +44,7 @@ Our API is divided into sections based on different concepts in our system. Each
 
 * [Get Rates - `GET /rates`](#Submit-rates)
 
-#### Quotes) ####
+#### Quotes ####
 
 * [Request Quote - `POST /quotes`](#Submit-rates)
 
@@ -58,6 +58,9 @@ Our API is divided into sections based on different concepts in our system. Each
 * [Get Server Status - `GET /server`](#get-server-status)
 
 #### Objects List ####
+
+* [Address Object](#address_object)
+* [Account Object](#account_object)
 
 ## API Overview ##
 
@@ -94,7 +97,7 @@ FX4BIZ provide a deliverable FX facility and deliverable FX liquidity via the FX
 The FX4Biz-rest API supports online trading for the following contracts: TOD (Same-day settled for those currencies than can be), TOM (next-day settled), SPOT (T+2) and forward contracts up to one year. 
 
 | Same day value Currencies | Cut Off Time |
-|-----------------------------------------------------------------------------------------------------------------------|------|
+|------|------|
 | CHF | 8:30 |
 | GBP | 10:30 |
 | EUR | 16:00 |
@@ -130,19 +133,11 @@ The Api accepts the following formats of external bank accounts :
 - Local CA format
 - Other local formats (unspecified but different from the previous).
 
-#### Beneficiary bank connected to SWIFT network ####
-
-Required parameters:
-
 | Field | Type | Description |
 |-------|------|-------------|
-| `Beneficiary Bank` | [Beneficiary Bank Object](#beneficiary_bank_object) | |
-| `Account Object` | [Account Object](#account_object) | Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying which currency. |
-| `reference` | [Beneficiary Account Object](#beneficiary_account_object) -> String |  |
-| `holder_name` | [Beneficiary Account Object](#beneficiary_account_object) -> String |  |
-| `holder_type` | [Beneficiary Account Object](#beneficiary_account_object) -> String |  |
-| `holder_address` | [Beneficiary Account Object](#beneficiary_account_object) -> [Address Object](#address_object) |  |
-| `number` | [Beneficiary Account Object](#beneficiary_account_object) -> String |  |
+| `Correspondent Bank` | [Correspondent Bank Object](#correspondent_account_object) |  |
+| `Beneficiary Bank` | [Beneficiary Bank Object](#beneficiary_bank_object) | **Required.** |
+| `Account` | [Account Object](#account_object) | **Required.** |
 
 Optional parameters:
 
@@ -440,7 +435,46 @@ Example Amount Object:
 }
 ```
 
-## <a id="accounts_object"></a> Accounts Object ##
+## <a id="address_object"></a> Address Object ##
+
+## <a id="account_object"></a> Account Object ##
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `currency` | String | **Required.** Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying which currency. |
+| `reference` |  String |  |
+| `beneficiary` | [Beneficiary Object](#beneficiary_object) | **Required.**  |
+| `holder_type` | [Beneficiary Account Object](#beneficiary_account_object) -> String |  |
+| `holder_address` | [Beneficiary Account Object](#beneficiary_account_object) -> [Address Object](#address_object) |  |
+| `number` | [Beneficiary Account Object](#beneficiary_account_object) -> String |  |
+
+## <a id="beneficiary_bank_object"></a> Beneficiary Bank Object ##
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `bic` | String | **Required if swift format.** |
+| `clearing_type` | String | **Required if local format.** |
+| `clearing_code` | String | **Required if local format.** |
+| `name` | String | **Required if local format.** |
+| `address` | String | **Required if local format.** |
+
+## <a id="beneficiary_object"></a> Beneficiary Object ##
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `name` | String | **Required.** |
+| `type` | String | **Required.** |
+| `address` | String |  |
+
+## <a id="correspondent_bank_object"></a> Correspondent Bank Object ##
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `bic` | String | **Required if local format.** |
+| `clearing_type` | String |  |
+| `clearing_code` | String |  |
+| `name` | String |  |
+| `address` | String |  |
 
 ## <a id="rates_object"></a> Rates Object ##
 
