@@ -91,9 +91,9 @@ When you confirm a payment for processing, make sure you have sufficient funds i
 
 ### Placing Trades ###
 
-FX4BIZ provide a dilerable FX facility and delierable FX liquidity via the FX4Biz-rest API. You will become counterparty to FX4BIZ and can market and sell deliverable FX services to corporate and private clients as well as using such services on their behalf.
+FX4BIZ provide a deliverable FX facility and deliverable FX liquidity via the FX4Biz-rest API. You will become counterparty to FX4BIZ and can market and sell deliverable FX services to corporate and private clients as well as using such services on their behalf.
 
-The FX4Biz-rest API supports Same-day, next-day, spot and forward FX Trades. When placing a trade, FX4Biz gives in response to the trade, the rate that has been applied to this transaction.
+The FX4Biz-rest API supports Same-day, next-day, spot and forward FX Trades. The settlement date depends
 
 # Formatting Conventions #
 
