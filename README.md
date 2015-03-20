@@ -10,52 +10,52 @@ Our API is divided into sections based on different concepts in our system. Each
 
 #### Authenticate ####
 
-* [Get User Login - `GET /v1/login-user`](#get-login-user)
+* [Get User Login - `GET /login-user`](#get-login-user)
 * [Get End Session - `GET /v1/end-session`](#get-end-session)
 
 #### Accounts ####
 
-* [Submit New Account - `POST /v1/accounts`](#post-account-create)
-* [Get Account list - `GET /v1/accounts/list`](#get-account-list)
-* [Get Account Balances - `GET /v1/accounts/{:id}/balances`](#get-account-balances)
-* [Get Account Details - `GET /v1/accounts/{:id}/details`](#get-account-details)
-* [Get Transfer History - `GET /v1/accounts/{:id}/transfer/list`](#get-transfer-history)
-* [Get Transfer Details - `GET /v1/accounts/transfers/{:id}/details`](#get-transfer-details)
-* [Delete Account - `DELETE /v1/accounts/{:id}/delete`](#delete-account)
+* [Submit New Account - `POST /accounts`](#post-account-create)
+* [Get Account list - `GET /accounts/list`](#get-account-list)
+* [Get Account Balances - `GET /accounts/{:id}/balances`](#get-account-balances)
+* [Get Account Details - `GET /accounts/{:id}/details`](#get-account-details)
+* [Get Transfer History - `GET /accounts/{:id}/transfer/list`](#get-transfer-history)
+* [Get Transfer Details - `GET /accounts/transfers/{:id}/details`](#get-transfer-details)
+* [Delete Account - `DELETE /accounts/{:id}/delete`](#delete-account)
 
 #### Payments ####
 
-* [Submit Payment - `POST /v1/payments`](#submit-payment)
-* [Confirm Payment - `GET /v1/payments/{:id}/confirm`](#confirm-payment)
-* [Get Payment History - `GET /v1/payments/history`](#get-payment-history)
-* [Get Payment Details - `GET /v1/payments/{:id}/details`](#get-payment-history)
-* [Post Payment Update - `POST /v1/payments/{:id}/update`](#post-payment-update)
-* [Cancel Payment  - `DELETE /v1/payments/{:id}/delete`](#delete-payment)
+* [Submit Payment - `POST /payments`](#submit-payment)
+* [Confirm Payment - `GET /payments/{:id}/confirm`](#confirm-payment)
+* [Get Payment History - `GET /payments/history`](#get-payment-history)
+* [Get Payment Details - `GET /payments/{:id}/details`](#get-payment-history)
+* [Post Payment Update - `POST /payments/{:id}/update`](#post-payment-update)
+* [Cancel Payment  - `DELETE /payments/{:id}/delete`](#delete-payment)
 
 #### Trades ####
 
-* [Submit Trade - `POST /v1/trades`](#Submit-trade)
-* [Cancel Trade - `DELETE /v1/trades/{:id}/delete`](#cancel-order)
-* [Get Trade Book - `GET /v1/trades/book`](#get-trade-book)
-* [Get Trade Details - `GET /v1/trades/{:id}/details`](#get-order-book)
-* [Get Order Transaction - `GET /v1/accounts{:address}/orders/{:hash}`](#get-order-transaction)
+* [Submit Trade - `POST /trades`](#Submit-trade)
+* [Cancel Trade - `DELETE /trades/{:id}/delete`](#cancel-order)
+* [Get Trade Book - `GET /trades/book`](#get-trade-book)
+* [Get Trade Details - `GET /trades/{:id}/details`](#get-order-book)
+* [Get Order Transaction - `GET /accounts{:address}/orders/{:hash}`](#get-order-transaction)
 
 #### Rates ####
 
-* [Get Rates - `GET /v1/rates`](#Submit-rates)
+* [Get Rates - `GET /rates`](#Submit-rates)
 
 #### Quotes ####
 
-* [Request Quote - `POST /v1/quotes`](#Submit-rates)
+* [Request Quote - `POST /quotes`](#Submit-rates)
 
 #### Notifications ####
 
-* [Get Notifications History - `GET /v1/notifications/history`](#get-notifications-history)
+* [Get Notifications History - `GET /notifications/history`](#get-notifications-history)
 
 #### Status ####
 
-* [Check Connection - `GET /v1/server/connected`](#check-connection)
-* [Get Server Status - `GET /v1/server`](#get-server-status)
+* [Check Connection - `GET /server/connected`](#check-connection)
+* [Get Server Status - `GET /server`](#get-server-status)
 
 
 ## API Overview ##
