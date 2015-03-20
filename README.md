@@ -76,12 +76,12 @@ Although the FX4Biz-REST API provides a high-level interface to FX4Biz, there ar
 
 Sending a payment involves two steps:
 
-1. Generate the payment object with the [Create Payment method](#CreatePayment). 
+1. Generate the payment object with the [Create Payment method](#post-account-create). 
 When you submit a payment to be scheduled, you assign a unique id to that payment. Thi is a string which uniquely identifies the payment, and ensures that you do not accidentally submit the same payment twice. You can also use the id of the payment to retrieve a payment once he has been submitted.
 -> Is it true?
 *Caution:* The payment created will be automatically rolled to the next closest working days if not confirmed in the scheduled date of operation.
 
-2. Confirm the payment to the API for processing, using the [Confirm Payment method](#ConfirmPayment). 
+2. Confirm the payment to the API for processing, using the [Confirm Payment method](#confirm-payment). 
 When you confirm a payment for processing, make sure you have sufficient funds in your wallet account balance. The funds transfer will be automatically locked-in if the wallet account balance is not sufficient. Make sure you always have enough funds on your ewallet.
 *Caution:* Payment submission is an asynchronous process, so payments can fail even after they have been submitted and confirmed successfully. 
 -> is it true?
