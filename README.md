@@ -1,19 +1,19 @@
-# FX4Biz-REST API #
+# FX4BIZ-REST API #
 
-The FX4Biz-REST API provides a simplified, easy-to-use interface to the FX4BIZ accounts & operations via a RESTful API. This page explains how to use the API to execute FX trades, send cross-boarder payments and monitoring accounts with FX4Biz.
+The FX4BIZ-REST API provides a simplified, easy-to-use interface to the FX4BIZ accounts & operations via a RESTful API. This page explains how to use the API to execute FX trades, send cross-boarder payments and monitoring accounts with FX4Biz.
 
-We recommend FX4Biz-REST for financial institutions just getting started with FX4Biz, since it provides high-level abstractions and convenient simplifications in the data format. 
+We recommend FX4BIZ-REST for financial institutions just getting started with FX4BIZ, since it provides high-level abstractions and convenient simplifications in the data format. 
 
 ## Available API Routes ##
 
 Our API is divided into sections based on different concepts in our system. Each section is made up of a series of calls.
 
-#### Authenticate ####
+#### [Authenticate](#authentications_services) ####
 
 * [Get User Login - `GET /login-user`](#get-login-user)
 * [Get End Session - `GET /end-session`](#get-end-session)
 
-#### Accounts ####
+#### [Accounts](#accounts_services) ####
 
 * [Submit New Account - `POST /accounts`](#post-account-create)
 * [Get Account list - `GET /accounts/list`](#get-account-list)
@@ -23,7 +23,7 @@ Our API is divided into sections based on different concepts in our system. Each
 * [Get Transfer Details - `GET /accounts/transfers/{:id}/details`](#get-transfer-details)
 * [Delete Account - `DELETE /accounts/{:id}/delete`](#delete-account)
 
-#### Payments ####
+#### [Payments](#payments_services) ####
 
 * [Submit Payment - `POST /payments`](#submit-payment)
 * [Confirm Payment - `GET /payments/{:id}/confirm`](#confirm-payment)
@@ -32,7 +32,7 @@ Our API is divided into sections based on different concepts in our system. Each
 * [Post Payment Update - `POST /payments/{:id}/update`](#post-payment-update)
 * [Cancel Payment  - `DELETE /payments/{:id}/delete`](#delete-payment)
 
-#### Trades ####
+#### [Trades](#trades_services) ####
 
 * [Submit Trade - `POST /trades`](#Submit-trade)
 * [Cancel Trade - `DELETE /trades/{:id}/delete`](#cancel-order)
@@ -40,11 +40,11 @@ Our API is divided into sections based on different concepts in our system. Each
 * [Get Trade Details - `GET /trades/{:id}/details`](#get-order-book)
 * [Get Order Transaction - `GET /accounts{:address}/orders/{:hash}`](#get-order-transaction)
 
-#### Rates ####
+#### [Rates](#rates_services) ####
 
 * [Get Rates - `GET /rates`](#Submit-rates)
 
-#### Quotes ####
+#### [Quotes](#quotes_services) ####
 
 * [Request Quote - `POST /quotes`](#Submit-rates)
 
@@ -57,6 +57,7 @@ Our API is divided into sections based on different concepts in our system. Each
 * [Check Connection - `GET /server/connected`](#check-connection)
 * [Get Server Status - `GET /server`](#get-server-status)
 
+#### [Objects List](#objects_list) ####
 
 ## API Overview ##
 
@@ -98,130 +99,13 @@ The FX4Biz-rest API supports online trading for the following contracts: TOD (Sa
 | GBP | 10:30 |
 | EUR | 16:00 |
 | USD | 16:30 |
-
+|-------|------|
 | Next day value Currencies (Times stated are for the day prior to the Value Date) | Cut Off Time |
 |-------|------|
 | AOA, ARS, BIF, BRL, CDF, CLP, COP, CRC, DJF, DOP, GHS, HNL, KES, MAD, NPR, PEN, PHP, RUB, TND, TRY, TZS, UGX, XOF/XAF | 10:00 |
 | AED, AUD, CAD, CZK, DKK, HKD, HUF, JPY, NOK, NZD, PLN, SEK, SGD, ZAR | 10:30 |
 
-# Formatting Conventions #
-
-The `FX4Biz-rest` API conforms to the following general behavior for [RESTful API](http://en.wikipedia.org/wiki/Representational_state_transfer):
-
-* You make HTTP (or HTTPS) requests to the API endpoint, indicating the desired resources within the URL itself. (The public server, for the sake of security, only accepts HTTPS requests.)
-* The HTTP method identifies what you are trying to do.  Generally, HTTP `GET` requests are used to retrieve information, while HTTP `POST` requests are used to make changes or submit information.
-* If more complicated information needs to be sent, it will be included as JSON-formatted data within the body of the HTTP POST request.
-  * This means that you must set `Content-Type: application/json` in the headers when sending POST requests with a body.
-* Upon successful completion, the server returns an [HTTP status code](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html) of 200 OK, and a `Content-Type` value of `application/json`.  The body of the response will be a JSON-formatted object containing the information returned by the endpoint.
-
-As an additional convention, all responses from FX4Biz-REST contain a `"success"` field with a boolean value indicating whether or not the success
-
-## Errors ##
-
-When errors occur, the server returns an HTTP status code in the 400-599 range, depending on the type of error. The body of the response contains more detailed information on the cause of the problem.
-
-In general, the HTTP status code is indicative of where the problem occurred:
-
-* Codes in the 200-299 range indicate success. 
-    * Unless otherwise specified, methods are expected to return `200 OK` on success.
-* Codes in the 400-499 range indicate that the request was invalid or incorrect somehow. For example:
-    * `400 Bad Request` occurs if the JSON body is malformed. This includes syntax errors as well as when invalid or mutually-exclusive options are selected.
-    * `404 Not Found` occurs if the path specified does not exist, or does not support that method (for example, trying to POST to a URL that only serves GET requests)
-* Codes in the 500-599 range indicate that the server experienced a problem. This could be due to a network outage or a bug in the software somewhere. For example:
-    * `500 Internal Server Error` occurs when the server does not catch an error. This is always a bug. If you can reproduce the error, file it at [our bug tracker in your FX4Biz platform](https://fx4bizplatform.com/login).
-    * `502 Bad Gateway` occurs if FX4Biz-REST could not contact its `FX4Biz` server at all.
-    * `504 Gateway Timeout` occurs if the `FX4Biz` server took too long to respond to the FX4Biz-REST server.
-
-When possible, the server provides a JSON response body with more information about the error. These responses contain the following fields:
-
-| Field | Type | Description |
-|-------|------|-------------|
-| success | Boolean | `false` indicates that an error occurred. |
-| error_type | String | A short code identifying a general category for the error that occurred. |
-| error | String | A human-readable summary of the error that occurred. |
-| message | String | (May be omitted) A longer human-readable explanation for the error. |
-
-Example error:
-
-```js
-{
-    "success": false,
-    "error_type": "invalidId",
-    "error": "Invalid parameter: IdAccount",
-    "message": "Your payment must have a counterparty"
-}
-```
-
-## Quoted Numbers ##
-
-In any case where a large number should be specified, FX4Biz-REST uses a string instead of the native JSON number type. This avoids problems with JSON libraries which might automatically convert numbers into native types with differing range and precision.
-
-You should parse these numbers into a numeric data type with adequate precision. If it is not clear how much precision you need, we recommend using an arbitrary-precision data type.
-
-## Amounts in JSON ##
-
-When an amount of currency is specified as part of a JSON body, it is encoded as an object with two fields:
-
-| Field | Type | Description |
-|-------|------|-------------|
-| value | String (Quoted decimal) | The quantity of the currency |
-| currency | String | Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying which currency. Alternatively, a 160-bit hex value. |
-
-Example Amount Object:
-
-```js
-{
-  "value": "10000.00",
-  "currency": "USD",
-}
-```
-
-## Rates in JSON ##
-
-When a rate is specified as part of a JSON body, it is encoded as an object with four fields:
-
-| Field | Type | Description |
-|-------|------|-------------|
-| mid_market | String (Quoted decimal) | The average rate of the market between the bid and the ask rate |
-| core | String (Quoted decimal) | The interbank rate provided by the FX partner of FX4BIZ |
-| applied | String (Quoted decimal) | The rate applied by FX4Biz for this transaction |
-| currency_pair | String | The cross of currency used for the rates provided |
-
-Example Rates Object:
-
-```js
-{
-  "mid_market": "1.1005",
-  "core": "1.1004",
-  "applied": "1.1002",
-  "currency_pair": "EURUSD",
-}
-```
-## Address in JSON ##
-
-When an address is specified as part of a JSON body, it is encoded as an object with four fields:
-
-| Field | Type | Description |
-|-------|------|-------------|
-| street | String | 1 My Road |
-| post_code | String | ZIP |
-| city | String | Miami |
-| state_or_province | String | FL |
-| country | String | US |
-
-Example Address Object:
-
-```js
-{
-  "street": "350 Avenue Louise",
-  "post_code": "1050",
-  "city": "Brussels",
-  "state_or_province": "Brussels capitale",
-  "Country": "Belgium"
-}
-```
-
-# <a id="authentification_object"></a> Authentification Objects #
+# <a id="authentications_services"></a> Authentification Services #
 
 ## <a id="get-login-user"></a> Login ##
 -> TBD
@@ -229,7 +113,7 @@ Example Address Object:
 ## <a id="get-end-session"></a> End session ##
 -> TBD
 
-# <a id="account_object"></a> Account Objects #
+# <a id="account_services"></a> Account Services #
 
 ## <a id="post-account-create"></a> Submit account ##
 
@@ -537,3 +421,120 @@ Response example:
 ```js
 -> TBD
 ```
+
+## Amounts in JSON ##
+
+When an amount of currency is specified as part of a JSON body, it is encoded as an object with two fields:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| value | String (Quoted decimal) | The quantity of the currency |
+| currency | String | Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying which currency. Alternatively, a 160-bit hex value. |
+
+Example Amount Object:
+
+```js
+{
+  "value": "10000.00",
+  "currency": "USD",
+}
+```
+
+## Rates in JSON ##
+
+When a rate is specified as part of a JSON body, it is encoded as an object with four fields:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| mid_market | String (Quoted decimal) | The average rate of the market between the bid and the ask rate |
+| core | String (Quoted decimal) | The interbank rate provided by the FX partner of FX4BIZ |
+| applied | String (Quoted decimal) | The rate applied by FX4Biz for this transaction |
+| currency_pair | String | The cross of currency used for the rates provided |
+
+Example Rates Object:
+
+```js
+{
+  "mid_market": "1.1005",
+  "core": "1.1004",
+  "applied": "1.1002",
+  "currency_pair": "EURUSD",
+}
+```
+## Address in JSON ##
+
+When an address is specified as part of a JSON body, it is encoded as an object with four fields:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| street | String | 1 My Road |
+| post_code | String | ZIP |
+| city | String | Miami |
+| state_or_province | String | FL |
+| country | String | US |
+
+Example Address Object:
+
+```js
+{
+  "street": "350 Avenue Louise",
+  "post_code": "1050",
+  "city": "Brussels",
+  "state_or_province": "Brussels capitale",
+  "Country": "Belgium"
+}
+```
+
+# Formatting Conventions #
+
+The `FX4Biz-rest` API conforms to the following general behavior for [RESTful API](http://en.wikipedia.org/wiki/Representational_state_transfer):
+
+* You make HTTP (or HTTPS) requests to the API endpoint, indicating the desired resources within the URL itself. (The public server, for the sake of security, only accepts HTTPS requests.)
+* The HTTP method identifies what you are trying to do.  Generally, HTTP `GET` requests are used to retrieve information, while HTTP `POST` requests are used to make changes or submit information.
+* If more complicated information needs to be sent, it will be included as JSON-formatted data within the body of the HTTP POST request.
+  * This means that you must set `Content-Type: application/json` in the headers when sending POST requests with a body.
+* Upon successful completion, the server returns an [HTTP status code](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html) of 200 OK, and a `Content-Type` value of `application/json`.  The body of the response will be a JSON-formatted object containing the information returned by the endpoint.
+
+As an additional convention, all responses from FX4Biz-REST contain a `"success"` field with a boolean value indicating whether or not the success
+
+## Errors ##
+
+When errors occur, the server returns an HTTP status code in the 400-599 range, depending on the type of error. The body of the response contains more detailed information on the cause of the problem.
+
+In general, the HTTP status code is indicative of where the problem occurred:
+
+* Codes in the 200-299 range indicate success. 
+    * Unless otherwise specified, methods are expected to return `200 OK` on success.
+* Codes in the 400-499 range indicate that the request was invalid or incorrect somehow. For example:
+    * `400 Bad Request` occurs if the JSON body is malformed. This includes syntax errors as well as when invalid or mutually-exclusive options are selected.
+    * `404 Not Found` occurs if the path specified does not exist, or does not support that method (for example, trying to POST to a URL that only serves GET requests)
+* Codes in the 500-599 range indicate that the server experienced a problem. This could be due to a network outage or a bug in the software somewhere. For example:
+    * `500 Internal Server Error` occurs when the server does not catch an error. This is always a bug. If you can reproduce the error, file it at [our bug tracker in your FX4Biz platform](https://fx4bizplatform.com/login).
+    * `502 Bad Gateway` occurs if FX4Biz-REST could not contact its `FX4Biz` server at all.
+    * `504 Gateway Timeout` occurs if the `FX4Biz` server took too long to respond to the FX4Biz-REST server.
+
+When possible, the server provides a JSON response body with more information about the error. These responses contain the following fields:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| success | Boolean | `false` indicates that an error occurred. |
+| error_type | String | A short code identifying a general category for the error that occurred. |
+| error | String | A human-readable summary of the error that occurred. |
+| message | String | (May be omitted) A longer human-readable explanation for the error. |
+
+Example error:
+
+```js
+{
+    "success": false,
+    "error_type": "invalidId",
+    "error": "Invalid parameter: IdAccount",
+    "message": "Your payment must have a counterparty"
+}
+```
+
+## Quoted Numbers ##
+
+In any case where a large number should be specified, FX4Biz-REST uses a string instead of the native JSON number type. This avoids problems with JSON libraries which might automatically convert numbers into native types with differing range and precision.
+
+You should parse these numbers into a numeric data type with adequate precision. If it is not clear how much precision you need, we recommend using an arbitrary-precision data type.
