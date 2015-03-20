@@ -93,13 +93,13 @@ FX4BIZ provide a deliverable FX facility and deliverable FX liquidity via the FX
 The FX4Biz-rest API supports online trading for the following contracts: TOD (Same-day settled for those currencies than can be), TOM (next-day settled), SPOT (T+2) and forward contracts up to one year. 
 
 | Same day value Currencies | Cut Off Time |
-|-------|------|
+|-----------------------------------------------------------------------------------------------------------------------|------|
 | CHF | 8:30 |
 | GBP | 10:30 |
 | EUR | 16:00 |
 | USD | 16:30 |
 
-| Next day value Currencies (Times stated are for the day prior to the Value Date | Cut Off Time |
+| Next day value Currencies (Times stated are for the day prior to the Value Date) | Cut Off Time |
 |-------|------|
 | AOA, ARS, BIF, BRL, CDF, CLP, COP, CRC, DJF, DOP, GHS, HNL, KES, MAD, NPR, PEN, PHP, RUB, TND, TRY, TZS, UGX, XOF/XAF | 10:00 |
 | AED, AUD, CAD, CZK, DKK, HKD, HUF, JPY, NOK, NZD, PLN, SEK, SGD, ZAR | 10:30 |
