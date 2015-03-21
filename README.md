@@ -13,7 +13,7 @@ Our API is divided into sections based on different concepts in our system. Each
 * [Get User Login - `GET /login-user`](#get-login-user)
 * [Get End Session - `GET /end-session`](#get-end-session)
 
-#### Accounts) ####
+#### Accounts ####
 
 * [Submit New Account - `POST /accounts`](#post-account-create)
 * [Retrieve Account list - `GET /accounts/list`](#get-account-list)
