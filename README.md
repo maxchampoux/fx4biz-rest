@@ -66,6 +66,11 @@ Our API is divided into sections based on different concepts in our system. Each
 * [Beneficiary Object](#beneficiary_object)
 * [Correspondent Bank Object](#correspondent_bank_object)
 
+#### Formatting Conventions ####
+
+* [Errors](#errors_conventions)
+* [Quoted numbers](#quoted_numbers)
+
 ## API Overview ##
 
 ### FX4Biz Concepts ###
@@ -590,7 +595,7 @@ The `FX4BIZ-rest` API conforms to the following general behavior for [RESTful AP
 
 As an additional convention, all responses from FX4Biz-REST contain a `"success"` field with a boolean value indicating whether or not the success
 
-## Errors ##
+## <a id="errors_conventions"></a>Errors ##
 
 When errors occur, the server returns an HTTP status code in the 400-599 range, depending on the type of error. The body of the response contains more detailed information on the cause of the problem.
 
@@ -626,7 +631,7 @@ Example error:
 }
 ```
 
-## Quoted Numbers ##
+## <a id="quoted_numbers"></a>Quoted Numbers ##
 
 In any case where a large number should be specified, FX4Biz-REST uses a string instead of the native JSON number type. This avoids problems with JSON libraries which might automatically convert numbers into native types with differing range and precision.
 
