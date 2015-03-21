@@ -60,8 +60,11 @@ Our API is divided into sections based on different concepts in our system. Each
 
 #### Objects List ####
 
-* [Address Object](#address_object)
 * [Account Object](#account_object)
+* [Address Object](#address_object)
+* [Beneficiary Bank Object](#beneficiary_bank_object)
+* [Beneficiary Object](#beneficiary_object)
+* [Correspondent Bank Object](#correspondent_bank_object)
 
 ## API Overview ##
 
@@ -162,7 +165,7 @@ Response example:
 
 ```js
 {
-    "accounts":[account_object]
+    "accounts":[(#account_object)]
 ```
 
 ## <a id="get-account-balances"></a> Get account balances ##
@@ -423,14 +426,47 @@ Response example:
 -> TBD
 ```
 
+## <a id="account_object"></a> Account Object ##
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `currency` | String | **Required.** Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying which currency. |
+| `reference` |  String |  |
+| `beneficiary` | [Beneficiary Object](#beneficiary_object) | **Required.** |
+| `number` | String | **Required.** |
+
+## <a id="address_object"></a> Address Object ##
+
+When an address is specified as part of a JSON body, it is encoded as an object with four fields:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `street` | String | 1 My Road |
+| `post_code` | String | ZIP |
+| `city` | String | Miami |
+| `state_or_province` | String | FL |
+| `country` | String | US |
+
+Example Address Object:
+
+```js
+{
+  "street": "350 Avenue Louise",
+  "post_code": "1050",
+  "city": "Bruxelles",
+  "state_or_province": "Bruxelles-Capitale",
+  "Country": "BE"
+}
+```
+
 ## <a id="amounts_object"></a> Amounts Object ##
 
 When an amount of currency is specified as part of a JSON body, it is encoded as an object with two fields:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| value | String (Quoted decimal) | The quantity of the currency |
-| currency | String | Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying which currency. Alternatively, a 160-bit hex value. |
+| `value`  | String (Quoted decimal) | The quantity of the currency |
+| `currency` | String | Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying which currency. Alternatively, a 160-bit hex value. |
 
 Example Amount Object:
 
@@ -441,19 +477,6 @@ Example Amount Object:
 }
 ```
 
-## <a id="address_object"></a> Address Object ##
-
-## <a id="account_object"></a> Account Object ##
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `currency` | String | **Required.** Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying which currency. |
-| `reference` |  String |  |
-| `beneficiary` | [Beneficiary Object](#beneficiary_object) | **Required.**  |
-| `holder_type` | [Beneficiary Account Object](#beneficiary_account_object) -> String |  |
-| `holder_address` | [Beneficiary Account Object](#beneficiary_account_object) -> [Address Object](#address_object) |  |
-| `number` | [Beneficiary Account Object](#beneficiary_account_object) -> String |  |
-
 ## <a id="beneficiary_bank_object"></a> Beneficiary Bank Object ##
 
 | Field | Type | Description |
@@ -462,7 +485,7 @@ Example Amount Object:
 | `clearing_type` | String | **Required if local format.** |
 | `clearing_code` | String | **Required if local format.** |
 | `name` | String | **Required if local format.** |
-| `address` | String | **Required if local format.** |
+| `address` | [Address Object](#address_object) | **Required if local format.** |
 
 Example Beneficiary Bank Object:
 
@@ -488,7 +511,7 @@ Example Beneficiary Bank Object:
 |-------|------|-------------|
 | `name` | String | **Required.** |
 | `type` | String | **Required.** |
-| `address` | String |  |
+| `address` | [Address Object](#address_object) |  |
 
 Example Beneficiary Object:
 
@@ -514,7 +537,7 @@ Example Beneficiary Object:
 | `clearing_type` | String |  |
 | `clearing_code` | String |  |
 | `name` | String |  |
-| `address` | String |  |
+| `address` | [Address Object](#address_object) |  |
 
 Example Correspondent Bank Object:
 
@@ -555,30 +578,6 @@ Example Rates Object:
   "currency_pair": "EURUSD",
 }
 ```
-## <a id="addresses_object"></a> Addresses Object ##
-
-When an address is specified as part of a JSON body, it is encoded as an object with four fields:
-
-| Field | Type | Description |
-|-------|------|-------------|
-| street | String | 1 My Road |
-| post_code | String | ZIP |
-| city | String | Miami |
-| state_or_province | String | FL |
-| country | String | US |
-
-Example Address Object:
-
-```js
-{
-  "street": "350 Avenue Louise",
-  "post_code": "1050",
-  "city": "Brussels",
-  "state_or_province": "Brussels capitale",
-  "Country": "Belgium"
-}
-```
-
 # Formatting Conventions #
 
 The `FX4BIZ-rest` API conforms to the following general behavior for [RESTful API](http://en.wikipedia.org/wiki/Representational_state_transfer):
