@@ -108,7 +108,7 @@ The FX4Biz-rest API supports online trading for the following contracts: TOD (Sa
 | AOA, ARS, BIF, BRL, CDF, CLP, COP, CRC, DJF, DOP, GHS, HNL, KES, MAD, NPR, PEN, PHP, RUB, TND, TRY, TZS, UGX, XOF/XAF | 10:00 |
 | AED, AUD, CAD, CZK, DKK, HKD, HUF, JPY, NOK, NZD, PLN, SEK, SGD, ZAR | 10:30 |
 
-# Authentification Services #
+# Authentication Services #
 
 ## <a id="get-login-user"></a> Login ##
 -> TBD
@@ -121,7 +121,7 @@ The FX4Biz-rest API supports online trading for the following contracts: TOD (Sa
 ## <a id="post-account-create"></a> Submit account ##
 
 ```
-POST /v1/accounts/submit
+POST /accounts/submit
 ```
 There are two kinds of accounts with FX4BIZ. What we call wallet account, which is account hold in the FX4Biz' book and external bank account, which is account hold in another bank.
 The API has been made in order to accept the local specification of cross-boarder payments.
@@ -139,45 +139,29 @@ The Api accepts the following formats of external bank accounts :
 | `Beneficiary Bank` | [Beneficiary Bank Object](#beneficiary_bank_object) | **Required.** |
 | `Account` | [Account Object](#account_object) | **Required.** |
 
-Optional parameters:
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `bic` | [Correspondent Bank Object](#correspondent_bank_object) -> String  |  |
-| `clearing_type` | [Beneficiary bank Object](#beneficiary_account_object) -> String  |  |
-| `clearing_code` | [Beneficiary bank Object](#beneficiary_account_object) -> String  |  |
-| `name` | [Beneficiary bank Object](#beneficiary_account_object) -> String |  |
-| `bank_address` | [Beneficiary bank Object](#beneficiary_account_object) -> [Address Object](#address_object) |  |
-
-#### Beneficiary bank connected to a local clearing network ####
-
-Required parameters:
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `bic` | [Correspondent Bank Object](#correspondent_bank_object) -> String |  |
-| `clearing_type` | [Beneficiary bank Object](#beneficiary_account_object) -> String |  |
-| `clearing_code` | [Beneficiary bank Object](#beneficiary_account_object) -> String |  |
-| `name` | [Beneficiary bank Object](#beneficiary_account_object) -> String |  |
-| `bank_address` | [Beneficiary bank Object](#beneficiary_account_object) -> [Address Object](#address_object) |  |
-| `currency` | [Beneficiary Account Object](#beneficiary_account_object) -> String | Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying which currency. |
-| `reference` | [Beneficiary Account Object](#beneficiary_account_object) -> String |  |
-| `holder_name` | [Beneficiary Account Object](#beneficiary_account_object) -> String |  |
-| `holder_type` | [Beneficiary Account Object](#beneficiary_account_object) -> String |  |
-| `holder_address` | [Beneficiary Account Object](#beneficiary_account_object) -> [Address Object](#address_object) |  |
-| `number` | [Beneficiary Account Object](#beneficiary_account_object) -> String |  |
-
-## <a id="get-accounts-list"></a> Get accounts list ##
-
-```
-GET /v1/accounts/list
-```
-Request the list of accounts hold in the FX4Biz books.
-
 Response example:
 
 ```js
 -> TBD
+```
+
+## <a id="get-accounts-list"></a> Get accounts list ##
+
+```
+GET /accounts/list
+```
+Retrieve the list of accounts referenced in the FX4Biz books.
+If you only want to retrieve the list of wallets accounts, you have to sort the list with account type.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `Account` | [Account Object](#account_object) | **Required.** |
+
+Response example:
+
+```js
+{
+    "accounts":[account_object]
 ```
 
 ## <a id="get-account-balances"></a> Get account balances ##
@@ -185,7 +169,9 @@ Response example:
 ```
 GET /v1/accounts/{:id}/balance
 ```
-Retrieve the balance of an account hold in the FX4Biz books (i.e. Wallet account balance)
+Retrieve the balance of a wallet account hold in the FX4Biz books.
+It is not possible to retrieve the balance of an external account. If the id given in the url parameters do not match with one of your wallet account, the json response will be an error.
+It is possible to retrieve the balance of a wallet account on a specific date. You have to mention the closing date to retrieve the balance of you wallet on a past date.
 
 Url parameters:
 
@@ -197,7 +183,7 @@ Optional parameters:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `statement_date` | Date | YYYY-MM-DD In the response you will have the closing balance of the account at this date. |
+| `date` | Date Object](#date_object) | YYYY-MM-DD |
 
 Response example:
 
