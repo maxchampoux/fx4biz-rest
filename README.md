@@ -16,11 +16,12 @@ Our API is divided into sections based on different concepts in our system. Each
 #### Accounts) ####
 
 * [Submit New Account - `POST /accounts`](#post-account-create)
-* [Get Account list - `GET /accounts/list`](#get-account-list)
-* [Get Account Balances - `GET /accounts/{:id}/balances`](#get-account-balances)
-* [Get Account Details - `GET /accounts/{:id}/details`](#get-account-details)
-* [Get Transfer History - `GET /accounts/{:id}/transfer/list`](#get-transfer-history)
-* [Get Transfer Details - `GET /accounts/transfers/{:id}/details`](#get-transfer-details)
+* [Retrieve Account list - `GET /accounts/list`](#get-account-list)
+* [Retrieve Account Balances - `GET /accounts/{:id}/balances`](#get-account-balances)
+* [Retrieve Account Details - `GET /accounts/{:id}/details`](#get-account-details)
+* [Update Account Details - `PUT /accounts/{:id}/details`](#put-account-details)
+* [Retrieve Transfer History - `GET /accounts/{:id}/transfer/list`](#get-transfer-history)
+* [Retrieve Transfer Details - `GET /accounts/transfers/{:id}/details`](#get-transfer-details)
 * [Delete Account - `DELETE /accounts/{:id}/delete`](#delete-account)
 
 #### Payments ####
@@ -29,7 +30,7 @@ Our API is divided into sections based on different concepts in our system. Each
 * [Confirm Payment - `GET /payments/{:id}/confirm`](#confirm-payment)
 * [Get Payment History - `GET /payments/history`](#get-payment-history)
 * [Get Payment Details - `GET /payments/{:id}/details`](#get-payment-history)
-* [Post Payment Update - `POST /payments/{:id}/update`](#post-payment-update)
+* [Post Payment Update - `POST /payments/{:id}/update`](#put-payment-update)
 * [Cancel Payment  - `DELETE /payments/{:id}/delete`](#delete-payment)
 
 #### Trades ####
@@ -199,10 +200,10 @@ Response example:
 }
 ```
 
-## <a id="get-account-details"></a> Get account details ##
+## <a id="get-account-details"></a> Retrieve account details ##
 
 ```
-GET /v1/accounts/{:id}/details
+GET /accounts/{:id}/details
 ```
 Retrieve bank details & information on an account.
 
@@ -270,10 +271,29 @@ Response example:
 }
 ```
 
+## <a id="put-account-details"></a> Update account details ##
+
+```
+PUT /accounts/{:id}/details
+```
+Update information on an account or modify beneficiary bank or correspondent bank related to this one. 
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `Correspondent Bank` | [Correspondent Bank Object](#correspondent_account_object) |  |
+| `Beneficiary Bank` | [Beneficiary Bank Object](#beneficiary_bank_object) | **Required.** |
+| `Account` | [Account Object](#account_object) | **Required.** |
+
+Response example:
+
+```js
+-> TBD
+```
+
 ## <a id="get-transfer-history"></a> Get transfer history ##
 
 ```
-GET /v1/accounts/wallets/{:id}/transfers/history
+GET /accounts/{:id}/transfers/history
 ```
 Request the list of transfers that has been received or sent on a particular wallet account at a specific period of time.
 
@@ -444,6 +464,24 @@ Example Amount Object:
 | `name` | String | **Required if local format.** |
 | `address` | String | **Required if local format.** |
 
+Example Beneficiary Bank Object:
+
+```js
+{
+  "bic": "CHASUS33",
+  "clearing_type": "FW",
+  "clearing_code": "021000021",
+  "name": "JPMORGAN CHASE BANK, N.A.",
+  "address": {
+      "street": "4 NEW YORK PLAZA, FLOOR 15",
+      "post_code": "10004",
+      "city": "NEW YORK",
+      "state_or_province": "NY",
+      "Country": "US"
+  }
+}
+```
+
 ## <a id="beneficiary_object"></a> Beneficiary Object ##
 
 | Field | Type | Description |
@@ -451,6 +489,22 @@ Example Amount Object:
 | `name` | String | **Required.** |
 | `type` | String | **Required.** |
 | `address` | String |  |
+
+Example Beneficiary Object:
+
+```js
+{
+  "name": "John Doe",
+  "name": "Individual",
+  "address": {
+      "street": "350 Avenue Louise",
+      "post_code": "1050",
+      "city": "Bruxelles",
+      "state_or_province": "Bruxelles-Capitale",
+      "Country": "BE"
+  }
+}
+```
 
 ## <a id="correspondent_bank_object"></a> Correspondent Bank Object ##
 
@@ -461,6 +515,24 @@ Example Amount Object:
 | `clearing_code` | String |  |
 | `name` | String |  |
 | `address` | String |  |
+
+Example Correspondent Bank Object:
+
+```js
+{
+  "bic": "CHASUS33",
+  "clearing_type": "FW",
+  "clearing_code": "021000021",
+  "name": "JPMORGAN CHASE BANK, N.A.",
+  "address": {
+      "street": "4 NEW YORK PLAZA, FLOOR 15",
+      "post_code": "10004",
+      "city": "NEW YORK",
+      "state_or_province": "NY",
+      "Country": "US"
+  }
+}
+```
 
 ## <a id="rates_object"></a> Rates Object ##
 
@@ -509,7 +581,7 @@ Example Address Object:
 
 # Formatting Conventions #
 
-The `FX4Biz-rest` API conforms to the following general behavior for [RESTful API](http://en.wikipedia.org/wiki/Representational_state_transfer):
+The `FX4BIZ-rest` API conforms to the following general behavior for [RESTful API](http://en.wikipedia.org/wiki/Representational_state_transfer):
 
 * You make HTTP (or HTTPS) requests to the API endpoint, indicating the desired resources within the URL itself. (The public server, for the sake of security, only accepts HTTPS requests.)
 * The HTTP method identifies what you are trying to do.  Generally, HTTP `GET` requests are used to retrieve information, while HTTP `POST` requests are used to make changes or submit information.
