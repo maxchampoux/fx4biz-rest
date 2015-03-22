@@ -73,17 +73,17 @@ Our API is divided into sections based on different concepts in our system. Each
 
 ## API Overview ##
 
-### FX4Biz Concepts ###
+### FX4BIZ Concepts ###
 
-FX4Biz is a payment institution for FX transactions and cross-boarder payment. You can use FX4Biz to hold accounts, in any currency, at no cost, make real time FX trades & send money anywhere in the world.
+FX4BIZ is a payment institution for FX transactions and cross-boarder payment. You can use FX4BIZ to hold accounts, in any currency, at no cost, make real time FX trades & send money anywhere in the world.
 
-A FX4Biz payment can be sent using FX4Biz' wallet account, directly from one account to another, at no cost.  Payments can also be sent in external bank accounts, prealably referenced in the platform.
+A FX4BIZ payment can be sent using FX4BIZ wallet account, directly from one account to another, at no cost.  Payments can also be sent in external bank accounts, prealably referenced in the platform.
 
-Payments are made between two accounts, by specifying the #id destination accounts of the funds. FX4Biz will automatically debit the wallet account in the currency at the date specified in the payments instructions. If no date is specified we will debit the wallet account in the payment currency at the closest operation date available. A payment also involves an amount to be transferred.
+Payments are made between two accounts, by specifying the #id destination accounts of the funds. FX4BIZ will automatically debit the wallet account in the currency at the date specified in the payments instructions. If no date is specified we will debit the wallet account in the payment currency at the closest operation date available. A payment also involves an amount to be transferred.
 
-FX trades are made between two wallet accounts. FX4Biz will automatically debit the source wallet account and credit the destination wallet account at the date specified in the FX trade instructions. If no date is specified, we will execute the operation at the closest tradable date available. A FX trades also involves an amount, which includes both the numeric amount and the currency in order to define is this amount is to be buy or sell, for example: '100000.00+GBP'.
+FX trades are made between two wallet accounts. FX4BIZ will automatically debit the source wallet account and credit the destination wallet account at the date specified in the FX trade instructions. If no date is specified, we will execute the operation at the closest tradable date available. A FX trades also involves an amount, which includes both the numeric amount and the currency in order to define is this amount is to be buy or sell, for example: '100000.00+GBP'.
 
-Although the FX4Biz-REST API provides a high-level interface to FX4Biz, there are also API methods for monitoring your wallet account balance & transfer informations of received or sent payments on those accounts. 
+Although the FX4BIZ-REST API provides a high-level interface to FX4Biz, there are also API methods for monitoring your wallet account balance & transfer informations of received or sent payments on those accounts. 
 
 ### Sending Payments ###
 
@@ -327,7 +327,7 @@ Response example:
 ## <a id="get-transfer-details"></a> Retrieve transfer details ##
 
 ```
-GET v1/accounts/wallets/transfers/{:id}/details
+GET accounts/transfers/{:id}/details
 ```
 Request information on a particular transfer that has been credited or debited to a wallet.
 
@@ -346,7 +346,7 @@ Response example:
 ## <a id="delete-account"></a> Delete account ##
 
 ```
-DELETE v1/accounts/{:id}
+DELETE accounts/{:id}
 ```
 Delete an account.
 
@@ -395,7 +395,7 @@ An example Payment object looks like this:
 ## <a id="submit-payment"></a> Submitting a payment ##
 
 ```
-POST /v1/payments
+POST /payments
 ```
 -> TBD
 
@@ -415,7 +415,7 @@ Response example:
 ## <a id="confirm-payment"></a> Confirm a payment ##
 
 ```
-POST /v1/payments/{:id}/confirm
+POST /payments/{:id}/confirm
 ```
 -> TBD
 
