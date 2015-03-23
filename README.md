@@ -16,18 +16,18 @@ Our API is divided into sections based on different concepts in our system. Each
 #### Accounts ####
 
 * [Submit New Account - `POST /accounts`](#post-account-create)
-* [Retrieve Account list - `GET /accounts/list`](#get-account-list)
-* [Retrieve Account Balances - `GET /accounts/{:id}/balances`](#get-account-balances)
-* [Retrieve Account Details - `GET /accounts/{:id}/details`](#get-account-details)
-* [Update Account Details - `PUT /accounts/{:id}/details`](#put-account-details)
-* [Retrieve Transfer History - `GET /accounts/{:id}/transfer/list`](#get-transfer-history)
-* [Retrieve Transfer Details - `GET /accounts/transfers/{:id}/details`](#get-transfer-details)
-* [Delete Account - `DELETE /accounts/{:id}/delete`](#delete-account)
+* [Retrieve Account list - `GET /accounts`](#get-account-list)
+* [Retrieve Account Balance - `GET /account/{:id}/balance`](#get-account-balance)
+* [Retrieve Account Details - `GET /account/{:id}/details`](#get-account-details)
+* [Update Account Details - `PUT /account/{:id}/details`](#put-account-details)
+* [Retrieve Transfer History - `GET /transfers`](#get-transfer-history)
+* [Retrieve Transfer Details - `GET /transfer/{:id}`](#get-transfer-details)
+* [Delete Account - `DELETE /account/{:id}/delete`](#delete-account)
 
 #### Payments ####
 
 * [Submit Payment - `POST /payments`](#submit-payment)
-* [Confirm Payment - `GET /payments/{:id}/confirm`](#confirm-payment)
+* [Confirm Payment - `PUT /payments/{:id}/confirm`](#confirm-payment)
 * [Get Payment History - `GET /payments/history`](#get-payment-history)
 * [Get Payment Details - `GET /payments/{:id}/details`](#get-payment-history)
 * [Update Payment Details - `PUT /payments/{:id}/details`](#put-payment-details)
@@ -35,28 +35,13 @@ Our API is divided into sections based on different concepts in our system. Each
 
 #### Trades ####
 
+* [Get Rates - `GET /rates`](#Submit-rates)
+* [Request Quote - `POST /quotes`](#Submit-rates)
 * [Submit Trade - `POST /trades`](#Submit-trade)
 * [Cancel Trade - `DELETE /trades/{:id}/delete`](#cancel-order)
 * [Get Trade Book - `GET /trades/book`](#get-trade-book)
 * [Get Trade Details - `GET /trades/{:id}/details`](#get-order-book)
 * [Get Order Transaction - `GET /accounts{:address}/orders/{:hash}`](#get-order-transaction)
-
-#### Rates ####
-
-* [Get Rates - `GET /rates`](#Submit-rates)
-
-#### Quotes ####
-
-* [Request Quote - `POST /quotes`](#Submit-rates)
-
-#### Notifications ####
-
-* [Get Notifications History - `GET /notifications/history`](#get-notifications-history)
-
-#### Status ####
-
-* [Check Connection - `GET /server/connected`](#check-connection)
-* [Get Server Status - `GET /server`](#get-server-status)
 
 #### Objects List ####
 
@@ -125,12 +110,70 @@ The FX4Biz-rest API supports online trading for the following contracts: TOD (Sa
 
 # <a id="account_services"></a> Account Services #
 
+There are two kinds of accounts with FX4BIZ. What we call wallet account, which is account hold in the FX4Biz' book and external bank account, which is account hold in another bank.
+
+An example `Account` object looks like this:
+```js
+{
+    "id": "xxx"
+    "status": "active",
+    "type": "wallet",
+    "createdDate"= "2014-01-12T00:00:00+00:00",
+    "CreatedBy"= "API",
+    "Reference": "Sample account name",
+    "CorrespondantBank":{
+        "Bic": "CHASUS33",
+        "Clearing" : {
+            "Type": "FW",
+            "Code": "1234567",
+        },
+        "Name": "JP MORGAN CHASE",
+        "Address": {
+            "Street": "1 My Road",
+            "PostCode": "ZIP",
+            "CityName": "London",
+            "StateOrProvince": "",
+            "Country"; "UK",
+        }
+    },
+    "BeneficiaryBank": {
+        "Bic": "CHASUS33",
+        "Clearing" : {
+            "Type": "FW",
+            "Code": "1234567",
+        },
+        "Name": "JP MORGAN CHASE",
+        "Address": {
+            "Street": "1 My Road",
+            "PostCode": "ZIP",
+            "CityName": "London",
+            "StateOrProvince": "",
+            "Country"; "UK",
+        }
+    },
+    "Beneficiary": {
+        "AccountCurrency": "....",
+        "AccountHolder": {
+            "Name": "....",
+            "Address": {
+                "Street": "1 My Road",
+                "PostCode": "ZIP",
+                "CityName": "London",
+                "StateOrProvince": "",
+                "Country"; "UK",
+            }
+        }
+        "AccountNumber": "....",
+    }
+}
+```
+
 ## <a id="post-account-create"></a> Submit account ##
 
 ```
 POST /accounts/submit
 ```
-There are two kinds of accounts with FX4BIZ. What we call wallet account, which is account hold in the FX4Biz' book and external bank account, which is account hold in another bank.
+
 The API has been made in order to accept the local specification of cross-boarder payments.
 
 The Api accepts the following formats of external bank accounts :
@@ -215,61 +258,7 @@ Url parameters:
 
 Response example:
 
-```js
-{
-  "id": "xxx"
-  "status": "active",
-  "CreatedDate"= "2014-01-12T00:00:00+00:00",
-		"CreatedBy"= "API",
-		"Reference": "Sample account name",
-		"Type": "External account",
-		"CorrespondantBank":{
-			  "Bic": "CHASUS33",
-			  "Clearing" : {
-				 "Type": "FW",
-				 "Code": "1234567",
-			},
-			"Name": "JP MORGAN CHASE",
-			"Address": {
-				  "Street": "1 My Road",
-				  "PostCode": "ZIP",
-				  "CityName": "London",
-				  "StateOrProvince": "",
-				  "Country"; "UK",
-			}
-		},
-		"BeneficiaryBank": {
-			"Bic": "CHASUS33",
-			"Clearing" : {
-				"Type": "FW",
-				"Code": "1234567",
-			},
-			"Name": "JP MORGAN CHASE",
-			"Address": {
-				"Street": "1 My Road",
-				"PostCode": "ZIP",
-				"CityName": "London",
-				"StateOrProvince": "",
-				"Country"; "UK",
-			}
-		},
-		"Beneficiary": {
-			"AccountCurrency": "....",
-			"AccountHolder": {
-				"Name": "....",
-				"Address": {
-					"Street": "1 My Road",
-					"PostCode": "ZIP",
-					"CityName": "London",
-					"StateOrProvince": "",
-					"Country"; "UK",
-				}
-			}
-			"AccountNumber": "....",
-		},
-	 }
-}
-```
+
 
 ## <a id="put-account-details"></a> Update account details ##
 
@@ -293,7 +282,7 @@ Response example:
 ## <a id="get-transfer-history"></a> Get transfer history ##
 
 ```
-GET /accounts/{:id}/transfers/history
+GET /transfers/history
 ```
 Request the list of transfers that has been received or sent on a particular wallet account at a specific period of time.
 
@@ -310,16 +299,10 @@ optional parameters:
 | `from_date` | Date | YYYY-MM-DD |
 | `to_date` | Date | YYYY-MM-DD |
 
-Response example:
-
-```js
--> TBD
-```
-
 ## <a id="get-transfer-details"></a> Retrieve transfer details ##
 
 ```
-GET accounts/transfers/{:id}/details
+GET /transfers/{:id}/details
 ```
 Request information on a particular transfer that has been credited or debited to a wallet.
 
@@ -328,12 +311,6 @@ Url parameters:
 | Field | Type | Description |
 |-------|------|-------------|
 | `id` | String | xxx |
-
-Response example:
-
-```js
--> TBD
-```
 
 ## <a id="delete-account"></a> Delete account ##
 
@@ -406,7 +383,7 @@ Response example:
 ## <a id="confirm-payment"></a> Confirm a payment ##
 
 ```
-POST /payments/{:id}/confirm
+PUT /payments/{:id}/confirm
 ```
 Payments that has been scheduled must be confirmed in order to be release. If the payment is not confirmed on scheduled date of operation, it will be postponed to the next operation date available.
 
