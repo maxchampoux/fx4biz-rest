@@ -30,7 +30,7 @@ Our API is divided into sections based on different concepts in our system. Each
 * [Confirm Payment - `GET /payments/{:id}/confirm`](#confirm-payment)
 * [Get Payment History - `GET /payments/history`](#get-payment-history)
 * [Get Payment Details - `GET /payments/{:id}/details`](#get-payment-history)
-* [Post Payment Update - `POST /payments/{:id}/update`](#put-payment-update)
+* [Update Payment Details - `PUT /payments/{:id}/details`](#put-payment-details)
 * [Cancel Payment  - `DELETE /payments/{:id}/delete`](#delete-payment)
 
 #### Trades ####
@@ -90,14 +90,12 @@ Although the FX4BIZ-REST API provides a high-level interface to FX4Biz, there ar
 Sending a payment involves two steps:
 
 1. Generate the payment object with the [Create Payment method](#post-account-create). 
-When you submit a payment to be scheduled, you assign a unique id to that payment. Thi is a string which uniquely identifies the payment, and ensures that you do not accidentally submit the same payment twice. You can also use the id of the payment to retrieve a payment once he has been submitted.
--> Is it true?
+When you submit a payment to be scheduled, you assign a unique id to that payment. 
 *Caution:* The payment created will be automatically rolled to the next closest working days if not confirmed in the scheduled date of operation.
 
 2. Confirm the payment to the API for processing, using the [Confirm Payment method](#confirm-payment). 
-When you confirm a payment for processing, make sure you have sufficient funds in your wallet account balance. The funds transfer will be automatically locked-in if the wallet account balance is not sufficient. Make sure you always have enough funds on your ewallet.
+When you confirm a payment for processing, make sure you have sufficient funds in your wallet account balance. The funds transfer will be automatically locked-in if the wallet account balance is not sufficient. Make sure you always have enough funds on your wallet.
 *Caution:* Payment submission is an asynchronous process, so payments can fail even after they have been submitted and confirmed successfully. 
--> is it true?
 
 ### Placing Trades ###
 
@@ -144,15 +142,9 @@ The Api accepts the following formats of external bank accounts :
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `Correspondent Bank` | [Correspondent Bank Object](#correspondent_account_object) |  |
-| `Beneficiary Bank` | [Beneficiary Bank Object](#beneficiary_bank_object) | **Required.** |
-| `Account` | [Account Object](#account_object) | **Required.** |
-
-Response example:
-
-```js
--> TBD
-```
+| `correspondent Bank` | [Correspondent Bank Object](#correspondent_account_object) | The intermediary bank details.  |
+| `beneficiary Bank` | [Beneficiary Bank Object](#beneficiary_bank_object) | **Required.** The recipient bank details. |
+| `account` | [Account Object](#account_object) | **Required.** The recipient account details. |
 
 ## <a id="get-accounts-list"></a> Get accounts list ##
 
@@ -164,19 +156,19 @@ If you only want to retrieve the list of wallets accounts, you have to sort the 
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `Account` | [Account Object](#account_object) | **Required.** |
+| `account` | [Account Object](#account_object) | **Required.** The recipient account details. |
 
 Response example:
 
 ```js
 {
-    "accounts":[(#account_object)]
+    "accounts":[(account_object)]
 ```
 
 ## <a id="get-account-balances"></a> Get account balances ##
 
 ```
-GET /v1/accounts/{:id}/balance
+GET /accounts/{:id}/balance
 ```
 Retrieve the balance of a wallet account hold in the FX4Biz books.
 It is not possible to retrieve the balance of an external account. If the id given in the url parameters do not match with one of your wallet account, the json response will be an error.
@@ -192,7 +184,7 @@ Optional parameters:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `date` | Date Object](#date_object) | YYYY-MM-DD |
+| `date` | [Date Object](#date_object) | YYYY-MM-DD |
 
 Response example:
 
@@ -288,9 +280,9 @@ Update information on an account or modify beneficiary bank or correspondent ban
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `Correspondent Bank` | [Correspondent Bank Object](#correspondent_account_object) |  |
-| `Beneficiary Bank` | [Beneficiary Bank Object](#beneficiary_bank_object) | **Required.** |
-| `Account` | [Account Object](#account_object) | **Required.** |
+| `Correspondent Bank` | [Correspondent Bank Object](#correspondent_account_object) | The intermediary bank details. |
+| `Beneficiary Bank` | [Beneficiary Bank Object](#beneficiary_bank_object) | **Required.** The recipient bank details. |
+| `Account` | [Account Object](#account_object) | **Required.** The recipient account details. |
 
 Response example:
 
@@ -366,7 +358,7 @@ Response example:
 
 This `Payment` format is intended to be straightforward to create and parse, from strongly or loosely typed programming languages. Once a transaction is processed and validated it also includes information about the final details of the payment.
 
-An example Payment object looks like this:
+An example `Payment` object looks like this:
 
 ```js
 {
@@ -397,14 +389,13 @@ An example Payment object looks like this:
 ```
 POST /payments
 ```
--> TBD
+Use this path in order to schedule a new payment.
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `id` | [Account Object](#account_object) |
-| `source_id` | String | The FX4Biz id of the account sending the payment |
+| `id` | [Account Object](#account_object) | **Required.** Recipient account of the beneficiary. |
 | `destination_id` | String | The FX4Biz id of the account receiving the payment |
-| `amount` | [Amount Object](#amount_object) | The amount to deduct from the account sending the payment and that should be deposited into the account receiving the payment. |
+| `amount` | [Amount Object](#amount_object) | The nominal amount to be transfered. |
 
 Response example:
 
@@ -417,7 +408,7 @@ Response example:
 ```
 POST /payments/{:id}/confirm
 ```
--> TBD
+Payments that has been scheduled must be confirmed in order to be release. If the payment is not confirmed on scheduled date of operation, it will be postponed to the next operation date available.
 
 Url parameters:
 
@@ -446,11 +437,11 @@ When an address is specified as part of a JSON body, it is encoded as an object 
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `street` | String | 1 My Road |
-| `post_code` | String | ZIP |
-| `city` | String | Miami |
-| `state_or_province` | String | FL |
-| `country` | String | US |
+| `street` | String | 350 Avenue Louise |
+| `post_code` | String | 1050 |
+| `city` | String | Bruxelles |
+| `state_or_province` | String | Bruxelles-Capitale |
+| `country` | String | BE |
 
 Example Address Object:
 
@@ -470,7 +461,7 @@ When an amount of currency is specified as part of a JSON body, it is encoded as
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `value`  | String (Quoted decimal) | The quantity of the currency |
+| `value`  | String (Quoted decimal) | The quantity of the currency. |
 | `currency` | String | Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying which currency. Alternatively, a 160-bit hex value. |
 
 Example Amount Object:
@@ -486,7 +477,7 @@ Example Amount Object:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `bic` | String | **Required if swift format.** |
+| bic | String | **Required if swift format.** Eight or eleve-digit [ISO 9362 Business Identifier Code](http://en.wikipedia.org/wiki/ISO_9362) specifying the Recipient Bank: `CHASUS33XXX` |
 | `clearing_type` | String | **Required if local format.** |
 | `clearing_code` | String | **Required if local format.** |
 | `name` | String | **Required if local format.** |
