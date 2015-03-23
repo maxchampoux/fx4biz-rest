@@ -84,7 +84,7 @@ When you confirm a payment for processing, make sure you have sufficient funds i
 
 ### Placing Trades ###
 
-FX4BIZ provide a deliverable FX facility and deliverable FX liquidity via the FX4Biz-rest API. You will become counterparty to FX4BIZ and can market and sell deliverable FX services to corporate and private clients as well as using such services on their behalf.
+FX4BIZ provides a deliverable FX facility and deliverable FX liquidity via the FX4Biz-rest API. You will become counterparty to FX4BIZ and can market and sell deliverable FX services to corporate and private clients as well as using such services on their behalf.
 
 The FX4Biz-rest API supports online trading for the following contracts: TOD (Same-day settled for those currencies than can be), TOM (next-day settled), SPOT (T+2) and forward contracts up to one year. 
 
@@ -112,49 +112,40 @@ The FX4Biz-rest API supports online trading for the following contracts: TOD (Sa
 
 There are two kinds of accounts with FX4BIZ. What we call wallet account, which is account hold in the FX4Biz' book and external bank account, which is account hold in another bank.
 
-An example `Account` object looks like this:
+As an example, a response for `GET /Account/{:id}/details` object looks like this:
 ```js
 {
     "id": "xxx"
     "status": "active",
     "type": "wallet",
-    "createdDate"= "2014-01-12T00:00:00+00:00",
-    "CreatedBy"= "API",
-    "Reference": "Sample account name",
+    "createdDate": "2014-01-12T00:00:00+00:00",
+    "CreatedBy": "api",
+    "Reference": "Sample wallet account EUR",
     "CorrespondantBank":{
-        "Bic": "CHASUS33",
-        "Clearing" : {
-            "Type": "FW",
-            "Code": "1234567",
-        },
-        "Name": "JP MORGAN CHASE",
+        "Bic": "AGRIFRPP",
+        "Name": "CREDIT AGRICOLE SA",
         "Address": {
-            "Street": "1 My Road",
-            "PostCode": "ZIP",
-            "CityName": "London",
-            "StateOrProvince": "",
-            "Country"; "UK",
+            "Street": "BUILDING PASTEUR, BLOC 1: 91-93, BOULEVARD PASTEUR",
+            "PostCode": "75015",
+            "CityName": "Paris",
+            "Country"; "FRANCE",
         }
     },
     "BeneficiaryBank": {
-        "Bic": "CHASUS33",
-        "Clearing" : {
-            "Type": "FW",
-            "Code": "1234567",
-        },
-        "Name": "JP MORGAN CHASE",
+        "Bic": "FXBBBEBB",
+        "Name": "FX4BIZ SA",
         "Address": {
-            "Street": "1 My Road",
-            "PostCode": "ZIP",
-            "CityName": "London",
-            "StateOrProvince": "",
-            "Country"; "UK",
+            "Street": "Avenue Louise, 350",
+            "PostCode": "1050",
+            "CityName": "Bruxelles",
+            "StateOrProvince": "Bruxelles-Capitale",
+            "Country"; "FR",
         }
     },
-    "Beneficiary": {
-        "AccountCurrency": "....",
-        "AccountHolder": {
-            "Name": "....",
+    "Account": {
+        "AccountCurrency": "EUR",
+        "Beneficiary": {
+            "Name": "John Doe",
             "Address": {
                 "Street": "1 My Road",
                 "PostCode": "ZIP",
@@ -163,7 +154,7 @@ An example `Account` object looks like this:
                 "Country"; "UK",
             }
         }
-        "AccountNumber": "....",
+        "AccountNumber": "xxx4548",
     }
 }
 ```
@@ -173,7 +164,6 @@ An example `Account` object looks like this:
 ```
 POST /accounts/submit
 ```
-
 The API has been made in order to accept the local specification of cross-boarder payments.
 
 The Api accepts the following formats of external bank accounts :
@@ -195,18 +185,11 @@ The Api accepts the following formats of external bank accounts :
 GET /accounts/list
 ```
 Retrieve the list of accounts referenced in the FX4Biz books.
-If you only want to retrieve the list of wallets accounts, you have to sort the list with account type.
+If you only want to retrieve the list of wallets accounts, you have to sort the list by `wallet` types.
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `account` | [Account Object](#account_object) | **Required.** The recipient account details. |
-
-Response example:
-
-```js
-{
-    "accounts":[(account_object)]
-```
+| type | String | Sort the list by types. `wallet` |
 
 ## <a id="get-account-balances"></a> Get account balances ##
 
@@ -217,48 +200,19 @@ Retrieve the balance of a wallet account hold in the FX4Biz books.
 It is not possible to retrieve the balance of an external account. If the id given in the url parameters do not match with one of your wallet account, the json response will be an error.
 It is possible to retrieve the balance of a wallet account on a specific date. You have to mention the closing date to retrieve the balance of you wallet on a past date.
 
-Url parameters:
+Parameters:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `id` | String | xxx |
+| date | Date | `YYYY-MM-DD` |
 
-Optional parameters:
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `date` | [Date Object](#date_object) | YYYY-MM-DD |
-
-Response example:
-
-```js
-{
-  "id": "xxx"
-  "statement_date": "2014-01-12T00:00:00+00:00",
-  "amount": {
-      "value": "1057.25",
-      "currency": "EUR"
-  }
-  "Reference": "Sample account name",
-}
-```
 
 ## <a id="get-account-details"></a> Retrieve account details ##
 
 ```
 GET /accounts/{:id}/details
 ```
-Retrieve bank details & information on an account.
-
-Url parameters:
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `id` | String | xxx |
-
-Response example:
-
-
+Retrieve bank details on an account.
 
 ## <a id="put-account-details"></a> Update account details ##
 
@@ -273,12 +227,6 @@ Update information on an account or modify beneficiary bank or correspondent ban
 | `Beneficiary Bank` | [Beneficiary Bank Object](#beneficiary_bank_object) | **Required.** The recipient bank details. |
 | `Account` | [Account Object](#account_object) | **Required.** The recipient account details. |
 
-Response example:
-
-```js
--> TBD
-```
-
 ## <a id="get-transfer-history"></a> Get transfer history ##
 
 ```
@@ -286,31 +234,19 @@ GET /transfers/history
 ```
 Request the list of transfers that has been received or sent on a particular wallet account at a specific period of time.
 
-Url parameters:
+Parameters:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `id` | String | xxx |
-
-optional parameters:
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `from_date` | Date | YYYY-MM-DD |
-| `to_date` | Date | YYYY-MM-DD |
+| `from_date` | Date | `YYYY-MM-DD`  |
+| `to_date` | Date | `YYYY-MM-DD`  |
 
 ## <a id="get-transfer-details"></a> Retrieve transfer details ##
 
 ```
-GET /transfers/{:id}/details
+GET /transfer/{:id}
 ```
 Request information on a particular transfer that has been credited or debited to a wallet.
-
-Url parameters:
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `id` | String | xxx |
 
 ## <a id="delete-account"></a> Delete account ##
 
@@ -319,24 +255,11 @@ DELETE accounts/{:id}
 ```
 Delete an account.
 
-Url parameters:
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `id` | String | xxx |
-
-Response example:
-
-```js
--> TBD
-```
-
 # <a id="payment_object"></a> Payment Objects #
 
 This `Payment` format is intended to be straightforward to create and parse, from strongly or loosely typed programming languages. Once a transaction is processed and validated it also includes information about the final details of the payment.
 
-An example `Payment` object looks like this:
-
+As an example, a response for `GET /Payment/{:id}` object looks like this:
 ```js
 {
 "payment": {
@@ -361,6 +284,7 @@ An example `Payment` object looks like this:
 }
 }
 ```
+
 ## <a id="submit-payment"></a> Submitting a payment ##
 
 ```
@@ -370,15 +294,9 @@ Use this path in order to schedule a new payment.
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `id` | [Account Object](#account_object) | **Required.** Recipient account of the beneficiary. |
-| `destination_id` | String | The FX4Biz id of the account receiving the payment |
-| `amount` | [Amount Object](#amount_object) | The nominal amount to be transfered. |
-
-Response example:
-
-```js
--> TBD
-```
+| id | String | **Required.** id of the beneficiary account. `xxx` |
+| amount | [Amount Object](#amount_object) | **Required.** The nominal amount to be transfered. `10,000.00 GBP` |
+| date | Date | `YYYY-MM-DD` |
 
 ## <a id="confirm-payment"></a> Confirm a payment ##
 
@@ -387,17 +305,12 @@ PUT /payments/{:id}/confirm
 ```
 Payments that has been scheduled must be confirmed in order to be release. If the payment is not confirmed on scheduled date of operation, it will be postponed to the next operation date available.
 
-Url parameters:
+## <a id="get-payment-history"></a> Get payment history ##
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `id` | String | xxx |
-
-Response example:
-
-```js
--> TBD
 ```
+PUT /payments
+```
+
 
 ## <a id="account_object"></a> Account Object ##
 
