@@ -132,7 +132,7 @@ As an example, a response for `GET /Account/{account_id}/details` object looks l
                 "state_or_province": "Bruxelles-Capitale",
                 "country": "FR"
             }
-         },
+        },
         "beneficiary": {
             "name": "John Doe",
             "address": {
@@ -168,7 +168,7 @@ The Api accepts the following formats of external bank accounts :
 
 | Field | Type | Description |
 |-------|------|-------------|
-| Correspondent Bank | [Correspondent Bank Object](#correspondent_account_object) | **Required for local format.** The intermediary bank details. |
+| Correspondent Bank | [Correspondent Bank Object](#correspondent_bank_object) | **Required for local format.** The intermediary bank details. |
 | Beneficiary Bank | [Beneficiary Bank Object](#beneficiary_bank_object) | **Required.** The recipient bank details. |
 | number | String | **Required.** The recipient account number or Iban. `xxx4548` |
 | currency | String | **Required.** Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying the account currency. `EUR` |
@@ -357,17 +357,17 @@ When an amount of currency is specified as part of a JSON body, it is encoded as
 
 | Field | Type | Description |
 |-------|------|-------------|
-
+| `value`  | String (Quoted decimal) | The quantity of the currency. |
 
 ## <a id="beneficiary_bank_object"></a> Beneficiary Bank Object ##
 
 | Field | Type | Description |
 |-------|------|-------------|
-| bic | String | **Required if swift format.** Eight or eleve-digit [ISO 9362 Business Identifier Code](http://en.wikipedia.org/wiki/ISO_9362) specifying the Recipient Bank: `CHASUS33XXX` |
-| `clearing_type` | String | **Required if local format.** |
-| `clearing_code` | String | **Required if local format.** |
-| `name` | String | **Required if local format.** |
-| `address` | [Address Object](#address_object) | **Required if local format.** |
+| bic | String | **Required if swift format.** Eight or eleve-digit [ISO 9362 Business Identifier Code](http://en.wikipedia.org/wiki/ISO_9362) specifying the Recipient Bank. `CHASUS33XXX` |
+| clearing_type | String | **Required if local format.** Two-digit code specifying the local clearing network. `FW` |
+| clearing_number | String | **Required if local format.** The branch number on the local clearing network `021000021` |
+| name | String | **Required if local format.** The beneficiary bank name. `JPMORGAN CHASE BANK, N.A.` |
+| address | [Address Object](#address_object) | **Required if local format.** The beneficiary bank name. |
 
 Example Beneficiary Bank Object:
 
@@ -382,7 +382,7 @@ Example Beneficiary Bank Object:
       "post_code": "10004",
       "city": "NEW YORK",
       "state_or_province": "NY",
-      "Country": "US"
+      "country": "US"
   }
 }
 ```
@@ -391,16 +391,16 @@ Example Beneficiary Bank Object:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `name` | String | **Required.** |
-| `type` | String | **Required.** |
-| `address` | [Address Object](#address_object) |  |
+| name | String | **Required.** The name of the account owner. `John Doe`|
+| type | String | **Required.** The type of account owner. `individual` |
+| address | [Address Object](#address_object) | The account owner address.  |
 
 Example Beneficiary Object:
 
 ```js
 {
   "name": "John Doe",
-  "name": "Individual",
+  "type": "Individual",
   "address": {
       "street": "350 Avenue Louise",
       "post_code": "1050",
@@ -416,10 +416,24 @@ Example Beneficiary Object:
 | Field | Type | Description |
 |-------|------|-------------|
 | bic | String | **Required if local format.** `CHASUS33` |
-| `clearing_type` | String |  |
-| `clearing_code` | String |  |
-| `name` | String |  |
-| `address` | [Address Object](#address_object) |  |
+| name | String | The bank name. `CREDIT AGRICOLE SA` |
+| address | [Address Object](#address_object) | The bank address. |
+
+Example Correpondent Bank Object:
+
+```js
+"correspondant_bank":{
+            "bic": "AGRIFRPP",
+            "name": "CREDIT AGRICOLE SA",
+            "address": {
+                "street": "BUILDING PASTEUR, BLOC 1: 91-93, BOULEVARD PASTEUR",
+                "post_code": "75015",
+                "city_name": "Paris",
+                "state_or_province": "",
+                "country": "FRANCE"
+            }
+        },
+```
 
 ## <a id="payment_object"></a> Payment Object ##
 
