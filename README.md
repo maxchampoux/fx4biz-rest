@@ -96,11 +96,11 @@ The FX4Biz-rest API supports online trading for the following contracts: TOD (Sa
 ## <a id="get-end-session"></a> End session ##
 -> TBD
 
-# <a id="account_services"></a> Account Services #
+# <a id="account_services"></a> Account Services # 
 
 There are two kinds of accounts with FX4BIZ. What we call wallet account, which is account hold in the FX4Biz' book and external bank account, which is account hold in another bank.
 
-As an example, a response for `GET /Account/{:id}/details` object looks like this:
+As an example, a response for `GET /Account/{account_id}/details` object looks like this:
 ```js
 {
     "id": "xxx"
@@ -150,8 +150,9 @@ As an example, a response for `GET /Account/{:id}/details` object looks like thi
 ## <a id="post-account-create"></a> Submit account ##
 
 ```
-POST /accounts/submit
+POST /accounts/
 ```
+This service permits to reference a new account. This service include verifications on the format of the account created.
 The API has been made in order to accept the local specification of cross-boarder payments.
 
 The Api accepts the following formats of external bank accounts :
@@ -167,17 +168,17 @@ The Api accepts the following formats of external bank accounts :
 | `beneficiary Bank` | [Beneficiary Bank Object](#beneficiary_bank_object) | **Required.** The recipient bank details. |
 | `account` | [Account Object](#account_object) | **Required.** The recipient account details. |
 
-## <a id="get-accounts-list"></a> Get accounts list ##
+## <a id="get-accounts-list"></a> Retrieve accounts list ##
 
 ```
-GET /accounts/list
+GET /accounts
 ```
-Retrieve the list of accounts referenced in the FX4Biz books.
-If you only want to retrieve the list of wallets accounts, you have to sort the list by `wallet` types.
+Retrieve the list of accounts referenced with FX4Biz.
+If you only want to retrieve the list of your wallets accounts, you have to sort the list by `wallet` types.
 
 | Field | Type | Description |
 |-------|------|-------------|
-| type | String | Sort the list by types. `wallet` |
+| type | String | Sort the list by types: `wallet` |
 
 ## <a id="get-account-balances"></a> Get account balances ##
 
@@ -312,12 +313,29 @@ PUT /payments
 
 ## <a id="account_object"></a> Account Object ##
 
+# Object resources: #
+
 | Field | Type | Description |
 |-------|------|-------------|
-| `currency` | String | **Required.** Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying which currency. |
-| `reference` |  String |  |
-| `beneficiary` | [Beneficiary Object](#beneficiary_object) | **Required.** |
-| `number` | String | **Required.** |
+| id |  String | The id of the account: `xxx` |
+| creation_date |  DateTime | The creation date of the object: `xxx` |
+| currency | String | Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying which currency. `USD` |
+| reference |  String | Custom data (<255 chars) `reference` |
+| beneficiary | [Beneficiary Object](#beneficiary_object) | The owner of the account. |
+| number | String | Iban or account number `xxx384` |
+
+# Create (POST) #
+```
+**Method:** PUT 
+**URL:** /accounts
+```
+**Parameters (*Required parameters)**
+| Field | Type | Description |
+|-------|------|-------------|
+| currency* | String | Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying which currency. `USD` |
+| reference |  String | Custom data (<255 chars) `reference` |
+| beneficiary* | [Beneficiary Object](#beneficiary_object) | The owner of the account. |
+| number* | String | Iban or account number `xxx384` |
 
 ## <a id="address_object"></a> Address Object ##
 
