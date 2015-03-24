@@ -165,7 +165,7 @@ The Api accepts the following formats of external bank accounts :
 - Local CA format
 - Other local formats (unspecified but different from the previous).
 
-*Parameters.*
+*Parameters:*
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -185,7 +185,7 @@ URL: /accounts/
 Retrieve the list of accounts referenced.
 If you only want to retrieve the list of your wallets accounts, you have to sort the list by `wallet` types.
 
-*Parameters.*
+*Parameters:*
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -202,7 +202,7 @@ It is not possible to retrieve the balance of an external account. If the id giv
 It is possible to retrieve the balance of a wallet account on a specific date. You have to mention the closing date to retrieve the balance of you wallet on a past date.
 You can have the closing balance of your wallet account on a past date by specifying the date wished.
 
-*Parameters.*
+*Parameters:*
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -224,7 +224,7 @@ URL: /account/{account_id}
 ```
 Update information on an account or modify beneficiary bank or correspondent bank related to this one. 
 
-*Parameters.*
+*Parameter:.*
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -353,15 +353,19 @@ Use this path in order to schedule a new payment.
 ## <a id="confirm-payment"></a> Confirm a payment ##
 
 ```
-PUT /payments/{:id}/confirm
+Method: PUT 
+URL: /payment/{payment_id}/confirm
 ```
 Payments that has been scheduled must be confirmed in order to be release. If the payment is not confirmed on scheduled date of operation, it will be postponed to the next operation date available.
 
 ## <a id="get-payment-history"></a> Get payment history ##
 
 ```
-PUT /payments
+Method: GET
+URL: /payments
 ```
+
+# Objects List #
 
 ## <a id="account_object"></a> Account Object ##
 
