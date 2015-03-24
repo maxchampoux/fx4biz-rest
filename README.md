@@ -22,7 +22,7 @@ Our API is divided into sections based on different concepts in our system. Each
 * [Update Account Details - `PUT /account/{account_id}/details`](#put-account-details)
 * [Retrieve Transfer History - `GET /transfers`](#get-transfer-history)
 * [Retrieve Transfer Details - `GET /transfer/{transfer_id}`](#get-transfer-details)
-* [Delete Account - `DELETE /account/{account_id}/delete`](#delete-account)
+* [Delete Account - `DELETE /account/{account_id}`](#delete-account)
 
 #### Payments ####
 
@@ -31,17 +31,16 @@ Our API is divided into sections based on different concepts in our system. Each
 * [Retrieve Payment History - `GET /payments`](#get-payment-history)
 * [Retrieve Payment Details - `GET /payment/{payment_id}`](#get-payment-history)
 * [Update Payment Details - `PUT /payment/{payment_id}`](#put-payment-details)
-* [Cancel Payment  - `DELETE /payment/{payment_id}/delete`](#delete-payment)
+* [Cancel Payment  - `DELETE /payment/{payment_id}`](#delete-payment)
 
 #### Trades ####
 
-* [Get Rates - `GET /rates`](#Submit-rates)
-* [Request Quote - `POST /quotes`](#Submit-rates)
-* [Submit Trade - `POST /trades`](#Submit-trade)
-* [Cancel Trade - `DELETE /trades/{:id}/delete`](#cancel-order)
-* [Get Trade Book - `GET /trades/book`](#get-trade-book)
-* [Get Trade Details - `GET /trades/{:id}/details`](#get-order-book)
-* [Get Order Transaction - `GET /accounts{:address}/orders/{:hash}`](#get-order-transaction)
+* [Retrieve Rates - `GET /rates`](#get-rates)
+* [Request Quote - `POST /quotes`](#get-quote)
+* [Submit Trade - `POST /trades`](#get-trade)
+* [Cancel Trade - `DELETE /trade/{trade_id}`](#cancel-trade)
+* [Retrieve Trades Book - `GET /trades`](#get-trade-book)
+* [Retrieve Trade Details - `GET /trade/{trade_id}`](#get-trade-details)
 
 #### Objects List ####
 
