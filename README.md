@@ -97,7 +97,7 @@ The FX4Biz-rest API supports online trading for the following contracts: TOD (Sa
 
 # <a id="account_services"></a> Account Services # 
 
-There are two kinds of accounts with FX4BIZ. What we call `wallet` account, which is account hold in the FX4Biz' book and `external bank` account, which is an account hold in another bank.
+There are two kinds of accounts with FX4BIZ. What we call `wallet` account, which is an account hold in the FX4BIZ books and `external bank` account, which is an account hold in another bank.
 
 As an example, a response for `GET /Account/{account_id}/details` object looks like this:
 ```js
@@ -371,7 +371,7 @@ When an account is specified as part of a JSON body, it is encoded as an object 
 
 | Field | Type | Description |
 |-------|------|-------------|
-| id |  String | The id of the account. `xxx` |
+| account_id |  String | The id of the account. `xxx` |
 | created_date |  Date Time | The creation date of the object: `2014-01-12T00:00:00+00:00` |
 | created_by |  String | The creation date of the object: `api` |
 | currency | String | Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying the account currency. `USD` |
@@ -540,6 +540,18 @@ Example Correpondent Bank Object:
 ```
 
 ## <a id="payment_object"></a> Payment Object ##
+
+| Field | Type | Description |
+|-------|------|-------------|
+| payment_id | String | **Required.** id of the beneficiary account. `xxx` |
+| amount | [Amount Object](#amount_object) | **Required.** The nominal amount to be transfered. `10,000.00 GBP` |
+| date | Date | `YYYY-MM-DD` |
+
+## <a id="transfer_object"></a> Transfer Object ##
+
+When a transfer is specified as part of a JSON body, it is encoded as an object with the following fields:
+
+*Object resources:*
 
 | Field | Type | Description |
 |-------|------|-------------|
