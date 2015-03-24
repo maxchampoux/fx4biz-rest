@@ -97,51 +97,53 @@ The FX4Biz-rest API supports online trading for the following contracts: TOD (Sa
 
 # <a id="account_services"></a> Account Services # 
 
-There are two kinds of accounts with FX4BIZ. What we call wallet account, which is account hold in the FX4Biz' book and external bank account, which is account hold in another bank.
+There are two kinds of accounts with FX4BIZ. What we call `wallet` account, which is account hold in the FX4Biz' book and `external bank` account, which is an account hold in another bank.
 
 As an example, a response for `GET /Account/{account_id}/details` object looks like this:
 ```js
 {
-    "id": "xxx"
-    "status": "active",
-    "type": "wallet",
-    "createdDate": "2014-01-12T00:00:00+00:00",
-    "CreatedBy": "api",
-    "Reference": "Sample wallet account EUR",
-    "CorrespondantBank":{
-        "Bic": "AGRIFRPP",
-        "Name": "CREDIT AGRICOLE SA",
-        "Address": {
-            "Street": "BUILDING PASTEUR, BLOC 1: 91-93, BOULEVARD PASTEUR",
-            "PostCode": "75015",
-            "CityName": "Paris",
-            "Country"; "FRANCE",
-        }
-    },
-    "BeneficiaryBank": {
-        "Bic": "FXBBBEBB",
-        "Name": "FX4BIZ SA",
-        "Address": {
-            "Street": "Avenue Louise, 350",
-            "PostCode": "1050",
-            "CityName": "Bruxelles",
-            "StateOrProvince": "Bruxelles-Capitale",
-            "Country"; "FR",
-        }
-    },
     "Account": {
-        "AccountCurrency": "EUR",
-        "Beneficiary": {
-            "Name": "John Doe",
-            "Address": {
-                "Street": "1 My Road",
-                "PostCode": "ZIP",
-                "CityName": "London",
-                "StateOrProvince": "",
-                "Country"; "UK",
+        "id": "xxx"
+        "status": "active",
+        "type": "wallet",
+        "created_date": "2014-01-12T00:00:00+00:00",
+        "created_by": "api",
+        "tag": "My wallet account EUR",
+        "number": "xxx4548",
+        "currency": "EUR",
+        "correspondant_bank":{
+            "bic": "AGRIFRPP",
+            "name": "CREDIT AGRICOLE SA",
+            "address": {
+                "street": "BUILDING PASTEUR, BLOC 1: 91-93, BOULEVARD PASTEUR",
+                "post_code": "75015",
+                "city_name": "Paris",
+                "state_or_province": "",
+                "country": "FRANCE"
+            }
+        },
+        "beneficiary_bank": {
+            "bic": "FXBBBEBB",
+            "name": "FX4BIZ SA",
+            "address": {
+                "street": "Avenue Louise, 350",
+                "post_code": "1050",
+                "city_name": "Bruxelles",
+                "state_or_province": "Bruxelles-Capitale",
+                "country": "FR"
+            }
+         },
+        "beneficiary": {
+            "name": "John Doe",
+            "address": {
+                "street": "1 My Road",
+                "post_code": "ZIP",
+                "city_name": "London",
+                "state_or_province": "",
+                "country"; "UK",
             }
         }
-        "AccountNumber": "xxx4548",
+        
     }
 }
 ```
@@ -162,11 +164,15 @@ The Api accepts the following formats of external bank accounts :
 - Local CA format
 - Other local formats (unspecified but different from the previous).
 
+**Parameters.*
+
 | Field | Type | Description |
 |-------|------|-------------|
-| Correspondent Bank | [Correspondent Bank Object](#correspondent_account_object) | The intermediary bank details.  |
+| Correspondent Bank | [Correspondent Bank Object](#correspondent_account_object) | **Required for local format.** The intermediary bank details. |
 | Beneficiary Bank | [Beneficiary Bank Object](#beneficiary_bank_object) | **Required.** The recipient bank details. |
-| Account | [Account Object](#account_object) | **Required.** The recipient account details. |
+| number | String | **Required.** The recipient account number or Iban. `xxx4548` |
+| currency | String | **Required.** Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying the account currency. `EUR` |
+| tag | String | Custom Data. `External bank account EUR` |
 
 ## <a id="get-accounts-list"></a> Retrieve accounts list ##
 
@@ -177,9 +183,11 @@ URL: /accounts/
 Retrieve the list of accounts referenced.
 If you only want to retrieve the list of your wallets accounts, you have to sort the list by `wallet` types.
 
+**Parameters.*
+
 | Field | Type | Description |
 |-------|------|-------------|
-| type | String | Sort the list by types: `wallet` |
+| type | String | Sort the list by type of account. `wallet` |
 
 ## <a id="get-account-balances"></a> Get account balances ##
 
