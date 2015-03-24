@@ -150,7 +150,8 @@ As an example, a response for `GET /Account/{account_id}/details` object looks l
 ## <a id="post-account-create"></a> Submit account ##
 
 ```
-POST /accounts/
+Method: POST 
+URL: /accounts/
 ```
 This service permits to reference a new account. This service include verifications on the format of the account created.
 The API has been made in order to accept the local specification of cross-boarder payments.
@@ -171,9 +172,10 @@ The Api accepts the following formats of external bank accounts :
 ## <a id="get-accounts-list"></a> Retrieve accounts list ##
 
 ```
-GET /accounts
+Method: GET 
+URL: /accounts/
 ```
-Retrieve the list of accounts referenced with FX4Biz.
+Retrieve the list of accounts referenced.
 If you only want to retrieve the list of your wallets accounts, you have to sort the list by `wallet` types.
 
 | Field | Type | Description |
@@ -183,47 +185,43 @@ If you only want to retrieve the list of your wallets accounts, you have to sort
 ## <a id="get-account-balances"></a> Get account balances ##
 
 ```
-GET /accounts/{:id}/balance
+Method: GET 
+URL: /account/{account_id}/balance
 ```
-Retrieve the balance of a wallet account hold in the FX4Biz books.
+Retrieve the [balance](#balance_object) of a wallet account hold in the FX4Biz books.
 It is not possible to retrieve the balance of an external account. If the id given in the url parameters do not match with one of your wallet account, the json response will be an error.
 It is possible to retrieve the balance of a wallet account on a specific date. You have to mention the closing date to retrieve the balance of you wallet on a past date.
-
-Parameters:
+You can have the closing balance of your wallet account on a past date by specifying the date wished.
 
 | Field | Type | Description |
 |-------|------|-------------|
 | date | Date | `YYYY-MM-DD` |
 
-
 ## <a id="get-account-details"></a> Retrieve account details ##
 
 ```
-GET /accounts/{:id}/details
+Method: GET 
+URL: /account/{account_id}
 ```
 Retrieve bank details on an account.
 
 ## <a id="put-account-details"></a> Update account details ##
 
 ```
-PUT /accounts/{:id}/details
+Method: PUT 
+URL: /account/{account_id}
 ```
 Update information on an account or modify beneficiary bank or correspondent bank related to this one. 
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `Correspondent Bank` | [Correspondent Bank Object](#correspondent_account_object) | The intermediary bank details. |
-| `Beneficiary Bank` | [Beneficiary Bank Object](#beneficiary_bank_object) | **Required.** The recipient bank details. |
-| `Account` | [Account Object](#account_object) | **Required.** The recipient account details. |
 
 ## <a id="get-transfer-history"></a> Get transfer history ##
 
 ```
-GET /transfers/history
+Method: GET 
+URL: /transfers
 ```
-Request the list of transfers that has been received or sent on a particular wallet account at a specific period of time.
+Request the list of transfers that has been received or sent on a specific period of time.
 
-Parameters:
+**Parameters:**
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -233,14 +231,16 @@ Parameters:
 ## <a id="get-transfer-details"></a> Retrieve transfer details ##
 
 ```
-GET /transfer/{:id}
+Method: GET 
+URL: /transfer/{transfer_id}
 ```
-Request information on a particular transfer that has been credited or debited to a wallet.
+Request information on a particular [transfer](#transfer_object) that has been credited or debited to a wallet.
 
 ## <a id="delete-account"></a> Delete account ##
 
 ```
-DELETE accounts/{:id}
+Method: DELETE 
+URL: /account/{account_id}
 ```
 Delete an account.
 
@@ -248,7 +248,7 @@ Delete an account.
 
 Sending a payment involves two steps:
 
-1. Generate the payment object with the [Create Payment method](#post-account-create). 
+1. Generate the payment object with the [Create Payment method](#submit-payment). 
 When you submit a payment to be scheduled, you assign a unique id to that payment. 
 *Caution:* The payment created will be automatically rolled to the next closest working days if not confirmed in the scheduled date of operation.
 
@@ -258,7 +258,7 @@ When you confirm a payment for processing, make sure you have sufficient funds i
 
 This `Payment` format is intended to be straightforward to create and parse, from strongly or loosely typed programming languages. Once a transaction is processed and validated it also includes information about the final details of the payment.
 
-As an example, a response for `GET /Payment/{:id}` object looks like this:
+As an example, a response for `GET /payment/{:id}` object looks like this:
 ```js
 {
 "payment": {
@@ -287,15 +287,10 @@ As an example, a response for `GET /Payment/{:id}` object looks like this:
 ## <a id="submit-payment"></a> Submitting a payment ##
 
 ```
-POST /payments
+Method: POST 
+URL: /payments
 ```
 Use this path in order to schedule a new payment.
-
-| Field | Type | Description |
-|-------|------|-------------|
-| id | String | **Required.** id of the beneficiary account. `xxx` |
-| amount | [Amount Object](#amount_object) | **Required.** The nominal amount to be transfered. `10,000.00 GBP` |
-| date | Date | `YYYY-MM-DD` |
 
 ## <a id="confirm-payment"></a> Confirm a payment ##
 
@@ -413,13 +408,21 @@ Example Beneficiary Object:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `bic` | String | **Required if local format.** |
+| bic | String | **Required if local format.** `CHASUS33` |
 | `clearing_type` | String |  |
 | `clearing_code` | String |  |
 | `name` | String |  |
 | `address` | [Address Object](#address_object) |  |
 
-## <a id="rates_object"></a> Rates Object ##
+## <a id="payment_object"></a> Payment Object ##
+
+| Field | Type | Description |
+|-------|------|-------------|
+| payment_id | String | **Required.** id of the beneficiary account. `xxx` |
+| amount | [Amount Object](#amount_object) | **Required.** The nominal amount to be transfered. `10,000.00 GBP` |
+| date | Date | `YYYY-MM-DD` |
+
+## <a id="rate_object"></a> Rate Object ##
 
 When a rate is specified as part of a JSON body, it is encoded as an object with four fields:
 
@@ -430,7 +433,7 @@ When a rate is specified as part of a JSON body, it is encoded as an object with
 | applied | String (Quoted decimal) | The rate applied by FX4Biz for this transaction |
 | currency_pair | String | The cross of currency used for the rates provided |
 
-Example Rates Object:
+Example Rate Object:
 
 ```js
 {
