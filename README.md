@@ -367,7 +367,7 @@ PUT /payments
 
 When an account is specified as part of a JSON body, it is encoded as an object with the following fields:
 
-**Object resources.**
+*Object resources:*
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -402,7 +402,7 @@ Example Account Object:
 
 When an address is specified as part of a JSON body, it is encoded as an object with four fields:
 
-**Object resources.**
+*Object resources:*
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -430,7 +430,7 @@ Example Address Object:
 
 When an amount of currency is specified as part of a JSON body, it is encoded as an object with two fields:
 
-**Object resources.**
+*Object resources:*
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -452,7 +452,7 @@ Example Amount Object:
 
 When the balance of a `wallet` account is specified as part of a JSON body, it is encoded as an object with the following fields:
 
-**Object resources.**
+*Object resources:*
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -473,7 +473,7 @@ Example balance Object:
 
 When a beneficiary bank is specified as part of a JSON body, it is encoded as an object with the following fields:
 
-**Object resources.**
+*Object resources:*
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -499,7 +499,7 @@ Example Beneficiary Bank Object:
 
 When the beneficiary of an account is specified as part of a JSON body, it is encoded as an object with the following fields:
 
-**Object resources.**
+*Object resources:*
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -521,7 +521,7 @@ Example Beneficiary Object:
 
 When a correspondent bank of an account is specified as part of a JSON body, it is encoded as an object with the following fields:
 
-**Object resources.**
+*Object resources:*
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -580,7 +580,7 @@ The `FX4BIZ-rest` API conforms to the following general behavior for [RESTful AP
 
 As an additional convention, all responses from FX4Biz-REST contain a `"success"` field with a boolean value indicating whether or not the success
 
-## <a id="errors_conventions"></a>Errors ##
+## <a id="errors_conventions"></a> Errors ##
 
 When errors occur, the server returns an HTTP status code in the 400-599 range, depending on the type of error. The body of the response contains more detailed information on the cause of the problem.
 
