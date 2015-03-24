@@ -17,21 +17,21 @@ Our API is divided into sections based on different concepts in our system. Each
 
 * [Submit New Account - `POST /accounts`](#post-account-create)
 * [Retrieve Account list - `GET /accounts`](#get-account-list)
-* [Retrieve Account Balance - `GET /account/{:id}/balance`](#get-account-balance)
-* [Retrieve Account Details - `GET /account/{:id}/details`](#get-account-details)
-* [Update Account Details - `PUT /account/{:id}/details`](#put-account-details)
+* [Retrieve Account Balance - `GET /account/{account_id}/balance`](#get-account-balance)
+* [Retrieve Account Details - `GET /account/{account_id}/details`](#get-account-details)
+* [Update Account Details - `PUT /account/{account_id}/details`](#put-account-details)
 * [Retrieve Transfer History - `GET /transfers`](#get-transfer-history)
-* [Retrieve Transfer Details - `GET /transfer/{:id}`](#get-transfer-details)
-* [Delete Account - `DELETE /account/{:id}/delete`](#delete-account)
+* [Retrieve Transfer Details - `GET /transfer/{transfer_id}`](#get-transfer-details)
+* [Delete Account - `DELETE /account/{account_id}/delete`](#delete-account)
 
 #### Payments ####
 
 * [Submit Payment - `POST /payments`](#submit-payment)
-* [Confirm Payment - `PUT /payments/{:id}/confirm`](#confirm-payment)
-* [Get Payment History - `GET /payments/history`](#get-payment-history)
-* [Get Payment Details - `GET /payments/{:id}/details`](#get-payment-history)
-* [Update Payment Details - `PUT /payments/{:id}/details`](#put-payment-details)
-* [Cancel Payment  - `DELETE /payments/{:id}/delete`](#delete-payment)
+* [Confirm Payment - `PUT /payment/{payment_id}/confirm`](#confirm-payment)
+* [Retrieve Payment History - `GET /payments`](#get-payment-history)
+* [Retrieve Payment Details - `GET /payment/{payment_id}`](#get-payment-history)
+* [Update Payment Details - `PUT /payment/{payment_id}`](#put-payment-details)
+* [Cancel Payment  - `DELETE /payment/{payment_id}/delete`](#delete-payment)
 
 #### Trades ####
 
@@ -313,71 +313,49 @@ PUT /payments
 
 ## <a id="account_object"></a> Account Object ##
 
-# Object resources: #
+When an account is specified as part of a JSON body, it is encoded as an object with the following fields:
+
+**Object resources.**
 
 | Field | Type | Description |
 |-------|------|-------------|
-| id |  String | The id of the account: `xxx` |
+| id |  String | The id of the account. `xxx` |
 | creation_date |  DateTime | The creation date of the object: `xxx` |
 | currency | String | Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying which currency. `USD` |
-| reference |  String | Custom data (<255 chars) `reference` |
+| reference |  String | Custom data. `reference` |
 | beneficiary | [Beneficiary Object](#beneficiary_object) | The owner of the account. |
-| number | String | Iban or account number `xxx384` |
-
-# Create (POST) #
-```
-**Method:** PUT 
-**URL:** /accounts
-```
-**Parameters (*Required parameters)**
-| Field | Type | Description |
-|-------|------|-------------|
-| currency* | String | Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying which currency. `USD` |
-| reference |  String | Custom data (<255 chars) `reference` |
-| beneficiary* | [Beneficiary Object](#beneficiary_object) | The owner of the account. |
-| number* | String | Iban or account number `xxx384` |
+| number | String | Iban or account number. `xxx384` |
 
 ## <a id="address_object"></a> Address Object ##
 
 When an address is specified as part of a JSON body, it is encoded as an object with four fields:
 
+**Object resources.**
+
 | Field | Type | Description |
 |-------|------|-------------|
-| `street` | String | 350 Avenue Louise |
-| `post_code` | String | 1050 |
-| `city` | String | Bruxelles |
-| `state_or_province` | String | Bruxelles-Capitale |
-| `country` | String | BE |
-
-Example Address Object:
-
-```js
-{
-  "street": "350 Avenue Louise",
-  "post_code": "1050",
-  "city": "Bruxelles",
-  "state_or_province": "Bruxelles-Capitale",
-  "Country": "BE"
-}
-```
+| street | String | `350 Avenue Louise` |
+| post_code | String | `1050` |
+| city | String | `Bruxelles` |
+| state_or_province | String | `Bruxelles-Capitale` |
+| country | String | `BE` |
 
 ## <a id="amounts_object"></a> Amounts Object ##
 
 When an amount of currency is specified as part of a JSON body, it is encoded as an object with two fields:
+
+**Object resources.**
 
 | Field | Type | Description |
 |-------|------|-------------|
 | `value`  | String (Quoted decimal) | The quantity of the currency. |
 | `currency` | String | Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying which currency. Alternatively, a 160-bit hex value. |
 
-Example Amount Object:
+## <a id="balance_object"></a> Balance Object ##
 
-```js
-{
-  "value": "10000.00",
-  "currency": "USD",
-}
-```
+| Field | Type | Description |
+|-------|------|-------------|
+
 
 ## <a id="beneficiary_bank_object"></a> Beneficiary Bank Object ##
 
@@ -440,24 +418,6 @@ Example Beneficiary Object:
 | `clearing_code` | String |  |
 | `name` | String |  |
 | `address` | [Address Object](#address_object) |  |
-
-Example Correspondent Bank Object:
-
-```js
-{
-  "bic": "CHASUS33",
-  "clearing_type": "FW",
-  "clearing_code": "021000021",
-  "name": "JPMORGAN CHASE BANK, N.A.",
-  "address": {
-      "street": "4 NEW YORK PLAZA, FLOOR 15",
-      "post_code": "10004",
-      "city": "NEW YORK",
-      "state_or_province": "NY",
-      "Country": "US"
-  }
-}
-```
 
 ## <a id="rates_object"></a> Rates Object ##
 
