@@ -102,7 +102,7 @@ There are two kinds of accounts with FX4BIZ. What we call `wallet` account, whic
 As an example, a response for `GET /Account/{account_id}/details` object looks like this:
 ```js
 {
-    "Account": {
+    "account": {
         "id": "xxx"
         "status": "active",
         "type": "wallet",
@@ -164,12 +164,13 @@ The Api accepts the following formats of external bank accounts :
 - Local CA format
 - Other local formats (unspecified but different from the previous).
 
-**Parameters.*
+**Parameters.**
 
 | Field | Type | Description |
 |-------|------|-------------|
-| Correspondent Bank | [Correspondent Bank Object](#correspondent_bank_object) | **Required for local format.** The intermediary bank details. |
-| Beneficiary Bank | [Beneficiary Bank Object](#beneficiary_bank_object) | **Required.** The recipient bank details. |
+| Correspondent Bank | [Correspondent Bank Object](#correspondent_bank_object) | **Required for local format.** The intermediary bank details, used to reach the beneficiary bank. |
+| Beneficiary Bank | [Beneficiary Bank Object](#beneficiary_bank_object) | **Required.** The recipient bank details, holding the account. |
+| Beneficiary | [Beneficiary Object](#beneficiary_object) | **Required.** The recipient details, owner of the account. |
 | number | String | **Required.** The recipient account number or Iban. `xxx4548` |
 | currency | String | **Required.** Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying the account currency. `EUR` |
 | tag | String | Custom Data. `External bank account EUR` |
@@ -312,7 +313,6 @@ Payments that has been scheduled must be confirmed in order to be release. If th
 PUT /payments
 ```
 
-
 ## <a id="account_object"></a> Account Object ##
 
 When an account is specified as part of a JSON body, it is encoded as an object with the following fields:
@@ -322,11 +322,31 @@ When an account is specified as part of a JSON body, it is encoded as an object 
 | Field | Type | Description |
 |-------|------|-------------|
 | id |  String | The id of the account. `xxx` |
-| creation_date |  DateTime | The creation date of the object: `xxx` |
-| currency | String | Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying which currency. `USD` |
-| reference |  String | Custom data. `reference` |
-| beneficiary | [Beneficiary Object](#beneficiary_object) | The owner of the account. |
+| created_date |  Date Time | The creation date of the object: `2014-01-12T00:00:00+00:00` |
+| created_by |  String | The creation date of the object: `api` |
+| currency | String | Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying the account currency. `USD` |
+| tag |  String | Custom data. `reference` |
 | number | String | Iban or account number. `xxx384` |
+
+Example Account Object:
+
+```js
+{
+    "account": {
+        "id": "xxx"
+        "status": "active",
+        "type": "wallet",
+        "created_date": "2014-01-12T00:00:00+00:00",
+        "created_by": "api",
+        "tag": "My wallet account EUR",
+        "number": "xxx4548",
+        "currency": "EUR",
+        "correspondant_bank":{correspondent_bank}
+        "beneficiary_bank":{beneficiary_bank}
+        "beneficiary":{beneficiary}
+    }
+}
+```
 
 ## <a id="address_object"></a> Address Object ##
 
@@ -342,6 +362,20 @@ When an address is specified as part of a JSON body, it is encoded as an object 
 | state_or_province | String | `Bruxelles-Capitale` |
 | country | String | `BE` |
 
+Example Address Object:
+
+```js
+{
+    "address": {
+      "street": "4 NEW YORK PLAZA, FLOOR 15",
+      "post_code": "10004",
+      "city": "NEW YORK",
+      "state_or_province": "NY",
+      "country": "US"
+    }
+}
+```
+
 ## <a id="amounts_object"></a> Amounts Object ##
 
 When an amount of currency is specified as part of a JSON body, it is encoded as an object with two fields:
@@ -350,14 +384,40 @@ When an amount of currency is specified as part of a JSON body, it is encoded as
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `value`  | String (Quoted decimal) | The quantity of the currency. |
-| `currency` | String | Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying which currency. Alternatively, a 160-bit hex value. |
+| value  | String (Quoted decimal) | The quantity of the currency. `25000000.00` |
+| currency | String | Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying the amount currency. `USD` |
+
+Example Amount Object:
+
+```js
+{
+    "amount": {
+      "value": "10000.00",
+      "currency": "GBP"
+    }
+}
+```
 
 ## <a id="balance_object"></a> Balance Object ##
+
+When the balance of a `wallet` account is specified as part of a JSON body, it is encoded as an object with the following fields:
+
+**Object resources.**
 
 | Field | Type | Description |
 |-------|------|-------------|
 | `value`  | String (Quoted decimal) | The quantity of the currency. |
+
+Example balance Object:
+
+```js
+{
+    "amount": {
+      "value": "10000.00",
+      "currency": "GBP"
+    }
+}
+```
 
 ## <a id="beneficiary_bank_object"></a> Beneficiary Bank Object ##
 
