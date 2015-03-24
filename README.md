@@ -165,9 +165,9 @@ The Api accepts the following formats of external bank accounts :
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `correspondent Bank` | [Correspondent Bank Object](#correspondent_account_object) | The intermediary bank details.  |
-| `beneficiary Bank` | [Beneficiary Bank Object](#beneficiary_bank_object) | **Required.** The recipient bank details. |
-| `account` | [Account Object](#account_object) | **Required.** The recipient account details. |
+| Correspondent Bank | [Correspondent Bank Object](#correspondent_account_object) | The intermediary bank details.  |
+| Beneficiary Bank | [Beneficiary Bank Object](#beneficiary_bank_object) | **Required.** The recipient bank details. |
+| Account | [Account Object](#account_object) | **Required.** The recipient account details. |
 
 ## <a id="get-accounts-list"></a> Retrieve accounts list ##
 
