@@ -224,7 +224,7 @@ URL: /account/{account_id}
 ```
 Update information on an account or modify beneficiary bank or correspondent bank related to this one. 
 
-*Parameter:.*
+*Parameter:*
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -272,6 +272,7 @@ Sending a payment involves two steps:
 
 1. Generate the payment object with the [Create Payment method](#submit-payment). 
 When you submit a payment to be scheduled, you assign a unique id to that payment. 
+
 *Caution:* The payment created will be automatically rolled to the next closest working days if not confirmed in the scheduled date of operation.
 
 2. Confirm the payment to the API for processing, using the [Confirm Payment method](#confirm-payment). 
