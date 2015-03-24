@@ -135,12 +135,13 @@ As an example, a response for `GET /Account/{account_id}/details` object looks l
         },
         "beneficiary": {
             "name": "John Doe",
+            "type": "individual",
             "address": {
                 "street": "1 My Road",
                 "post_code": "ZIP",
                 "city_name": "London",
                 "state_or_province": "",
-                "country"; "UK",
+                "country": "UK",
             }
         }
         
@@ -164,7 +165,7 @@ The Api accepts the following formats of external bank accounts :
 - Local CA format
 - Other local formats (unspecified but different from the previous).
 
-**Parameters.**
+*Parameters.*
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -184,7 +185,7 @@ URL: /accounts/
 Retrieve the list of accounts referenced.
 If you only want to retrieve the list of your wallets accounts, you have to sort the list by `wallet` types.
 
-**Parameters.*
+*Parameters.*
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -201,9 +202,11 @@ It is not possible to retrieve the balance of an external account. If the id giv
 It is possible to retrieve the balance of a wallet account on a specific date. You have to mention the closing date to retrieve the balance of you wallet on a past date.
 You can have the closing balance of your wallet account on a past date by specifying the date wished.
 
+*Parameters.*
+
 | Field | Type | Description |
 |-------|------|-------------|
-| date | Date | `YYYY-MM-DD` |
+| date | Date | The closing balance date. `YYYY-MM-DD` |
 
 ## <a id="get-account-details"></a> Retrieve account details ##
 
@@ -211,7 +214,7 @@ You can have the closing balance of your wallet account on a past date by specif
 Method: GET 
 URL: /account/{account_id}
 ```
-Retrieve bank details on an account.
+Retrieve bank details on an account. As a response to this query, you will receive the details of the [Account Object](#account_object).
 
 ## <a id="put-account-details"></a> Update account details ##
 
@@ -221,6 +224,17 @@ URL: /account/{account_id}
 ```
 Update information on an account or modify beneficiary bank or correspondent bank related to this one. 
 
+*Parameters.*
+
+| Field | Type | Description |
+|-------|------|-------------|
+| Correspondent Bank | [Correspondent Bank Object](#correspondent_bank_object) | **Required for local format.** The intermediary bank details, used to reach the beneficiary bank. |
+| Beneficiary Bank | [Beneficiary Bank Object](#beneficiary_bank_object) | **Required.** The recipient bank details, holding the account. |
+| Beneficiary | [Beneficiary Object](#beneficiary_object) | **Required.** The recipient details, owner of the account. |
+| number | String | **Required.** The recipient account number or Iban. `xxx4548` |
+| currency | String | **Required.** Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying the account currency. `EUR` |
+| tag | String | Custom Data. `External bank account EUR` |
+
 ## <a id="get-transfer-history"></a> Get transfer history ##
 
 ```
@@ -229,12 +243,12 @@ URL: /transfers
 ```
 Request the list of transfers that has been received or sent on a specific period of time.
 
-**Parameters:**
+*Parameters:*
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `from_date` | Date | `YYYY-MM-DD`  |
-| `to_date` | Date | `YYYY-MM-DD`  |
+| from_date | Date | List all the transfers that has been credited or debited on your wallets account since this date. `YYYY-MM-DD` |
+| to_date | Date | List all the transfers that has been credited or debited on your wallets account until this date. `YYYY-MM-DD` |
 
 ## <a id="get-transfer-details"></a> Retrieve transfer details ##
 
@@ -242,7 +256,7 @@ Request the list of transfers that has been received or sent on a specific perio
 Method: GET 
 URL: /transfer/{transfer_id}
 ```
-Request information on a particular [transfer](#transfer_object) that has been credited or debited to a wallet.
+Request information on a particular transfer that has been credited or debited to a wallet. As a response to this query, you will receive the details of the [Transfer Object](#transfer_object).
 
 ## <a id="delete-account"></a> Delete account ##
 
@@ -262,33 +276,64 @@ When you submit a payment to be scheduled, you assign a unique id to that paymen
 
 2. Confirm the payment to the API for processing, using the [Confirm Payment method](#confirm-payment). 
 When you confirm a payment for processing, make sure you have sufficient funds in your wallet account balance. The funds transfer will be automatically locked-in if the wallet account balance is not sufficient. Make sure you always have enough funds on your wallet.
-*Caution:* Payment submission is an asynchronous process, so payments can fail even after they have been submitted and confirmed successfully. 
-
-This `Payment` format is intended to be straightforward to create and parse, from strongly or loosely typed programming languages. Once a transaction is processed and validated it also includes information about the final details of the payment.
 
 As an example, a response for `GET /payment/{:id}` object looks like this:
 ```js
 {
-"payment": {
-    "id": "xxx",
-    "status": "Awaiting confirmation",
-    "created_date": "2014-01-12T00:00:00+00:00",
-    "created_by": "Api",
-    "confirmed_date"= "2014-01-12T00:00:00+00:00",
-    "confirmed_by": "Api",
-    "confirmed_date"= "2014-01-12T00:00:00+00:00",
-    "initial_operation_date"= "2014-01-12T00:00:00+00:00",
-    "operation_date"= "2014-01-12T00:00:00+00:00",
-    "account": {
-        "source_id": "xxx",
-        "destination_id": "xxx",
+    "payment": {
+        "id": "xxx",
+        "status": "Awaiting confirmation",
+        "created_date": "2014-01-12T00:00:00+00:00",
+        "created_by": "Api",
+        "initial_operation_date"= "2014-01-12T00:00:00+00:00",
+        "type": "Standard",
+        "amount": {
+            "value": "125000.00",
+            "currency": "USD"
+        "account": {
+            "id": "xxx"
+            "status": "active",
+            "type": "wallet",
+            "created_date": "2014-01-12T00:00:00+00:00",
+            "created_by": "api",
+            "tag": "John Doe wallet account with FX4BIZ",
+            "number": "xxx4548",
+            "currency": "EUR",
+            "correspondant_bank":{
+                "bic": "AGRIFRPP",
+                "name": "CREDIT AGRICOLE SA",
+                "address": {
+                    "street": "BUILDING PASTEUR, BLOC 1: 91-93, BOULEVARD PASTEUR",
+                    "post_code": "75015",
+                    "city_name": "Paris",
+                    "state_or_province": "",
+                    "country": "FRANCE"
+                }
+            },
+            "beneficiary_bank": {
+                "bic": "FXBBBEBB",
+                "name": "FX4BIZ SA",
+                "address": {
+                    "street": "Avenue Louise, 350",
+                    "post_code": "1050",
+                    "city_name": "Bruxelles",
+                    "state_or_province": "Bruxelles-Capitale",
+                    "country": "FR"
+                }
+            },
+            "beneficiary": {
+                "name": "John Doe",
+                "type": "individual",
+                "address": {
+                    "street": "1 My Road",
+                    "post_code": "ZIP",
+                    "city_name": "London",
+                    "state_or_province": "",
+                    "country": "UK"
+                }
+            }
+        }
     }
-    "type": "Standard",
-    "amount": {
-        "value": "125000.00",
-        "currency": "USD"
-    }
-}
 }
 ```
 
@@ -299,6 +344,11 @@ Method: POST
 URL: /payments
 ```
 Use this path in order to schedule a new payment.
+
+*Parameters:*
+
+| Field | Type | Description |
+|-------|------|-------------|
 
 ## <a id="confirm-payment"></a> Confirm a payment ##
 
