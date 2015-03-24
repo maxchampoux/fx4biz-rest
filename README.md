@@ -70,18 +70,6 @@ FX trades are made between two wallet accounts. FX4BIZ will automatically debit 
 
 Although the FX4BIZ-REST API provides a high-level interface to FX4Biz, there are also API methods for monitoring your wallet account balance & transfer informations of received or sent payments on those accounts. 
 
-### Sending Payments ###
-
-Sending a payment involves two steps:
-
-1. Generate the payment object with the [Create Payment method](#post-account-create). 
-When you submit a payment to be scheduled, you assign a unique id to that payment. 
-*Caution:* The payment created will be automatically rolled to the next closest working days if not confirmed in the scheduled date of operation.
-
-2. Confirm the payment to the API for processing, using the [Confirm Payment method](#confirm-payment). 
-When you confirm a payment for processing, make sure you have sufficient funds in your wallet account balance. The funds transfer will be automatically locked-in if the wallet account balance is not sufficient. Make sure you always have enough funds on your wallet.
-*Caution:* Payment submission is an asynchronous process, so payments can fail even after they have been submitted and confirmed successfully. 
-
 ### Placing Trades ###
 
 FX4BIZ provides a deliverable FX facility and deliverable FX liquidity via the FX4Biz-rest API. You will become counterparty to FX4BIZ and can market and sell deliverable FX services to corporate and private clients as well as using such services on their behalf.
@@ -256,6 +244,16 @@ DELETE accounts/{:id}
 Delete an account.
 
 # <a id="payment_object"></a> Payment Objects #
+
+Sending a payment involves two steps:
+
+1. Generate the payment object with the [Create Payment method](#post-account-create). 
+When you submit a payment to be scheduled, you assign a unique id to that payment. 
+*Caution:* The payment created will be automatically rolled to the next closest working days if not confirmed in the scheduled date of operation.
+
+2. Confirm the payment to the API for processing, using the [Confirm Payment method](#confirm-payment). 
+When you confirm a payment for processing, make sure you have sufficient funds in your wallet account balance. The funds transfer will be automatically locked-in if the wallet account balance is not sufficient. Make sure you always have enough funds on your wallet.
+*Caution:* Payment submission is an asynchronous process, so payments can fail even after they have been submitted and confirmed successfully. 
 
 This `Payment` format is intended to be straightforward to create and parse, from strongly or loosely typed programming languages. Once a transaction is processed and validated it also includes information about the final details of the payment.
 
