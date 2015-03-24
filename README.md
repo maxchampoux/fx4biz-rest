@@ -421,6 +421,10 @@ Example balance Object:
 
 ## <a id="beneficiary_bank_object"></a> Beneficiary Bank Object ##
 
+When a beneficiary bank is specified as part of a JSON body, it is encoded as an object with the following fields:
+
+**Object resources.**
+
 | Field | Type | Description |
 |-------|------|-------------|
 | bic | String | **Required if swift format.** Eight or eleve-digit [ISO 9362 Business Identifier Code](http://en.wikipedia.org/wiki/ISO_9362) specifying the Recipient Bank. `CHASUS33XXX` |
@@ -437,41 +441,37 @@ Example Beneficiary Bank Object:
   "clearing_type": "FW",
   "clearing_code": "021000021",
   "name": "JPMORGAN CHASE BANK, N.A.",
-  "address": {
-      "street": "4 NEW YORK PLAZA, FLOOR 15",
-      "post_code": "10004",
-      "city": "NEW YORK",
-      "state_or_province": "NY",
-      "country": "US"
-  }
+  "address": {address}
 }
 ```
 
 ## <a id="beneficiary_object"></a> Beneficiary Object ##
 
+When the beneficiary of an account is specified as part of a JSON body, it is encoded as an object with the following fields:
+
+**Object resources.**
+
 | Field | Type | Description |
 |-------|------|-------------|
 | name | String | **Required.** The name of the account owner. `John Doe`|
 | type | String | **Required.** The type of account owner. `individual` |
-| address | [Address Object](#address_object) | The account owner address.  |
+| address | [Address Object](#address_object) | The account owner address. |
 
 Example Beneficiary Object:
 
 ```js
 {
   "name": "John Doe",
-  "type": "Individual",
-  "address": {
-      "street": "350 Avenue Louise",
-      "post_code": "1050",
-      "city": "Bruxelles",
-      "state_or_province": "Bruxelles-Capitale",
-      "Country": "BE"
-  }
+  "type": "individual",
+  "address": {address}
 }
 ```
 
 ## <a id="correspondent_bank_object"></a> Correspondent Bank Object ##
+
+When a correspondent bank of an account is specified as part of a JSON body, it is encoded as an object with the following fields:
+
+**Object resources.**
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -483,16 +483,10 @@ Example Correpondent Bank Object:
 
 ```js
 "correspondant_bank":{
-            "bic": "AGRIFRPP",
-            "name": "CREDIT AGRICOLE SA",
-            "address": {
-                "street": "BUILDING PASTEUR, BLOC 1: 91-93, BOULEVARD PASTEUR",
-                "post_code": "75015",
-                "city_name": "Paris",
-                "state_or_province": "",
-                "country": "FRANCE"
-            }
-        },
+    "bic": "AGRIFRPP",
+    "name": "CREDIT AGRICOLE SA",
+    "address": {address}
+},
 ```
 
 ## <a id="payment_object"></a> Payment Object ##
