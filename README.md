@@ -401,6 +401,26 @@ FX4BIZ provides a deliverable FX facility and deliverable FX liquidity via the F
 
 The FX4BIZ-rest API supports online trading for the following contracts: TOD (Same-day settled for those currencies than can be), TOM (next-day settled), SPOT (T+2) and forward contracts up to one year. 
 
+
+As an example, a response for `GET /trade/{:id}` object looks like this:
+```js
+{
+    "trade": {
+        "id": "xxx",
+        "status": "Awaiting confirmation",
+        "created_date": "2014-01-12T00:00:00+00:00",
+        "created_by": "Api",
+        "initial_operation_date"= "2014-01-12T00:00:00+00:00",
+        "type": "Standard",
+        "amount": {
+            "value": "125000.00",
+            "currency": "USD"
+        }
+    }
+}
+```
+
+
 #### <a id="submit-rates"></a> Retrieve Rates ####
 
 ```
