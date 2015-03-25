@@ -1,6 +1,6 @@
 # FX4BIZ-REST API #
 
-The FX4BIZ-REST API provides a simplified, easy-to-use interface to the FX4BIZ accounts & operations via a RESTful API. This page explains how to use the API to execute FX trades, send cross-boarder payments and monitoring accounts with FX4Biz.
+The FX4BIZ-REST API provides a simplified, easy-to-use interface to the FX4BIZ accounts & operations via a RESTful API. This page explains how to use the API to execute FX trades, send cross-boarder payments and monitoring accounts with FX4BIZ.
 
 We recommend FX4BIZ-REST for financial institutions just getting started with FX4BIZ, since it provides high-level abstractions and convenient simplifications in the data format. 
 
@@ -250,7 +250,8 @@ As a response to this query, you will receive the [Transfers Object](#transfers_
 Method: GET 
 URL: /transfer/{transfer_id}
 ```
-Request information on a particular transfer that has been credited or debited to a wallet. As a response to this query, you will receive the details of the [Transfer Object](#transfer_object).
+Request information on a particular transfer that has been credited or debited to a wallet. 
+As a response to this query, you will receive the details of the [Transfer Object](#transfer_object).
 
 #### <a id="delete-account"></a> Delete account ####
 
@@ -259,6 +260,9 @@ Method: DELETE
 URL: /account/{account_id}
 ```
 Delete an account.
+As a response to this query, you will receive a JSON confirmation of the deleted account.
+
+*Caution:* A `wallet` account cannot be deleted.
 
 ### Payment Service ###
 
@@ -380,9 +384,13 @@ URL: /payment
 
 FX trades are made between two wallet accounts. FX4BIZ will automatically debit the source wallet account and credit the destination wallet account at the date specified in the FX trade instructions. If no date is specified, we will execute the operation at the closest tradable date available. A FX trades also involves an amount, which includes both the numeric amount and the currency in order to define is this amount is to be buy or sell, for example: '100000.00+GBP'.
 
-FX4BIZ provides a deliverable FX facility and deliverable FX liquidity via the FX4Biz-rest API. You will become counterparty to FX4BIZ and can market and sell deliverable FX services to corporate and private clients as well as using such services on their behalf.
+FX4BIZ provides a deliverable FX facility and deliverable FX liquidity via the FX4BIZ-REST API. You will become counterparty to FX4BIZ and can market and sell deliverable FX services to corporate and private clients as well as using such services on their behalf.
 
-The FX4Biz-rest API supports online trading for the following contracts: TOD (Same-day settled for those currencies than can be), TOM (next-day settled), SPOT (T+2) and forward contracts up to one year. 
+The FX4BIZ-rest API supports online trading for the following contracts: TOD (Same-day settled for those currencies than can be), TOM (next-day settled), SPOT (T+2) and forward contracts up to one year. 
+
+#### <a id="submit-rates"></a> Retrieve Rates ####
+
+The FX4BIZ-REST API provides a FX Data Feed. You can use the [Rates](#rates_object) in order to ask for daily, hourly, minute, or real-time currency rates tables. The
 
 #### <a id="submit-trade"></a> Placing trades ####
 
