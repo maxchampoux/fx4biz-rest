@@ -353,7 +353,7 @@ As a response to this query, you will receive the details of the [Payment](#paym
 |-------|------|-------------|
 | account_id | String | **Required.** Id of the destination account. `xxx` |
 | amount | [Amount Object](#amount_object) | **Required.** Amount to be sent. `10000.00+GBP` *Caution.* The currency of the amount sent must be equal to the currency of the beneficiary account. |
-| operation_date | Date | Initial execution date of you payment. `YYYY-MM-DD` |
+| execution_date | Date | Initial execution date of you payment. `YYYY-MM-DD` |
 
 #### <a id="confirm-payment"></a> Confirm a payment ####
 
@@ -372,11 +372,25 @@ Method: GET
 URL: /payments
 ```
 
-#### <a id="get-payment-details"></a> Retrieve payment details ####
+#### <a id="get-payment-details"></a> Retrieve Payment Details ####
 
 ```
 Method: GET
 URL: /payment
+```
+
+#### <a id="put-payment"></a> Update Payment Details####
+
+```
+Method: PUT
+URL: /payment/{payment_id}
+```
+
+#### <a id="delete-payment"></a> Cancel Payment ####
+
+```
+Method: DELETE
+URL: /payment/{payment_id}
 ```
 
 ### Trade Services ###
@@ -409,29 +423,49 @@ The FX4BIZ-REST API provides a FX Data Feed. You can use the [Rates service](#ra
 Method: GET
 URL: /quote
 ```
-This Retrieve Quote service is a read-only service permitting to ask for the tradable quotes. 
-*Caution:* It is not possible to trade with the [Quote Object](#quote_object), you have to utilize the [Trade Service](#submit-trade) in order to placing new trades.
-As a response to this query, you will receive the  [Payment](#payment_object) confirmed.
+The Retrieve Quote service is a read-only service permitting to ask for the real-time rate before to execute a trade. 
+*Caution:* It is not possible to trade with the Retrieve Quote service, you have to utilize the [Trade Service](#submit-trade) in order to placing new trades.
 
 *Parameters:*
 
 | Field | Type | Description |
 |-------|------|-------------|
-| instruments | String | **Required.** Specify the cross in which you want the real time rate.`EURGBP` |
+| currency_source | String | **Required.** Id of the destination account. `xxx` |
+| currency_target | String | **Required.** Id of the destination account. `xxx` |
+| amount | [Amount Object](#amount_object) | **Required.** Amount to be sent. `10000.00+GBP` *Caution.* The currency of the amount sent must be equal to the currency of the beneficiary account. |
+| execution_date | Date | Initial execution date of you payment. `YYYY-MM-DD` |
 
-#### <a id="submit-trade"></a> Placing Trades ####
+#### <a id="submit-trade"></a> Execute Trade ####
 
 ```
 Method: POST
-URL: /trades
+URL: /trade
 ```
-
+This services permits to execute trade.
+As a response, you will receive the details of the [Trade](#trade_object) executed.
 
 *Parameters:*
 
 | Field | Type | Description |
 |-------|------|-------------|
-| instruments | String | **Required.** Specify the cross in which you want the real time rate.`EURGBP` |
+| currency_source | String | **Required.** Id of the destination account. `xxx` |
+| currency_target | String | **Required.** Id of the destination account. `xxx` |
+| amount | [Amount Object](#amount_object) | **Required.** Amount to be sent. `10000.00+GBP` *Caution.* The currency of the amount sent must be equal to the currency of the beneficiary account. |
+| execution_date | Date | Initial execution date of you payment. `YYYY-MM-DD` |
+
+#### <a id="get-trade"></a> Retrieve Trade ####
+
+```
+Method: GET
+URL: /trade/{trade_id}
+```
+
+#### <a id="get-trades"></a> Retrieve Trades Book ####
+
+```
+Method: GET
+URL: /trades
+```
 
 ### API objects ###
 
