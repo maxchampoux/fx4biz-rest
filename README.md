@@ -28,7 +28,7 @@ Our API is divided into sections based on different concepts in our system. Each
 
 * [Submit Payment - `POST /payments`](#submit-payment)
 * [Confirm Payment - `PUT /payment/{payment_id}/confirm`](#confirm-payment)
-* [Retrieve Payment History - `GET /payments`](#get-payment-history)
+* [Retrieve Payments History - `GET /payments`](#get-payment-history)
 * [Retrieve Payment Details - `GET /payment/{payment_id}`](#get-payment-history)
 * [Update Payment Details - `PUT /payment/{payment_id}`](#put-payment-details)
 * [Cancel Payment  - `DELETE /payment/{payment_id}`](#delete-payment)
@@ -49,10 +49,19 @@ The FX4BIZ API is organized around [REST](http://en.wikipedia.org/wiki/Represent
 #### Objects List ####
 
 * [Account Object](#account_object)
+* [Accounts Object](#accounts_object)
 * [Address Object](#address_object)
 * [Beneficiary Bank Object](#beneficiary_bank_object)
 * [Beneficiary Object](#beneficiary_object)
 * [Correspondent Bank Object](#correspondent_bank_object)
+* [Payment Object](#payment_object)
+* [Payments Object](#payments_object)
+* [Quote Object](#trade_object)
+* [Rates Object](#rates_object)
+* [Trade Object](#trade_object)
+* [Trades Object](#trades_object)
+* [Transfer Object](#transfer_object)
+* [Trasfers Object](#transfers_object)
 
 #### Formatting Conventions ####
 
