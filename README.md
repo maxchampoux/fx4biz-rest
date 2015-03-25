@@ -1,15 +1,4 @@
-# FX4BIZ Concepts #
-
-FX4BIZ is a payment institution for FX transactions and cross-boarder payment. You can use FX4BIZ to hold accounts, in any currency, at no cost, make real time FX trades & send money anywhere in the world.
-
-A FX4BIZ payment can be sent using FX4BIZ wallet account, directly from one account to another, at no cost.  Payments can also be sent in external bank accounts, prealably referenced in the platform.
-
-
-FX trades are made between two wallet accounts. FX4BIZ will automatically debit the source wallet account and credit the destination wallet account at the date specified in the FX trade instructions. If no date is specified, we will execute the operation at the closest tradable date available. A FX trades also involves an amount, which includes both the numeric amount and the currency in order to define is this amount is to be buy or sell, for example: '100000.00+GBP'.
-
-Although the FX4BIZ-REST API provides a high-level interface to FX4Biz, there are also API methods for monitoring your wallet account balance & transfer informations of received or sent payments on those accounts. 
-
-### FX4BIZ-REST API ###
+# FX4BIZ-REST API #
 
 The FX4BIZ-REST API provides a simplified, easy-to-use interface to the FX4BIZ accounts & operations via a RESTful API. This page explains how to use the API to execute FX trades, send cross-boarder payments and monitoring accounts with FX4Biz.
 
@@ -61,37 +50,18 @@ Our API is divided into sections based on different concepts in our system. Each
 * [Beneficiary Object](#beneficiary_object)
 * [Correspondent Bank Object](#correspondent_bank_object)
 
-#### Formatting Conventions ####
-
-* [Errors](#errors_conventions)
-* [Quoted numbers](#quoted_numbers)
-
-# API Overview #
-
 ## API Reference ##
 
 The FX4BIZ API is organized around [REST](http://en.wikipedia.org/wiki/Representational_state_transfer). Our API is designed to have predictable, resource-oriented URLs and use the HTTP response codes to indicate API errors. We use built-in HTTP features, like HTTP authentication and HTTP verbs, which can be understood by off-the-shelf HTTP clients, and we support [cross-origin resource sharing](http://en.wikipedia.org/wiki/Representational_state_transfer) to allow you to interact securely with our API from a client-side web application. [JSON](http://www.json.org/) will be returned in all responses from the PAI, including errors.
 
+#### Formatting Conventions ####
 
+* [Errors](#errors_conventions)
+* [Pagination](#pagination)
+* [Quoted numbers](#quoted_numbers)
+* [Versioning](#versioning)
 
-
-### Placing Trades ###
-
-FX4BIZ provides a deliverable FX facility and deliverable FX liquidity via the FX4Biz-rest API. You will become counterparty to FX4BIZ and can market and sell deliverable FX services to corporate and private clients as well as using such services on their behalf.
-
-The FX4Biz-rest API supports online trading for the following contracts: TOD (Same-day settled for those currencies than can be), TOM (next-day settled), SPOT (T+2) and forward contracts up to one year. 
-
-| Same day value Currencies | Cut Off Time |
-|------|------|
-| CHF | 8:30 |
-| GBP | 10:30 |
-| EUR | 16:00 |
-| USD | 16:30 |
-
-| Next day value Currencies (Times stated are for the day prior to the Value Date) | Cut Off Time |
-|-------|------|
-| AOA, ARS, BIF, BRL, CDF, CLP, COP, CRC, DJF, DOP, GHS, HNL, KES, MAD, NPR, PEN, PHP, RUB, TND, TRY, TZS, UGX, XOF/XAF | 10:00 |
-| AED, AUD, CAD, CZK, DKK, HKD, HUF, JPY, NOK, NZD, PLN, SEK, SGD, ZAR | 10:30 |
+## API Services ##
 
 # Authentication Services 
 
@@ -280,7 +250,7 @@ URL: /account/{account_id}
 ```
 Delete an account.
 
-# <a id="payment_object"></a> Payment Objects #
+# <a id="payment_object"></a> Payment Service #
 
 Sending funds from your FX4BIZ wallet account to your own bank account or a third-party recipient involves two steps:
 
@@ -390,7 +360,11 @@ URL: /trades
 ```
 FX trades are made between two wallet accounts. FX4BIZ will automatically debit the source wallet account and credit the destination wallet account at the date specified in the FX trade instructions. If no date is specified, we will execute the operation at the closest tradable date available. A FX trades also involves an amount, which includes both the numeric amount and the currency in order to define is this amount is to be buy or sell, for example: '100000.00+GBP'.
 
-# Objects List #
+FX4BIZ provides a deliverable FX facility and deliverable FX liquidity via the FX4Biz-rest API. You will become counterparty to FX4BIZ and can market and sell deliverable FX services to corporate and private clients as well as using such services on their behalf.
+
+The FX4Biz-rest API supports online trading for the following contracts: TOD (Same-day settled for those currencies than can be), TOM (next-day settled), SPOT (T+2) and forward contracts up to one year. 
+
+### API objects ###
 
 ## <a id="account_object"></a> Account Object ##
 
@@ -621,6 +595,20 @@ The `FX4BIZ-rest` API conforms to the following general behavior for [RESTful AP
 
 As an additional convention, all responses from FX4Biz-REST contain a `"success"` field with a boolean value indicating whether or not the success
 
+## <a id="cut_off_times"></a> Cut-Off Times ##
+
+| Same day value Currencies | Cut Off Time |
+|------|------|
+| CHF | 8:30 |
+| GBP | 10:30 |
+| EUR | 16:00 |
+| USD | 16:30 |
+
+| Next day value Currencies (Times stated are for the day prior to the Value Date) | Cut Off Time |
+|-------|------|
+| AOA, ARS, BIF, BRL, CDF, CLP, COP, CRC, DJF, DOP, GHS, HNL, KES, MAD, NPR, PEN, PHP, RUB, TND, TRY, TZS, UGX, XOF/XAF | 10:00 |
+| AED, AUD, CAD, CZK, DKK, HKD, HUF, JPY, NOK, NZD, PLN, SEK, SGD, ZAR | 10:30 |
+
 ## <a id="errors_conventions"></a> Errors ##
 
 FX4BIZ uses conventional HTTP response codes to indicate success or failure of an PAI resuest. The body of the response contains more detailed information on the cause of the problem.
@@ -675,14 +663,12 @@ FX4BIZ utilizes cursor-based pagination, using the parameter `starting_after`. P
 | starting_after | String | A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. for instance, if you make a list request and receive 100 objects, ending with `object_foo`, your subsequent call can include `starting_after=object_foo` in order to fetch the next page of the list. |
 | ending_before | String | A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with `obj_bar`, your subsequent call can include `ending_before=obj_bar` in order to fetch the previous page of the list. |
 
-## <a id="versioning"></a> Versioning ##
-
-When we make backwards-incompatible changes to the API, we realease new dated versions.
-
-
-
 ## <a id="quoted_numbers"></a> Quoted Numbers ##
 
 In any case where a large number should be specified, FX4Biz-REST uses a string instead of the native JSON number type. This avoids problems with JSON libraries which might automatically convert numbers into native types with differing range and precision.
 
 You should parse these numbers into a numeric data type with adequate precision. If it is not clear how much precision you need, we recommend using an arbitrary-precision data type.
+
+## <a id="versioning"></a> Versioning ##
+
+When we make backwards-incompatible changes to the API, we realease new dated versions.
