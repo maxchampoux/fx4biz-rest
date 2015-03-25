@@ -75,7 +75,7 @@ The FX4BIZ API is organized around [REST](http://en.wikipedia.org/wiki/Represent
 
 ### Authentication Services ###
 
-``You authenticate to the FX4BIZ API by providing one of your API keys in the request. You can have multiple API keys active at one time. Your API keys carry many privileges, so be sure to keep them secret!``
+You authenticate to the FX4BIZ API by providing one of your API keys in the request. You can have multiple API keys active at one time. Your API keys carry many privileges, so be sure to keep them secret!
 
 Authentication to the API occurs via [HTTP Basic Auth.](http://en.wikipedia.org/wiki/Representational_state_transfer). Provide your API key as the basic auth username. You do not need to provide a password.
 
@@ -89,7 +89,7 @@ All API request must be made over [HTTPS](http://en.wikipedia.org/wiki/HTTPS). C
 
 ### <a id="account_services"></a> Account Services ### 
 
-There are two kinds of accounts with FX4BIZ. What we call `wallet` account, which is an account hold in the FX4BIZ books and `external bank` account, which is your account or a third parties account hold in another bank.
+There are two kinds of accounts with FX4BIZ. What we call `wallet` account, which is an account hold in the FX4BIZ books and `external bank` account, which is your own account in another bank or a third party recipient account.
 
 **As an example, a response for `GET /account/{account_id}/details` object looks like this:**
 ```js
@@ -207,7 +207,7 @@ As a response to this query, you will receive a json response containing details
 Method: GET 
 URL: /account/{account_id}
 ```
-Retrieve bank details on an account. As a response to this query, you will receive the details of the [Account Object](#account_object).
+Retrieve bank details on an account. As a response to this query, you will receive the details of the [Accounts Object](#accounts_object).
 
 #### <a id="put-account-details"></a> Update account details ####
 
@@ -242,7 +242,7 @@ As a response to this query, you will receive the [Transfers Object](#transfers_
 | Field | Type | Description |
 |-------|------|-------------|
 | from_date | Date | List all transfers that has been credited or debited on your wallets account since this date. `YYYY-MM-DD` |
-| to_date | Date | List all transfers that has been credited or debited on your wallets account until this date. `YYYY-MM-DD` |
+| to_date | Date | List all transfers that has been credited or debited on your wallets account until this date. `YYYY-MM-DD` | 
 
 #### <a id="get-transfer-details"></a> Retrieve transfer details ####
 
@@ -340,12 +340,16 @@ As an example, a response for `GET /payment/{:id}` object looks like this:
 Method: POST 
 URL: /payments
 ```
-Use this path in order to schedule a new payment.
+Use this path in order to schedule a new payment. 
+As a response to this query, you will receive the details of the [Payment](#payment_object) created.
 
 *Parameters:*
 
 | Field | Type | Description |
 |-------|------|-------------|
+| account_id | String | **Required.** Id of the destination account. `xxx` |
+| amount | [Amount Object](#amount_object) | **Required.** Amount to be sent. `10000.00+GBP` *Caution.* The currency of the amount sent must be equal to the currency of the beneficiary account. |
+| operation_date | Date | Initial execution date of you payment. `YYYY-MM-DD` |
 
 #### <a id="confirm-payment"></a> Confirm a payment ####
 
@@ -353,14 +357,24 @@ Use this path in order to schedule a new payment.
 Method: PUT 
 URL: /payment/{payment_id}/confirm
 ```
-Payments that has been scheduled must be confirmed in order to be release. If the payment is not confirmed on scheduled date of operation, it will be postponed to the next operation date available.
+Payments that has been scheduled must be confirmed in order to be release. 
+If the payment is not confirmed on scheduled date of operation, it will be postponed to the next operation date available.
+As a response to this query, you will receive the updated details of the [Payment](#payment_object) confirmed.
 
-#### <a id="get-payment-history"></a> Get payment history ####
+#### <a id="get-payments-history"></a> Retrieve payments history ####
 
 ```
 Method: GET
 URL: /payments
 ```
+
+#### <a id="get-payment-details"></a> Retrieve payment details ####
+
+```
+Method: GET
+URL: /payment
+```
+
 
 ### Trade Services ###
 
