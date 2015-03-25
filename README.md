@@ -42,6 +42,10 @@ Our API is divided into sections based on different concepts in our system. Each
 * [Retrieve Trades Book - `GET /trades`](#get-trade-book)
 * [Retrieve Trade Details - `GET /trade/{trade_id}`](#get-trade-details)
 
+## API Reference ##
+
+The FX4BIZ API is organized around [REST](http://en.wikipedia.org/wiki/Representational_state_transfer). Our API is designed to have predictable, resource-oriented URLs and use the HTTP response codes to indicate API errors. We use built-in HTTP features, like HTTP authentication and HTTP verbs, which can be understood by off-the-shelf HTTP clients, and we support [cross-origin resource sharing](http://en.wikipedia.org/wiki/Representational_state_transfer) to allow you to interact securely with our API from a client-side web application. [JSON](http://www.json.org/) will be returned in all responses from the PAI, including errors.
+
 #### Objects List ####
 
 * [Account Object](#account_object)
@@ -49,10 +53,6 @@ Our API is divided into sections based on different concepts in our system. Each
 * [Beneficiary Bank Object](#beneficiary_bank_object)
 * [Beneficiary Object](#beneficiary_object)
 * [Correspondent Bank Object](#correspondent_bank_object)
-
-## API Reference ##
-
-The FX4BIZ API is organized around [REST](http://en.wikipedia.org/wiki/Representational_state_transfer). Our API is designed to have predictable, resource-oriented URLs and use the HTTP response codes to indicate API errors. We use built-in HTTP features, like HTTP authentication and HTTP verbs, which can be understood by off-the-shelf HTTP clients, and we support [cross-origin resource sharing](http://en.wikipedia.org/wiki/Representational_state_transfer) to allow you to interact securely with our API from a client-side web application. [JSON](http://www.json.org/) will be returned in all responses from the PAI, including errors.
 
 #### Formatting Conventions ####
 
