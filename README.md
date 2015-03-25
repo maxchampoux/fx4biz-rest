@@ -510,7 +510,7 @@ When an account is specified as part of a JSON body, it is encoded as an object 
 | Beneficiary Bank | [Beneficiary Bank Object](#beneficiary_bank_object) | **Required.** The recipient bank details, holding the account. |
 | Beneficiary | [Beneficiary Object](#beneficiary_object) | **Required.** The recipient details, owner of the account. |
 
-Example Account Object:
+*Example Account Object:*
 
 ```js
 {
@@ -545,7 +545,7 @@ When an accounts is specified as part of a JSON body, it is encoded as an object
 | type |  String | type of account `wallet` |
 | number | String | Iban or account number. `xxx384` |
 
-Example Accounts Object:
+*Example Accounts Object:*
 
 ```js
 {
@@ -582,7 +582,7 @@ When an address is specified as part of a JSON body, it is encoded as an object 
 | state_or_province | String | `Bruxelles-Capitale` |
 | country | String | `BE` |
 
-Example Address Object:
+*Example Address Object:*
 
 ```js
 {
@@ -607,7 +607,7 @@ When an amount of currency is specified as part of a JSON body, it is encoded as
 | value  | String (Quoted decimal) | The quantity of the currency. `25000000.00` |
 | currency | String | Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying the amount currency. `USD` |
 
-Example Amount Object:
+*Example Amount Object:*
 
 ```js
 {
@@ -626,9 +626,9 @@ When the balance of a `wallet` account is specified as part of a JSON body, it i
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `value`  | String (Quoted decimal) | The quantity of the currency. |
+| amount  | [Amount Object](#amount_object) | **Required.** The value on the account. `10,000.00 GBP`
 
-Example balance Object:
+*Example balance Object:*
 
 ```js
 {
@@ -653,7 +653,7 @@ When a beneficiary bank is specified as part of a JSON body, it is encoded as an
 | name | String | **Required if local format.** The beneficiary bank name. `JPMORGAN CHASE BANK, N.A.` |
 | address | [Address Object](#address_object) | **Required if local format.** The beneficiary bank name. |
 
-Example Beneficiary Bank Object:
+*Example Beneficiary Bank Object:*
 
 ```js
 {
@@ -677,7 +677,7 @@ When the beneficiary of an account is specified as part of a JSON body, it is en
 | type | String | **Required.** The type of account owner. `individual` |
 | address | [Address Object](#address_object) | The account owner address. |
 
-Example Beneficiary Object:
+*Example Beneficiary Object:*
 
 ```js
 {
@@ -699,7 +699,7 @@ When a correspondent bank of an account is specified as part of a JSON body, it 
 | name | String | The bank name. `CREDIT AGRICOLE SA` |
 | address | [Address Object](#address_object) | The bank address. |
 
-Example Correpondent Bank Object:
+*Example Correpondent Bank Object:*
 
 ```js
 "correspondant_bank":{
@@ -711,11 +711,83 @@ Example Correpondent Bank Object:
 
 #### <a id="payment_object"></a> Payment Object ####
 
+When a `payment` is specified as part of a JSON body, it is encoded as an object with the following fields:
+
+*Object resources:*
+
 | Field | Type | Description |
 |-------|------|-------------|
 | payment_id | String | **Required.** id of the beneficiary account. `xxx` |
 | amount | [Amount Object](#amount_object) | **Required.** The nominal amount to be transfered. `10,000.00 GBP` |
-| date | Date | `YYYY-MM-DD` |
+| execution_date | Date | `YYYY-MM-DD` |
+
+*Example Payment Object:*
+
+```js
+"correspondant_bank":{
+    "bic": "AGRIFRPP",
+    "name": "CREDIT AGRICOLE SA",
+    "address": {address}
+},
+```
+
+#### <a id="payments_object"></a> Payments Object ####
+
+When a `payments` is specified as part of a JSON body, it is encoded as an object with the following fields:
+
+*Object resources:*
+
+| Field | Type | Description |
+|-------|------|-------------|
+| payments_id | String | **Required.** id of each payment `xxx` |
+| amount | [Amount Object](#amount_object) | **Required.** The nominal amount of the payment. `10,000.00 GBP` |
+| execution_date | Date | `YYYY-MM-DD` |
+| created_date | Date | `YYYY-MM-DD` |
+| confirmed_date | Date | `YYYY-MM-DD` |
+
+*Example Payments Object:*
+
+```js
+},
+```
+
+#### <a id="trade_object"></a> Trade Object ####
+
+When a `trade` is specified as part of a JSON body, it is encoded as an object with the following fields:
+
+*Object resources:*
+
+| Field | Type | Description |
+|-------|------|-------------|
+| trade_id | String | **Required.** id of trade `xxx` |
+| amount | [Amount Object](#amount_object) | **Required.** The nominal amount of the trade. `10,000.00 GBP` |
+| execution_date | Date | `YYYY-MM-DD` |
+| created_date | Date | `YYYY-MM-DD` |
+
+*Example Trade Object:*
+
+```js
+},
+```
+
+#### <a id="trades_object"></a> Trades Object ####
+
+When a `trades` is specified as part of a JSON body, it is encoded as an object with the following fields:
+
+*Object resources:*
+
+| Field | Type | Description |
+|-------|------|-------------|
+| trade_id | String | **Required.** id of trade `xxx` |
+| amount | [Amount Object](#amount_object) | **Required.** The nominal amount of the trade. `10,000.00 GBP` |
+| execution_date | Date | `YYYY-MM-DD` |
+| created_date | Date | `YYYY-MM-DD` |
+
+*Example Trades Object:*
+
+```js
+},
+```
 
 #### <a id="transfer_object"></a> Transfer Object ####
 
@@ -728,6 +800,25 @@ When a transfer is specified as part of a JSON body, it is encoded as an object 
 | payment_id | String | **Required.** id of the beneficiary account. `xxx` |
 | amount | [Amount Object](#amount_object) | **Required.** The nominal amount to be transfered. `10,000.00 GBP` |
 | date | Date | `YYYY-MM-DD` |
+
+#### <a id="transfers_object"></a> Transfers Object ####
+
+When a `transfers` is specified as part of a JSON body, it is encoded as an object with the following fields:
+
+*Object resources:*
+
+| Field | Type | Description |
+|-------|------|-------------|
+| transfers_id | String | **Required.** id of transfers `xxx` |
+| amount | [Amount Object](#amount_object) | **Required.** The nominal amount of the trade. `10,000.00 GBP` |
+| execution_date | Date | `YYYY-MM-DD` |
+| created_date | Date | `YYYY-MM-DD` |
+
+*Example Transfers Object:*
+
+```js
+},
+```
 
 #### <a id="rate_object"></a> Rate Object ####
 
@@ -750,6 +841,21 @@ Example Rate Object:
   "currency_pair": "EURUSD",
 }
 ```
+
+#### <a id="quote_object"></a> Quote Object ####
+
+When a `quote` is specified as part of a JSON body, it is encoded as an object with four fields:
+
+| Field | Type | Description |
+|-------|------|-------------|
+
+Example Quote Object:
+
+```js
+{
+}
+```
+
 ### Formatting Conventions ###
 
 The `FX4BIZ-rest` API conforms to the following general behavior for [RESTful API](http://en.wikipedia.org/wiki/Representational_state_transfer):
