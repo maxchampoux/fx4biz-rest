@@ -1,3 +1,15 @@
+### FX4BIZ Concepts ###
+
+FX4BIZ is a payment institution for FX transactions and cross-boarder payment. You can use FX4BIZ to hold accounts, in any currency, at no cost, make real time FX trades & send money anywhere in the world.
+
+A FX4BIZ payment can be sent using FX4BIZ wallet account, directly from one account to another, at no cost.  Payments can also be sent in external bank accounts, prealably referenced in the platform.
+
+Payments are made between two accounts, by specifying the #id destination accounts of the funds. FX4BIZ will automatically debit the wallet account in the currency at the date specified in the payments instructions. If no date is specified we will debit the wallet account in the payment currency at the closest operation date available. A payment also involves an amount to be transferred.
+
+FX trades are made between two wallet accounts. FX4BIZ will automatically debit the source wallet account and credit the destination wallet account at the date specified in the FX trade instructions. If no date is specified, we will execute the operation at the closest tradable date available. A FX trades also involves an amount, which includes both the numeric amount and the currency in order to define is this amount is to be buy or sell, for example: '100000.00+GBP'.
+
+Although the FX4BIZ-REST API provides a high-level interface to FX4Biz, there are also API methods for monitoring your wallet account balance & transfer informations of received or sent payments on those accounts. 
+
 # FX4BIZ-REST API #
 
 The FX4BIZ-REST API provides a simplified, easy-to-use interface to the FX4BIZ accounts & operations via a RESTful API. This page explains how to use the API to execute FX trades, send cross-boarder payments and monitoring accounts with FX4Biz.
@@ -55,23 +67,12 @@ Our API is divided into sections based on different concepts in our system. Each
 * [Errors](#errors_conventions)
 * [Quoted numbers](#quoted_numbers)
 
-## API Overview ##
+# API Overview #
 
-# API Reference #
+## API Reference ##
 
 The FX4BIZ API is organized around [REST](http://en.wikipedia.org/wiki/Representational_state_transfer). Our API is designed to have predictable, resource-oriented URLs and use the HTTP response codes to indicate API errors. We use built-in HTTP features, like HTTP authentication and HTTP verbs, which can be understood by off-the-shelf HTTP clients, and we support [cross-origin resource sharing](http://en.wikipedia.org/wiki/Representational_state_transfer) to allow you to interact securely with our API from a client-side web application. [JSON](http://www.json.org/) will be returned in all responses from the PAI, including errors.
 
-### FX4BIZ Concepts ###
-
-FX4BIZ is a payment institution for FX transactions and cross-boarder payment. You can use FX4BIZ to hold accounts, in any currency, at no cost, make real time FX trades & send money anywhere in the world.
-
-A FX4BIZ payment can be sent using FX4BIZ wallet account, directly from one account to another, at no cost.  Payments can also be sent in external bank accounts, prealably referenced in the platform.
-
-Payments are made between two accounts, by specifying the #id destination accounts of the funds. FX4BIZ will automatically debit the wallet account in the currency at the date specified in the payments instructions. If no date is specified we will debit the wallet account in the payment currency at the closest operation date available. A payment also involves an amount to be transferred.
-
-FX trades are made between two wallet accounts. FX4BIZ will automatically debit the source wallet account and credit the destination wallet account at the date specified in the FX trade instructions. If no date is specified, we will execute the operation at the closest tradable date available. A FX trades also involves an amount, which includes both the numeric amount and the currency in order to define is this amount is to be buy or sell, for example: '100000.00+GBP'.
-
-Although the FX4BIZ-REST API provides a high-level interface to FX4Biz, there are also API methods for monitoring your wallet account balance & transfer informations of received or sent payments on those accounts. 
 
 
 
