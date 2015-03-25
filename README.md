@@ -4,7 +4,6 @@ FX4BIZ is a payment institution for FX transactions and cross-boarder payment. Y
 
 A FX4BIZ payment can be sent using FX4BIZ wallet account, directly from one account to another, at no cost.  Payments can also be sent in external bank accounts, prealably referenced in the platform.
 
-Payments are made between two accounts, by specifying the #id destination accounts of the funds. FX4BIZ will automatically debit the wallet account in the currency at the date specified in the payments instructions. If no date is specified we will debit the wallet account in the payment currency at the closest operation date available. A payment also involves an amount to be transferred.
 
 FX trades are made between two wallet accounts. FX4BIZ will automatically debit the source wallet account and credit the destination wallet account at the date specified in the FX trade instructions. If no date is specified, we will execute the operation at the closest tradable date available. A FX trades also involves an amount, which includes both the numeric amount and the currency in order to define is this amount is to be buy or sell, for example: '100000.00+GBP'.
 
@@ -382,6 +381,14 @@ Payments that has been scheduled must be confirmed in order to be release. If th
 Method: GET
 URL: /payments
 ```
+
+## <a id="submit-trade"></a> Placing trades ##
+
+```
+Method: POST
+URL: /trades
+```
+FX trades are made between two wallet accounts. FX4BIZ will automatically debit the source wallet account and credit the destination wallet account at the date specified in the FX trade instructions. If no date is specified, we will execute the operation at the closest tradable date available. A FX trades also involves an amount, which includes both the numeric amount and the currency in order to define is this amount is to be buy or sell, for example: '100000.00+GBP'.
 
 # Objects List #
 
