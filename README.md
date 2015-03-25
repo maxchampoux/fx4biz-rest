@@ -51,6 +51,7 @@ The FX4BIZ API is organized around [REST](http://en.wikipedia.org/wiki/Represent
 * [Account Object](#account_object)
 * [Accounts Object](#accounts_object)
 * [Address Object](#address_object)
+* [Balance Object](#balance_object)
 * [Beneficiary Bank Object](#beneficiary_bank_object)
 * [Beneficiary Object](#beneficiary_object)
 * [Correspondent Bank Object](#correspondent_bank_object)
@@ -77,7 +78,7 @@ The FX4BIZ API is organized around [REST](http://en.wikipedia.org/wiki/Represent
 
 You authenticate to the FX4BIZ API by providing one of your API keys in the request. You can have multiple API keys active at one time. Your API keys carry many privileges, so be sure to keep them secret!
 
-Authentication to the API occurs via [HTTP Basic Auth.](http://en.wikipedia.org/wiki/Representational_state_transfer). Provide your API key as the basic auth username. You do not need to provide a password.
+Authentication to the API occurs via [HTTP Auth.](http://en.wikipedia.org/wiki/Representational_state_transfer) Provide your API key as the basic auth username. You do not need to provide a password.
 
 All API request must be made over [HTTPS](http://en.wikipedia.org/wiki/HTTPS). Calls made over plain HTTP will fail. You must authenticate for all requests.
 
@@ -502,7 +503,12 @@ When an account is specified as part of a JSON body, it is encoded as an object 
 | created_by |  String | The creation date of the object: `api` |
 | currency | String | Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying the account currency. `USD` |
 | tag |  String | Custom data. `reference` |
+| status |  String | Status of the account `active` |
+| type |  String | type of account `wallet` |
 | number | String | Iban or account number. `xxx384` |
+| Correspondent Bank | [Correspondent Bank Object](#correspondent_bank_object) | **Required for local format.** The intermediary bank details, used to reach the beneficiary bank. |
+| Beneficiary Bank | [Beneficiary Bank Object](#beneficiary_bank_object) | **Required.** The recipient bank details, holding the account. |
+| Beneficiary | [Beneficiary Object](#beneficiary_object) | **Required.** The recipient details, owner of the account. |
 
 Example Account Object:
 
@@ -521,6 +527,44 @@ Example Account Object:
         "beneficiary_bank":{beneficiary_bank}
         "beneficiary":{beneficiary}
     }
+}
+```
+
+#### <a id="accounts_object"></a> Accounts Object ####
+
+When an accounts is specified as part of a JSON body, it is encoded as an object with the following fields:
+
+*Object resources:*
+
+| Field | Type | Description |
+|-------|------|-------------|
+| account_id |  String | The id of the account. `xxx` |
+| currency | String | Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying the account currency. `USD` |
+| tag |  String | Custom data. `reference` |
+| status |  String | Status of the account `active` |
+| type |  String | type of account `wallet` |
+| number | String | Iban or account number. `xxx384` |
+
+Example Accounts Object:
+
+```js
+{
+    "accounts": [{
+        "account_id": "xxx"
+        "status": "active",
+        "type": "wallet",
+        "tag": "My wallet account EUR",
+        "number": "xxx4548",
+        "currency": "EUR",
+    },
+    {
+        "account_id": "xxx"
+        "status": "active",
+        "type": "wallet",
+        "tag": "My wallet account EUR",
+        "number": "xxx4548",
+        "currency": "EUR",
+    }]
 }
 ```
 
@@ -552,7 +596,7 @@ Example Address Object:
 }
 ```
 
-#### <a id="amounts_object"></a> Amounts Object ####
+#### <a id="amount_object"></a> Amount Object ####
 
 When an amount of currency is specified as part of a JSON body, it is encoded as an object with two fields:
 
