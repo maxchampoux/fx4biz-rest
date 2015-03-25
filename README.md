@@ -1,4 +1,4 @@
-### FX4BIZ Concepts ###
+# FX4BIZ Concepts #
 
 FX4BIZ is a payment institution for FX transactions and cross-boarder payment. You can use FX4BIZ to hold accounts, in any currency, at no cost, make real time FX trades & send money anywhere in the world.
 
@@ -10,7 +10,7 @@ FX trades are made between two wallet accounts. FX4BIZ will automatically debit 
 
 Although the FX4BIZ-REST API provides a high-level interface to FX4Biz, there are also API methods for monitoring your wallet account balance & transfer informations of received or sent payments on those accounts. 
 
-# FX4BIZ-REST API #
+### FX4BIZ-REST API ###
 
 The FX4BIZ-REST API provides a simplified, easy-to-use interface to the FX4BIZ accounts & operations via a RESTful API. This page explains how to use the API to execute FX trades, send cross-boarder payments and monitoring accounts with FX4Biz.
 
