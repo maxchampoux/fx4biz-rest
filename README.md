@@ -57,12 +57,12 @@ The FX4BIZ API is organized around [REST](http://en.wikipedia.org/wiki/Represent
 * [Correspondent Bank Object](#correspondent_bank_object)
 * [Payment Object](#payment_object)
 * [Payments Object](#payments_object)
-* [Quote Object](#trade_object)
 * [Rates Object](#rates_object)
 * [Trade Object](#trade_object)
 * [Trades Object](#trades_object)
 * [Transfer Object](#transfer_object)
 * [Transfers Object](#transfers_object)
+* [Quote Object](#trade_object)
 
 #### Formatting Conventions ####
 
