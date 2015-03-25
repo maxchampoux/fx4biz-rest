@@ -15,7 +15,7 @@ Our API is divided into sections based on different concepts in our system. Each
 
 #### Accounts ####
 
-* [Submit New Account - `POST /accounts`](#post-account-create)
+* [Submit New Account - `POST /account`](#post-account-create)
 * [Retrieve Account list - `GET /accounts`](#get-accounts-list)
 * [Retrieve Account Balance - `GET /account/{account_id}/balance`](#get-account-balance)
 * [Retrieve Account Details - `GET /account/{account_id}`](#get-account-details)
@@ -26,7 +26,7 @@ Our API is divided into sections based on different concepts in our system. Each
 
 #### Payments ####
 
-* [Submit Payment - `POST /payments`](#submit-payment)
+* [Submit Payment - `POST /payment`](#submit-payment)
 * [Confirm Payment - `PUT /payment/{payment_id}/confirm`](#confirm-payment)
 * [Retrieve Payments History - `GET /payments`](#get-payment-history)
 * [Retrieve Payment Details - `GET /payment/{payment_id}`](#get-payment-history)
