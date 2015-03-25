@@ -36,15 +36,15 @@ Our API is divided into sections based on different concepts in our system. Each
 #### Trades ####
 
 * [Retrieve Rates - `GET /rates`](#get-rates)
-* [Request Quote - `POST /quotes`](#get-quote)
-* [Submit Trade - `POST /trades`](#get-trade)
+* [Request Quote - `POST /quote`](#get-quote)
+* [Submit Trade - `POST /trade`](#get-trade)
 * [Cancel Trade - `DELETE /trade/{trade_id}`](#cancel-trade)
 * [Retrieve Trades Book - `GET /trades`](#get-trade-book)
 * [Retrieve Trade Details - `GET /trade/{trade_id}`](#get-trade-details)
 
 ## API Reference ##
 
-The FX4BIZ API is organized around [REST](http://en.wikipedia.org/wiki/Representational_state_transfer). Our API is designed to have predictable, resource-oriented URLs and use the HTTP response codes to indicate API errors. We use built-in HTTP features, like HTTP authentication and HTTP verbs, which can be understood by off-the-shelf HTTP clients, and we support [cross-origin resource sharing](http://en.wikipedia.org/wiki/Representational_state_transfer) to allow you to interact securely with our API from a client-side web application. [JSON](http://www.json.org/) will be returned in all responses from the PAI, including errors.
+The FX4BIZ API is organized around [REST](http://en.wikipedia.org/wiki/Representational_state_transfer). Our API is designed to have predictable, resource-oriented URLs and use the HTTP response codes to indicate API errors. We use built-in HTTP features, like HTTP authentication and HTTP verbs, which can be understood by off-the-shelf HTTP clients, and we support [cross-origin resource sharing](http://en.wikipedia.org/wiki/Representational_state_transfer) to allow you to interact securely with our API from a client-side web application. [JSON](http://www.json.org/) will be returned in all responses from the API, including errors.
 
 #### Objects List ####
 
@@ -89,7 +89,7 @@ All API request must be made over [HTTPS](http://en.wikipedia.org/wiki/HTTPS). C
 
 ### <a id="account_services"></a> Account Services ### 
 
-There are two kinds of accounts with FX4BIZ. What we call `wallet` account, which is an account hold in the FX4BIZ books and `external bank` account, which is your own account in another bank or a third party recipient account.
+There are two kinds of accounts with FX4BIZ. What we call `wallet` account, which is an account hold in the FX4BIZ books and `external bank` account, which can be either your own account in another bank or a third party recipient account.
 
 **As an example, a response for `GET /account/{account_id}/details` object looks like this:**
 ```js
@@ -379,7 +379,6 @@ Method: GET
 URL: /payment
 ```
 
-
 ### Trade Services ###
 
 FX trades are made between two wallet accounts. FX4BIZ will automatically debit the source wallet account and credit the destination wallet account at the date specified in the FX trade instructions. If no date is specified, we will execute the operation at the closest tradable date available. A FX trades also involves an amount, which includes both the numeric amount and the currency in order to define is this amount is to be buy or sell, for example: '100000.00+GBP'.
@@ -390,14 +389,49 @@ The FX4BIZ-rest API supports online trading for the following contracts: TOD (Sa
 
 #### <a id="submit-rates"></a> Retrieve Rates ####
 
-The FX4BIZ-REST API provides a FX Data Feed. You can use the [Rates](#rates_object) in order to ask for daily, hourly, minute, or real-time currency rates tables. The
+```
+Method: GET
+URL: /rates
+```
+The FX4BIZ-REST API provides a FX Data Feed. You can use the [Rates service](#rates_object) in order to ask for daily, hourly, minute, or real-time currency rates tables. Real-time rates are specified at mid-market.
 
-#### <a id="submit-trade"></a> Placing trades ####
+*Parameters:*
+
+| Field | Type | Description |
+|-------|------|-------------|
+| instruments | Array | **Required.** List of crosses.`EURGBP;EURUSD` |
+| type | String | **Required.** List the crosses for all the rates wished. `real-time` |
+| date | Date | For historical rates. `YYYY-MM-DD` |
+
+#### <a id="submit-quote"></a> Retrieve Quote ####
+
+```
+Method: GET
+URL: /quote
+```
+This Retrieve Quote service is a read-only service permitting to ask for the tradable quotes. 
+*Caution:* It is not possible to trade with the [Quote Object](#quote_object), you have to utilize the [Trade Service](#submit-trade) in order to placing new trades.
+As a response to this query, you will receive the  [Payment](#payment_object) confirmed.
+
+*Parameters:*
+
+| Field | Type | Description |
+|-------|------|-------------|
+| instruments | String | **Required.** Specify the cross in which you want the real time rate.`EURGBP` |
+
+#### <a id="submit-trade"></a> Placing Trades ####
 
 ```
 Method: POST
 URL: /trades
 ```
+
+
+*Parameters:*
+
+| Field | Type | Description |
+|-------|------|-------------|
+| instruments | String | **Required.** Specify the cross in which you want the real time rate.`EURGBP` |
 
 ### API objects ###
 
