@@ -4,6 +4,7 @@ The FX4BIZ-REST API provides a simplified, easy-to-use interface to the FX4BIZ a
 
 We recommend FX4BIZ-REST for financial institutions just getting started with FX4BIZ, since it provides high-level abstractions and convenient simplifications in the data format. 
 
+
 ## Available API Routes ##
 
 Our API is divided into sections based on different concepts in our system. Each section is made up of a series of calls.
@@ -16,11 +17,11 @@ Our API is divided into sections based on different concepts in our system. Each
 #### Accounts ####
 
 * [Submit New Account - `POST /accounts`](#post-account-create)
-* [Retrieve Account list - `GET /accounts`](#get-account-list)
+* [Retrieve Account list - `GET /accounts`](#get-accounts-list)
 * [Retrieve Account Balance - `GET /account/{account_id}/balance`](#get-account-balance)
 * [Retrieve Account Details - `GET /account/{account_id}/details`](#get-account-details)
 * [Update Account Details - `PUT /account/{account_id}/details`](#put-account-details)
-* [Retrieve Transfer History - `GET /transfers`](#get-transfer-history)
+* [Retrieve Transfer History - `GET /transfers`](#get-transfers-list)
 * [Retrieve Transfer Details - `GET /transfer/{transfer_id}`](#get-transfer-details)
 * [Delete Account - `DELETE /account/{account_id}`](#delete-account)
 
@@ -69,6 +70,10 @@ FX trades are made between two wallet accounts. FX4BIZ will automatically debit 
 
 Although the FX4BIZ-REST API provides a high-level interface to FX4Biz, there are also API methods for monitoring your wallet account balance & transfer informations of received or sent payments on those accounts. 
 
+# API Reference #
+
+The FX4BIZ API is organized around [REST](http://en.wikipedia.org/wiki/Representational_state_transfer). Our API is designed to have predictable, resource-oriented URLs and use the HTTP response codes to indicate API errors. We use built-in HTTP features, like HTTP authentication and HTTP verbs, which can be understood by off-the-shelf HTTP clients, and we support [cross-origin resource sharing](http://en.wikipedia.org/wiki/Representational_state_transfer) to allow you to interact securely with our API from a client-side web application. [JSON](http://www.json.org/) will be returned in all responses from the PAI, including errors.
+
 ### Placing Trades ###
 
 FX4BIZ provides a deliverable FX facility and deliverable FX liquidity via the FX4Biz-rest API. You will become counterparty to FX4BIZ and can market and sell deliverable FX services to corporate and private clients as well as using such services on their behalf.
@@ -89,6 +94,12 @@ The FX4Biz-rest API supports online trading for the following contracts: TOD (Sa
 
 # Authentication Services 
 
+You authenticate to the FX4BIZ API by providing one of your API keys in the request. You can have multiple APPI keys active at one time. Your API keys carry many privileges, so be sure to keep them secret!
+
+Authentication to the API occurs via [HTTP Basic Auth.](http://en.wikipedia.org/wiki/Representational_state_transfer). Provide your API key as the basic auth username. You do not need to provide a password.
+
+All API request must be made over [HTTPS](http://en.wikipedia.org/wiki/HTTPS). Calls made over plain HTTP will fail. You must authenticate for all requests.
+
 ## <a id="get-login-user"></a> Login ##
 -> TBD
 
@@ -99,7 +110,7 @@ The FX4Biz-rest API supports online trading for the following contracts: TOD (Sa
 
 There are two kinds of accounts with FX4BIZ. What we call `wallet` account, which is an account hold in the FX4BIZ books and `external bank` account, which is an account hold in another bank.
 
-As an example, a response for `GET /Account/{account_id}/details` object looks like this:
+As an example, a response for `GET /account/{account_id}/details` object looks like this:
 ```js
 {
     "account": {
@@ -236,7 +247,7 @@ Update information on an account or modify beneficiary bank or correspondent ban
 | currency | String | **Required.** Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying the account currency. `EUR` |
 | tag | String | Custom Data. `External bank account EUR` |
 
-## <a id="get-transfer-history"></a> Get transfer history ##
+## <a id="get-transfers-list"></a> Get transfer history ##
 
 ```
 Method: GET 
@@ -270,7 +281,7 @@ Delete an account.
 
 # <a id="payment_object"></a> Payment Objects #
 
-Sending a payment involves two steps:
+Sending funds from your FX4BIZ wallet account to your own bank account or a third-party recipient involves two steps:
 
 1. Generate the payment object with the [Create Payment method](#submit-payment). 
 When you submit a payment to be scheduled, you assign a unique id to that payment. 
@@ -279,6 +290,8 @@ When you submit a payment to be scheduled, you assign a unique id to that paymen
 
 2. Confirm the payment to the API for processing, using the [Confirm Payment method](#confirm-payment). 
 When you confirm a payment for processing, make sure you have sufficient funds in your wallet account balance. The funds transfer will be automatically locked-in if the wallet account balance is not sufficient. Make sure you always have enough funds on your wallet.
+
+*Caution:* If the balance of your wallet account is not sufficient to cover the payment amount, funds may be locked-in by FX4BIZ.
 
 As an example, a response for `GET /payment/{:id}` object looks like this:
 ```js
@@ -601,13 +614,13 @@ As an additional convention, all responses from FX4Biz-REST contain a `"success"
 
 ## <a id="errors_conventions"></a> Errors ##
 
-When errors occur, the server returns an HTTP status code in the 400-599 range, depending on the type of error. The body of the response contains more detailed information on the cause of the problem.
+FX4BIZ uses conventional HTTP response codes to indicate success or failure of an PAI resuest. The body of the response contains more detailed information on the cause of the problem.
 
 In general, the HTTP status code is indicative of where the problem occurred:
 
 * Codes in the 200-299 range indicate success. 
     * Unless otherwise specified, methods are expected to return `200 OK` on success.
-* Codes in the 400-499 range indicate that the request was invalid or incorrect somehow. For example:
+* Codes in the 400-499 range indicate that the request was invalid or incorrect somehow (e.g. a required parameter was missing, a trade failed, etc.). For example:
     * `400 Bad Request` occurs if the JSON body is malformed. This includes syntax errors as well as when invalid or mutually-exclusive options are selected.
     * `404 Not Found` occurs if the path specified does not exist, or does not support that method (for example, trying to POST to a URL that only serves GET requests)
 * Codes in the 500-599 range indicate that the server experienced a problem. This could be due to a network outage or a bug in the software somewhere. For example:
@@ -624,18 +637,42 @@ When possible, the server provides a JSON response body with more information ab
 | error | String | A human-readable summary of the error that occurred. |
 | message | String | (May be omitted) A longer human-readable explanation for the error. |
 
-Example error:
+*Example error:*
 
 ```js
 {
     "success": false,
-    "error_type": "invalidId",
-    "error": "Invalid parameter: IdAccount",
+    "error_type": "invalid_id",
+    "error": "Invalid parameter: account_id",
     "message": "Your payment must have a counterparty"
 }
 ```
 
-## <a id="quoted_numbers"></a>Quoted Numbers ##
+**Handling errors**
+
+Our API libraries can raise exceptions for many reasons, such as failed trade, invalid parameters, authentications errors, and network unavailability. We recommend always trying to gracefully handle exceptions from our API.
+
+## <a id="pagination"></a> Pagination ##
+
+All top-level FX4BIZ API resources have support for bulk fetches - "list" API methods. For instance you can [list accounts`](#get-account-list), [list transfers`](#get-transfers-list), etc... These list API methods share a common structure.
+
+FX4BIZ utilizes cursor-based pagination, using the parameter `starting_after`. Pass `starting_after` to dictate where in the list you would like to begin (see below).
+
+*Arguments:*
+
+| Field | Type | Description |
+|-------|------|-------------|
+| limit | String | A limit on the number of objects to be returned. limit can range between 1 and 100 items. |
+| starting_after | String | A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. for instance, if you make a list request and receive 100 objects, ending with `object_foo`, your subsequent call can include `starting_after=object_foo` in order to fetch the next page of the list. |
+| ending_before | String | A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with `obj_bar`, your subsequent call can include `ending_before=obj_bar` in order to fetch the previous page of the list. |
+
+## <a id="versioning"></a> Versioning ##
+
+When we make backwards-incompatible changes to the API, we realease new dated versions.
+
+
+
+## <a id="quoted_numbers"></a> Quoted Numbers ##
 
 In any case where a large number should be specified, FX4Biz-REST uses a string instead of the native JSON number type. This avoids problems with JSON libraries which might automatically convert numbers into native types with differing range and precision.
 
