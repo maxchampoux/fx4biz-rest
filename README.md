@@ -56,6 +56,7 @@ The FX4BIZ API is organized around [REST](http://en.wikipedia.org/wiki/Represent
 
 #### Formatting Conventions ####
 
+* [Cut-Off Times](#cut_off_times)
 * [Errors](#errors_conventions)
 * [Pagination](#pagination)
 * [Quoted numbers](#quoted_numbers)
@@ -63,7 +64,7 @@ The FX4BIZ API is organized around [REST](http://en.wikipedia.org/wiki/Represent
 
 ## API Services ##
 
-# Authentication Services 
+### Authentication Services ###
 
 You authenticate to the FX4BIZ API by providing one of your API keys in the request. You can have multiple APPI keys active at one time. Your API keys carry many privileges, so be sure to keep them secret!
 
@@ -71,13 +72,13 @@ Authentication to the API occurs via [HTTP Basic Auth.](http://en.wikipedia.org/
 
 All API request must be made over [HTTPS](http://en.wikipedia.org/wiki/HTTPS). Calls made over plain HTTP will fail. You must authenticate for all requests.
 
-## <a id="get-login-user"></a> Login ##
+#### <a id="get-login-user"></a> Login ####
 -> TBD
 
-## <a id="get-end-session"></a> End session ##
+#### <a id="get-end-session"></a> End session ####
 -> TBD
 
-# <a id="account_services"></a> Account Services # 
+### <a id="account_services"></a> Account Services ### 
 
 There are two kinds of accounts with FX4BIZ. What we call `wallet` account, which is an account hold in the FX4BIZ books and `external bank` account, which is an account hold in another bank.
 
@@ -131,7 +132,7 @@ As an example, a response for `GET /account/{account_id}/details` object looks l
 }
 ```
 
-## <a id="post-account-create"></a> Submit account ##
+#### <a id="post-account-create"></a> Submit account ####
 
 ```
 Method: POST 
@@ -158,7 +159,7 @@ The Api accepts the following formats of `external bank` accounts :
 | currency | String | **Required.** Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying the account currency. `EUR` |
 | tag | String | Custom Data. `John Doe bank account EUR` |
 
-## <a id="get-accounts-list"></a> Retrieve accounts list ##
+#### <a id="get-accounts-list"></a> Retrieve accounts list ####
 
 ```
 Method: GET 
@@ -173,7 +174,7 @@ If you only want to retrieve the list of your wallets accounts, you have to sort
 |-------|------|-------------|
 | type | String | Sort the list by type of account. `wallet` |
 
-## <a id="get-account-balances"></a> Get account balances ##
+#### <a id="get-account-balances"></a> Get account balances ####
 
 ```
 Method: GET 
@@ -191,7 +192,7 @@ As a response to this query, you will receive a json response containing details
 |-------|------|-------------|
 | closing_date | Date | The closing balance date. `YYYY-MM-DD` |
 
-## <a id="get-account-details"></a> Retrieve account details ##
+#### <a id="get-account-details"></a> Retrieve account details ####
 
 ```
 Method: GET 
@@ -199,7 +200,7 @@ URL: /account/{account_id}
 ```
 Retrieve bank details on an account. As a response to this query, you will receive the details of the [Account Object](#account_object).
 
-## <a id="put-account-details"></a> Update account details ##
+#### <a id="put-account-details"></a> Update account details ####
 
 ```
 Method: PUT 
@@ -218,7 +219,7 @@ Update information on an account or modify beneficiary bank or correspondent ban
 | currency | String | **Required.** Three-digit [ISO 4217 Currency Code](http://www.xe.com/iso4217.php) specifying the account currency. `EUR` |
 | tag | String | Custom Data. `External bank account EUR` |
 
-## <a id="get-transfers-list"></a> Get transfer history ##
+#### <a id="get-transfers-list"></a> Get transfer history ####
 
 ```
 Method: GET 
@@ -234,7 +235,7 @@ As a response to this query, you will receive the [Transfers Object](#transfers_
 | from_date | Date | List all transfers that has been credited or debited on your wallets account since this date. `YYYY-MM-DD` |
 | to_date | Date | List all transfers that has been credited or debited on your wallets account until this date. `YYYY-MM-DD` |
 
-## <a id="get-transfer-details"></a> Retrieve transfer details ##
+#### <a id="get-transfer-details"></a> Retrieve transfer details ####
 
 ```
 Method: GET 
@@ -242,7 +243,7 @@ URL: /transfer/{transfer_id}
 ```
 Request information on a particular transfer that has been credited or debited to a wallet. As a response to this query, you will receive the details of the [Transfer Object](#transfer_object).
 
-## <a id="delete-account"></a> Delete account ##
+#### <a id="delete-account"></a> Delete account ####
 
 ```
 Method: DELETE 
@@ -250,7 +251,7 @@ URL: /account/{account_id}
 ```
 Delete an account.
 
-# <a id="payment_object"></a> Payment Service #
+### Payment Service ###
 
 Sending funds from your FX4BIZ wallet account to your own bank account or a third-party recipient involves two steps:
 
@@ -324,7 +325,7 @@ As an example, a response for `GET /payment/{:id}` object looks like this:
 }
 ```
 
-## <a id="submit-payment"></a> Submitting a payment ##
+#### <a id="submit-payment"></a> Submitting a payment ####
 
 ```
 Method: POST 
@@ -337,7 +338,7 @@ Use this path in order to schedule a new payment.
 | Field | Type | Description |
 |-------|------|-------------|
 
-## <a id="confirm-payment"></a> Confirm a payment ##
+#### <a id="confirm-payment"></a> Confirm a payment ####
 
 ```
 Method: PUT 
@@ -345,28 +346,31 @@ URL: /payment/{payment_id}/confirm
 ```
 Payments that has been scheduled must be confirmed in order to be release. If the payment is not confirmed on scheduled date of operation, it will be postponed to the next operation date available.
 
-## <a id="get-payment-history"></a> Get payment history ##
+#### <a id="get-payment-history"></a> Get payment history ####
 
 ```
 Method: GET
 URL: /payments
 ```
 
-## <a id="submit-trade"></a> Placing trades ##
+### Trade Services ###
 
-```
-Method: POST
-URL: /trades
-```
 FX trades are made between two wallet accounts. FX4BIZ will automatically debit the source wallet account and credit the destination wallet account at the date specified in the FX trade instructions. If no date is specified, we will execute the operation at the closest tradable date available. A FX trades also involves an amount, which includes both the numeric amount and the currency in order to define is this amount is to be buy or sell, for example: '100000.00+GBP'.
 
 FX4BIZ provides a deliverable FX facility and deliverable FX liquidity via the FX4Biz-rest API. You will become counterparty to FX4BIZ and can market and sell deliverable FX services to corporate and private clients as well as using such services on their behalf.
 
 The FX4Biz-rest API supports online trading for the following contracts: TOD (Same-day settled for those currencies than can be), TOM (next-day settled), SPOT (T+2) and forward contracts up to one year. 
 
+#### <a id="submit-trade"></a> Placing trades ####
+
+```
+Method: POST
+URL: /trades
+```
+
 ### API objects ###
 
-## <a id="account_object"></a> Account Object ##
+#### <a id="account_object"></a> Account Object ####
 
 When an account is specified as part of a JSON body, it is encoded as an object with the following fields:
 
@@ -401,7 +405,7 @@ Example Account Object:
 }
 ```
 
-## <a id="address_object"></a> Address Object ##
+#### <a id="address_object"></a> Address Object ####
 
 When an address is specified as part of a JSON body, it is encoded as an object with four fields:
 
@@ -429,7 +433,7 @@ Example Address Object:
 }
 ```
 
-## <a id="amounts_object"></a> Amounts Object ##
+#### <a id="amounts_object"></a> Amounts Object ####
 
 When an amount of currency is specified as part of a JSON body, it is encoded as an object with two fields:
 
@@ -451,7 +455,7 @@ Example Amount Object:
 }
 ```
 
-## <a id="balance_object"></a> Balance Object ##
+#### <a id="balance_object"></a> Balance Object ####
 
 When the balance of a `wallet` account is specified as part of a JSON body, it is encoded as an object with the following fields:
 
@@ -472,7 +476,7 @@ Example balance Object:
 }
 ```
 
-## <a id="beneficiary_bank_object"></a> Beneficiary Bank Object ##
+#### <a id="beneficiary_bank_object"></a> Beneficiary Bank Object ####
 
 When a beneficiary bank is specified as part of a JSON body, it is encoded as an object with the following fields:
 
@@ -498,7 +502,7 @@ Example Beneficiary Bank Object:
 }
 ```
 
-## <a id="beneficiary_object"></a> Beneficiary Object ##
+#### <a id="beneficiary_object"></a> Beneficiary Object ####
 
 When the beneficiary of an account is specified as part of a JSON body, it is encoded as an object with the following fields:
 
@@ -520,7 +524,7 @@ Example Beneficiary Object:
 }
 ```
 
-## <a id="correspondent_bank_object"></a> Correspondent Bank Object ##
+#### <a id="correspondent_bank_object"></a> Correspondent Bank Object ####
 
 When a correspondent bank of an account is specified as part of a JSON body, it is encoded as an object with the following fields:
 
@@ -542,7 +546,7 @@ Example Correpondent Bank Object:
 },
 ```
 
-## <a id="payment_object"></a> Payment Object ##
+#### <a id="payment_object"></a> Payment Object ####
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -550,7 +554,7 @@ Example Correpondent Bank Object:
 | amount | [Amount Object](#amount_object) | **Required.** The nominal amount to be transfered. `10,000.00 GBP` |
 | date | Date | `YYYY-MM-DD` |
 
-## <a id="transfer_object"></a> Transfer Object ##
+#### <a id="transfer_object"></a> Transfer Object ####
 
 When a transfer is specified as part of a JSON body, it is encoded as an object with the following fields:
 
@@ -562,7 +566,7 @@ When a transfer is specified as part of a JSON body, it is encoded as an object 
 | amount | [Amount Object](#amount_object) | **Required.** The nominal amount to be transfered. `10,000.00 GBP` |
 | date | Date | `YYYY-MM-DD` |
 
-## <a id="rate_object"></a> Rate Object ##
+#### <a id="rate_object"></a> Rate Object ####
 
 When a rate is specified as part of a JSON body, it is encoded as an object with four fields:
 
@@ -583,7 +587,7 @@ Example Rate Object:
   "currency_pair": "EURUSD",
 }
 ```
-# Formatting Conventions #
+### Formatting Conventions ###
 
 The `FX4BIZ-rest` API conforms to the following general behavior for [RESTful API](http://en.wikipedia.org/wiki/Representational_state_transfer):
 
@@ -595,7 +599,7 @@ The `FX4BIZ-rest` API conforms to the following general behavior for [RESTful AP
 
 As an additional convention, all responses from FX4Biz-REST contain a `"success"` field with a boolean value indicating whether or not the success
 
-## <a id="cut_off_times"></a> Cut-Off Times ##
+#### <a id="cut_off_times"></a> Cut-Off Times ####
 
 | Same day value Currencies | Cut Off Time |
 |------|------|
@@ -609,7 +613,7 @@ As an additional convention, all responses from FX4Biz-REST contain a `"success"
 | AOA, ARS, BIF, BRL, CDF, CLP, COP, CRC, DJF, DOP, GHS, HNL, KES, MAD, NPR, PEN, PHP, RUB, TND, TRY, TZS, UGX, XOF/XAF | 10:00 |
 | AED, AUD, CAD, CZK, DKK, HKD, HUF, JPY, NOK, NZD, PLN, SEK, SGD, ZAR | 10:30 |
 
-## <a id="errors_conventions"></a> Errors ##
+#### <a id="errors_conventions"></a> Errors ####
 
 FX4BIZ uses conventional HTTP response codes to indicate success or failure of an PAI resuest. The body of the response contains more detailed information on the cause of the problem.
 
@@ -663,12 +667,12 @@ FX4BIZ utilizes cursor-based pagination, using the parameter `starting_after`. P
 | starting_after | String | A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. for instance, if you make a list request and receive 100 objects, ending with `object_foo`, your subsequent call can include `starting_after=object_foo` in order to fetch the next page of the list. |
 | ending_before | String | A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with `obj_bar`, your subsequent call can include `ending_before=obj_bar` in order to fetch the previous page of the list. |
 
-## <a id="quoted_numbers"></a> Quoted Numbers ##
+#### <a id="quoted_numbers"></a> Quoted Numbers ####
 
 In any case where a large number should be specified, FX4Biz-REST uses a string instead of the native JSON number type. This avoids problems with JSON libraries which might automatically convert numbers into native types with differing range and precision.
 
 You should parse these numbers into a numeric data type with adequate precision. If it is not clear how much precision you need, we recommend using an arbitrary-precision data type.
 
-## <a id="versioning"></a> Versioning ##
+#### <a id="versioning"></a> Versioning ####
 
 When we make backwards-incompatible changes to the API, we realease new dated versions.
