@@ -4,7 +4,6 @@ The FX4BIZ-REST API provides a simplified, easy-to-use interface to the FX4BIZ a
 
 We recommend FX4BIZ-REST for financial institutions just getting started with FX4BIZ, since it provides high-level abstractions and convenient simplifications in the data format. 
 
-
 ## Available API Routes ##
 
 Our API is divided into sections based on different concepts in our system. Each section is made up of a series of calls.
@@ -20,7 +19,7 @@ Our API is divided into sections based on different concepts in our system. Each
 * [Retrieve Account list - `GET /accounts`](#get-accounts-list)
 * [Retrieve Account Balance - `GET /account/{account_id}/balance`](#get-account-balance)
 * [Retrieve Account Details - `GET /account/{account_id}/details`](#get-account-details)
-* [Update Account Details - `PUT /account/{account_id}/details`](#put-account-details)
+* [Update Account Details - `PUT /account/{account_id}`](#put-account-details)
 * [Retrieve Transfer History - `GET /transfers`](#get-transfers-list)
 * [Retrieve Transfer Details - `GET /transfer/{transfer_id}`](#get-transfer-details)
 * [Delete Account - `DELETE /account/{account_id}`](#delete-account)
@@ -58,6 +57,10 @@ Our API is divided into sections based on different concepts in our system. Each
 
 ## API Overview ##
 
+# API Reference #
+
+The FX4BIZ API is organized around [REST](http://en.wikipedia.org/wiki/Representational_state_transfer). Our API is designed to have predictable, resource-oriented URLs and use the HTTP response codes to indicate API errors. We use built-in HTTP features, like HTTP authentication and HTTP verbs, which can be understood by off-the-shelf HTTP clients, and we support [cross-origin resource sharing](http://en.wikipedia.org/wiki/Representational_state_transfer) to allow you to interact securely with our API from a client-side web application. [JSON](http://www.json.org/) will be returned in all responses from the PAI, including errors.
+
 ### FX4BIZ Concepts ###
 
 FX4BIZ is a payment institution for FX transactions and cross-boarder payment. You can use FX4BIZ to hold accounts, in any currency, at no cost, make real time FX trades & send money anywhere in the world.
@@ -70,9 +73,7 @@ FX trades are made between two wallet accounts. FX4BIZ will automatically debit 
 
 Although the FX4BIZ-REST API provides a high-level interface to FX4Biz, there are also API methods for monitoring your wallet account balance & transfer informations of received or sent payments on those accounts. 
 
-# API Reference #
 
-The FX4BIZ API is organized around [REST](http://en.wikipedia.org/wiki/Representational_state_transfer). Our API is designed to have predictable, resource-oriented URLs and use the HTTP response codes to indicate API errors. We use built-in HTTP features, like HTTP authentication and HTTP verbs, which can be understood by off-the-shelf HTTP clients, and we support [cross-origin resource sharing](http://en.wikipedia.org/wiki/Representational_state_transfer) to allow you to interact securely with our API from a client-side web application. [JSON](http://www.json.org/) will be returned in all responses from the PAI, including errors.
 
 ### Placing Trades ###
 
