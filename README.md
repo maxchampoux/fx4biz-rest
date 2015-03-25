@@ -18,7 +18,7 @@ Our API is divided into sections based on different concepts in our system. Each
 * [Submit New Account - `POST /accounts`](#post-account-create)
 * [Retrieve Account list - `GET /accounts`](#get-accounts-list)
 * [Retrieve Account Balance - `GET /account/{account_id}/balance`](#get-account-balance)
-* [Retrieve Account Details - `GET /account/{account_id}/details`](#get-account-details)
+* [Retrieve Account Details - `GET /account/{account_id}`](#get-account-details)
 * [Update Account Details - `PUT /account/{account_id}`](#put-account-details)
 * [Retrieve Transfer History - `GET /transfers`](#get-transfers-list)
 * [Retrieve Transfer Details - `GET /transfer/{transfer_id}`](#get-transfer-details)
@@ -61,7 +61,7 @@ The FX4BIZ API is organized around [REST](http://en.wikipedia.org/wiki/Represent
 * [Trade Object](#trade_object)
 * [Trades Object](#trades_object)
 * [Transfer Object](#transfer_object)
-* [Trasfers Object](#transfers_object)
+* [Transfers Object](#transfers_object)
 
 #### Formatting Conventions ####
 
@@ -75,7 +75,7 @@ The FX4BIZ API is organized around [REST](http://en.wikipedia.org/wiki/Represent
 
 ### Authentication Services ###
 
-You authenticate to the FX4BIZ API by providing one of your API keys in the request. You can have multiple APPI keys active at one time. Your API keys carry many privileges, so be sure to keep them secret!
+``You authenticate to the FX4BIZ API by providing one of your API keys in the request. You can have multiple API keys active at one time. Your API keys carry many privileges, so be sure to keep them secret!``
 
 Authentication to the API occurs via [HTTP Basic Auth.](http://en.wikipedia.org/wiki/Representational_state_transfer). Provide your API key as the basic auth username. You do not need to provide a password.
 
@@ -89,9 +89,9 @@ All API request must be made over [HTTPS](http://en.wikipedia.org/wiki/HTTPS). C
 
 ### <a id="account_services"></a> Account Services ### 
 
-There are two kinds of accounts with FX4BIZ. What we call `wallet` account, which is an account hold in the FX4BIZ books and `external bank` account, which is an account hold in another bank.
+There are two kinds of accounts with FX4BIZ. What we call `wallet` account, which is an account hold in the FX4BIZ books and `external bank` account, which is your account or a third parties account hold in another bank.
 
-As an example, a response for `GET /account/{account_id}/details` object looks like this:
+**As an example, a response for `GET /account/{account_id}/details` object looks like this:**
 ```js
 {
     "account": {
