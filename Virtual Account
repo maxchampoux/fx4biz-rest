@@ -1,0 +1,74 @@
+#### <a id="post_wallets"></a> Submit a new wallet ####
+
+```
+Method: POST 
+URL: /wallets/
+```
+
+This request allows you to submit a new wallet for a given currency.  
+**Caution :** This service is only available for FX4BIZ users that have suscribed to the wallet option program.
+
+**Parameters:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| currency | [Currency](../conventions/formattingConventions.md#type_currency) | Required | A three-digit code specifying the wallet currency. `USD` |
+
+**Returns:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| wallet | [Wallet Object](../objects/objects.md#wallet_object) | An object representing the wallet you just created. |
+
+**Example:**
+```js
+POST /wallets/
+{
+	"currency":"EUR"
+}
+```
+
+<hr />
+
+#### <a id="post_wallets_with_holder"></a> Submit a new wallet with an holder ####
+
+```
+Method: POST 
+URL: /wallets/
+```
+
+This request allows you to submit a new wallet for a given currency and a given holder.  
+**Caution :** This service is only available for FX4BIZ users that have suscribed to the wallet option program.
+
+**Parameters:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| currency | [Currency](../conventions/formattingConventions.md#type_currency) | Required | A three-digit code specifying the wallet currency. `USD` |
+| holder | [Holder Object](../objects/objects.md#beneficiary_object) | Required | The recipient details, owner of the wallet. |
+
+**Returns:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| wallet | [Wallet Object](../objects/objects.md#wallet_object) | An object representing the wallet you just created. |
+
+**Example:**
+```js
+POST /wallets/withholder/
+{
+    "currency": "AUD",
+    "holder": {
+        "name": "Australian client #5763",
+        "type": "Individual",
+        "address": {
+            "street": "12 1st Street",
+            "postCode": "12500",
+            "city": "Sidney",
+            "country": "AU"
+        }
+    }
+}
+```
+
+<hr />
